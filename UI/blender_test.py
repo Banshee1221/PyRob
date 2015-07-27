@@ -50,7 +50,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 											sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 			
 		# A few TextInput widgets
-		self.input = bgui.TextInput(self.win, text="I'm active.'\n' yolo \n swag", size=[.92, .7], pos=[.01, 0.24],
+		self.input = bgui.TextInput(self.win, text="aaaaaaaa\naaaaaaaa\naaaaaaaa", size=[.92, .7], pos=[.01, 0.24],
 			input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX)
 		self.input.activate()
 		#self.input.on_enter_key = self.on_input_enter

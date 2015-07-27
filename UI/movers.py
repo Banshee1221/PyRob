@@ -1,6 +1,9 @@
 import bge
 def main(self):
 	print ('ero')
+	swag(self)
+def swag(self):
+	print ("ero")
 
 class test:
 	def __init__(self):

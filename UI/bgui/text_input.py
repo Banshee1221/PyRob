@@ -197,7 +197,7 @@ class TextInput(Widget):
 
 	@prefix.setter
 	def prefix(self, value):
-		self.fd = self.system.textlib.dimensions(self.label.fontid, value)[0] + fd[1] / 3.2
+		self.fd = self.system.textlib.dimensions(self.label.fontid, value)[0] + fd[0] / 3.2
 		self.text_prefix = value
 
 	@property
@@ -267,12 +267,12 @@ class TextInput(Widget):
 		#print (newlines)
 		left = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[0]])[0]
 		right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[1]])[0]
-		r2 = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][1]])[0]
-		l2 = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][1]])[0]
+		#r2 = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][1]])[0]
+		#l2 = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][1]])[0]
 		#print ("(" + str(left) + ", " + str(right) + ")" + " : (" + str(l2) + ", " + str(r2) + ")" + " -- " + str(newlines[self.lineNumber + 1]) )
 
-		left = min(l2, left)
-		right = min(r2, right)
+		#left = min(l2, left)
+		#right = min(r2, right)
 		#left = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[:self.slice[0]])[0]
 		#right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[:self.slice[1]])[0]
 		self.highlight.position = [left, 1]
@@ -305,7 +305,7 @@ class TextInput(Widget):
 			self.slice = [self.mouse_slice_start, self.mouse_slice_end]
 		else:
 			self.slice_direction = 0
-			self.slice = [min(self.mouse_slice_start+newlines[self.lineNumber][0],newlines[self.lineNumber+1][0]), min(self.mouse_slice_end+newlines[self.lineNumber][0],newlines[self.lineNumber+1][0])]
+			self.slice = [self.mouse_slice_start+newlines[self.lineNumber][1], self.mouse_slice_end+newlines[self.lineNumber][1]]
 			#print(self.slice)
 			#print (self.mouse_slice_start, self.mouse_slice_end)
 		self.selection_refresh = 1
@@ -339,17 +339,23 @@ class TextInput(Widget):
 		newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
 		newlines.insert(0,(0,0))
 		newlines.append((len(self.text), len(self.text)))
-		print(newlines)
+		#print(newlines)
+		#print(self.text[0:8])
+		#print(self.text[9:17])
+		#print(self.text[18:26])
 		adj_pos = pos[0] - (self.position[0] + self.fd)
 		find_slice = 0
 		i = 0
-
-		for entry in self.char_widths[newlines[self.lineNumber][0]:newlines[self.lineNumber+1][1]]:
+		#print(self.text[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][0]])
+		for entry in self.char_widths[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][0]]:
+			#print (i)
 			if find_slice + entry > adj_pos:
 				if abs((find_slice + entry) - adj_pos) >= abs(adj_pos - find_slice):
+					print("middle :" + str(i))
 					return i
 				else:
-					return i + 1
+					print("other :" + str(i))
+					return i
 			else:
 				find_slice += entry
 			i += 1
@@ -428,7 +434,9 @@ class TextInput(Widget):
 
 	def _handle_key(self, key, is_shifted):
 		"""Handle any keyboard input"""
-
+		newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
+		newlines.insert(0,(0,0))
+		newlines.append((len(self.text), len(self.text)))
 		if self != self.system.focused_widget:
 			return
 
@@ -474,7 +482,11 @@ class TextInput(Widget):
 					if slice_len > 0:
 						self.slice = [self.slice[0], self.slice[0]]
 					elif self.slice[0] > 0:
-						self.slice = [self.slice[0] - 1, self.slice[0] - 1]
+						if (self.slice[1] == newlines[self.lineNumber][1]):
+							self.lineNumber = self.lineNumber - 1
+							self.slice = [self.slice[0] - 1, self.slice[0] - 1]
+						else:
+							self.slice = [self.slice[0] - 1, self.slice[0] - 1]
 					self.slice_direction = 0
 
 			elif self.slice_direction == 1:
@@ -497,7 +509,11 @@ class TextInput(Widget):
 					if slice_len > 0:
 						self.slice = [self.slice[1], self.slice[1]]
 					elif self.slice[1] < len(self.text):
-						self.slice = [self.slice[1] + 1, self.slice[1] + 1]
+						if (self.slice[1] == newlines[self.lineNumber+1][0]):
+							self.lineNumber = self.lineNumber + 1
+							self.slice = [self.slice[1] + 1, self.slice[1] + 1]
+						else:
+							self.slice = [self.slice[1] + 1, self.slice[1] + 1]
 					self.slice_direction = 0
 			elif self.slice_direction == -1:
 				if is_shifted:
@@ -507,13 +523,15 @@ class TextInput(Widget):
 				if self.slice[0] - self.slice[1] == 0:
 					self.slice_direction = 0
 		elif key == DOWNARROWKEY:
-			newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
-			self.slice = [self.slice[0]+newlines[self.lineNumber][1],self.slice[1]+newlines[self.lineNumber][1]]
 			self.lineNumber = self.lineNumber+1
+			self.slice = [((self.slice[0]-newlines[self.lineNumber-1][1])+newlines[self.lineNumber][1]),
+							((self.slice[1]-newlines[self.lineNumber-1][1])+newlines[self.lineNumber][1])]
 		elif key == UPARROWKEY:
-			newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
+			print(newlines)
+			print(self.slice)
 			self.lineNumber = self.lineNumber-1
-			self.slice = [self.slice[0]-newlines[self.lineNumber][1],self.slice[1]-newlines[self.lineNumber][1]]
+			self.slice = [(self.slice[0]-newlines[self.lineNumber+1][1]) + newlines[self.lineNumber][1],(self.slice[1]-newlines[self.lineNumber+1][1]) + newlines[self.lineNumber][1]]
+			print(self.slice)
 		else:
 			char = None
 			if ord(AKEY) <= key <= ord(ZKEY):
