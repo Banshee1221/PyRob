@@ -6,6 +6,7 @@ sys.path.append('../..')
 import bgui
 import bgui.bge_utils
 import bge
+import time
 
 import movers
 
@@ -14,30 +15,32 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
 	def __init__(self, sys, data):
 		super().__init__(sys, data)
-		self.a = movers.test();
+		#self.a = movers.test();
+		self.hidden = False
 		# Use a frame to store all of our widgets
 		self.frame = bgui.Frame(self, border=0)
 		self.frame.colors = [(0, 0, 0, 0) for i in range(4)]
+		self.frame.visible = True
+		
+		self.button = bgui.FrameButton(self.frame, text='Hide/Show', size=[.14, .09], pos=[.0, .0],
+			options = bgui.BGUI_DEFAULT)
+		self.button.on_click = self.hide_show
 
 		# A themed frame
-		self.win = bgui.Frame(self, size=[0.6, 0.8],
-			options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERED)
+		self.win = bgui.Frame(self, size=[0.6, 0.8], pos = [0, 0.175],
+			options=bgui.BGUI_DEFAULT)
 			
-		# Create an image to display
-		self.win.img = bgui.Image(self.win, 'img.jpg', size=[.92, .7], pos=[.01, .24],
-			options = bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX|bgui.BGUI_CACHE)
 		
 		# A button
 		self.button = bgui.FrameButton(self.win, text='Click Me!', size=[.14, .09], pos=[.815, .03],
 			options = bgui.BGUI_DEFAULT)
-		self.audio_button = bgui.ImageButton(self.win, sub_theme='Audio',
-										size=[0.05, 0.05], pos=[0.75, 0.05])
+	
 		# Setup an on_click callback for the image
 		self.button.on_click = self.on_img_click
 
 		# Add a label
-		self.lbl = bgui.Label(self, text="I'm a label!", pos=[0, 0.9],
-			sub_theme='Large', options = bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
+		self.lbl = bgui.Label(self, text="I'm a label!", pos=[1, 0],
+			sub_theme='small', options = bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
 		
 		# A couple of progress bars to demonstrate sub themes
 		self.progress = bgui.ProgressBar(self.win, percent=0.0, size=[0.92, 0.06], pos=[.2, 0.17],
@@ -47,16 +50,27 @@ class SimpleLayout(bgui.bge_utils.Layout):
 											sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 			
 		# A few TextInput widgets
-		self.input = bgui.TextInput(self.win, text="I'm active.", font="myfont.otf", size=[.4, .04], pos=[.04, 0.02],
-			input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT)
+		self.input = bgui.TextInput(self.win, text="I'm active.'\n' yolo \n swag", size=[.92, .7], pos=[.01, 0.24],
+			input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX)
 		self.input.activate()
-		self.input.on_enter_key = self.on_input_enter
-		
-		self.input2 = bgui.TextInput(self.win, text="I select all when activated.", size=[.4, .04], pos=[.04, 0.08],
-			input_options = bgui.BGUI_INPUT_SELECT_ALL, options = bgui.BGUI_DEFAULT)
+		#self.input.on_enter_key = self.on_input_enter
+
 		
 		# A counter property used for the on_img_click() method
 		self.counter = 0
+
+	def hide_show(self, widget):
+		if self.hidden:
+			print("show")
+			y=self.win.position[1]/self.size[1]
+			self.win.move([0, y], 500)
+			self.hidden = False
+		else:
+			print(self.win.size[0])
+			y=self.win.position[1]/self.size[1]
+			self.win.move([-self.win.size[0]/self.size[0], y], 500)
+			self.hidden = True
+
 
 	def on_input_enter(self, widget):
 		self.lbl.text = "You've entered: " + widget.text
@@ -65,14 +79,9 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		widget.frozen = 1
 		
 	def on_img_click(self, widget):
-		self.counter += 1
-		self.lbl.text = "You've clicked me %d times" % self.counter
+		self.lbl.text = self.input.text
 		self.progress.percent += .1
-		if self.counter % 2 == 1:
-			self.win.img.texco = [(1,0), (0,0), (0,1), (1,1)]
-		else:
-			self.win.img.texco = [(0,0), (1,0), (1,1), (0,1)]
-		self.a.change()
+		self.win.position = [.1,.1]
 
 
 def main(cont):
@@ -90,7 +99,7 @@ def main(cont):
 		cam.setViewport(0, 0, x, y)
 
 		# Create our system and show the mouse
-		own['sys'] = bgui.bge_utils.System('../../themes/default')
+		own['sys'] = bgui.bge_utils.System('themes/default')
 		own['sys'].load_layout(SimpleLayout, None)
 		mouse.visible = True
 
