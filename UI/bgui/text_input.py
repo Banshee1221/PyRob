@@ -253,19 +253,28 @@ class TextInput(Widget):
 		self.highlight.colors = [self.colors["highlight"][state]] * 4
 		self.label.color = self.colors["text"][state]
 
-		if state == 0:
-			self.cursor.colors = [[0.0, 0.0, 0.0, 0.0]] * 4
-		else:
-			self.cursor.colors = [self.colors["text"][state]] * 4
+		#if state == 0:
+		#	self.cursor.colors = [[0.0, 0.0, 0.0, 0.0]] * 4
+		#else:
+		#	self.cursor.colors = [self.colors["text"][state]] * 4
 
 	#Selection Code
 	def update_selection(self):
 		newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
-		if self.lineNumber == 0:
-			newlines = [(0,0)]
-		left = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[:self.slice[0] - newlines[self.lineNumber-1][1]])[0]
-		right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[:self.slice[1] - newlines[self.lineNumber-1][1]])[0]
-		print ("(" + str(left) + ", " + str(right) + ")")
+		newlines.insert(0,(0,0))
+		newlines.append((len(self.text), len(self.text)))
+		#print(newlines[self.lineNumber+1][1])
+		#print (newlines)
+		left = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[0]])[0]
+		right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[1]])[0]
+		r2 = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][1]])[0]
+		l2 = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][1]])[0]
+		#print ("(" + str(left) + ", " + str(right) + ")" + " : (" + str(l2) + ", " + str(r2) + ")" + " -- " + str(newlines[self.lineNumber + 1]) )
+
+		left = min(l2, left)
+		right = min(r2, right)
+		#left = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[:self.slice[0]])[0]
+		#right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[:self.slice[1]])[0]
 		self.highlight.position = [left, 1]
 
 		self.highlight.size = [right - left, self.label._pt_size]
@@ -276,26 +285,66 @@ class TextInput(Widget):
 		self.cursor.size = [2, self.label._pt_size ]
 
 	def find_mouse_slice(self, pos):
+		newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
+		newlines.insert(0,(0,0))
+		newlines.append((len(self.text), len(self.text)))
+		#print(newlines)
+		self.lineNumber = (int)((self.size[1] -(pos[1] - self.position[1]))/self.label._pt_size)
+		if self.lineNumber > len(newlines)-2:
+			self.lineNumber = len(newlines)-2
 		cmc = self.calc_mouse_cursor(pos)
 		mss = self.mouse_slice_start
 		self.mouse_slice_end = cmc
-
 		if cmc < mss:
+			print("asd")
 			self.slice_direction = -1
 			self.slice = [self.mouse_slice_end, self.mouse_slice_start]
 		elif cmc > mss:
+			print("fas")
 			self.slice_direction = 1
 			self.slice = [self.mouse_slice_start, self.mouse_slice_end]
 		else:
 			self.slice_direction = 0
-			self.slice = [self.mouse_slice_start, self.mouse_slice_start]
+			self.slice = [min(self.mouse_slice_start+newlines[self.lineNumber][0],newlines[self.lineNumber+1][0]), min(self.mouse_slice_end+newlines[self.lineNumber][0],newlines[self.lineNumber+1][0])]
+			#print(self.slice)
+			#print (self.mouse_slice_start, self.mouse_slice_end)
 		self.selection_refresh = 1
 
 	def calc_mouse_cursor(self, pos):
+
+		# newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
+		# newlines.insert(0,(0,0))
+		# newlines.append((len(self.text)-1, len(self.text)))
+		# adj_pos = pos[0] - (self.position[0] + self.fd)
+		# find_slice = 0
+		# i = 0
+		# c_widths = []
+		# print(self.text[newlines[self.lineNumber][0]:newlines[self.lineNumber+1][1]])
+		# for char in self.text[newlines[self.lineNumber][0]:newlines[self.lineNumber+1][1]]:
+		# 	c_widths.append(self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20)
+		# for entry in c_widths:
+		# 	if find_slice + entry > adj_pos:
+		# 		if abs((find_slice + entry) - adj_pos) >= abs(adj_pos - find_slice):
+		# 			return i
+		# 		else:
+		# 			return i + 1
+		# 	else:
+		# 		find_slice += entry
+		# 	i += 1
+
+		# self.time = time.time() - 0.501
+
+		# return i
+
+		newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
+		newlines.insert(0,(0,0))
+		newlines.append((len(self.text), len(self.text)))
+		print(newlines)
 		adj_pos = pos[0] - (self.position[0] + self.fd)
 		find_slice = 0
 		i = 0
-		for entry in self.char_widths:
+
+		for entry in self.char_widths[newlines[self.lineNumber][0]:newlines[self.lineNumber+1][1]]:
 			if find_slice + entry > adj_pos:
 				if abs((find_slice + entry) - adj_pos) >= abs(adj_pos - find_slice):
 					return i
@@ -317,7 +366,13 @@ class TextInput(Widget):
 			return
 
 		if event == BGUI_MOUSE_CLICK:
-
+			newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
+			newlines.insert(0,(0,0))
+			newlines.append((len(self.text), len(self.text)))
+			#print(newlines)
+			self.lineNumber = (int)((self.size[1] -(pos[1] - self.position[1]))/self.label._pt_size)
+			if self.lineNumber > len(newlines)-2:
+				self.lineNumber = len(newlines)-2
 			self.mouse_slice_start = self.calc_mouse_cursor(pos)
 
 			if not self._active:
@@ -489,7 +544,9 @@ class TextInput(Widget):
 			elif key == PADPLUSKEY: char = "+"
 			elif key == SPACEKEY: char = " "
 			elif key == TABKEY: char = "\t"
-			elif key == ENTERKEY : char = "\n"
+			elif key == ENTERKEY :
+				char = "\n"
+				self.lineNumber = self.lineNumber + 1
 			#elif key in (ENTERKEY, PADENTER):
 			#	if self.on_enter_key:
 			#		self.on_enter_key(self)

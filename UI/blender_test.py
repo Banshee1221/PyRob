@@ -39,8 +39,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		self.button.on_click = self.on_img_click
 
 		# Add a label
-		self.lbl = bgui.Label(self, text="I'm a label!", pos=[1, 0],
-			sub_theme='small', options = bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
+		self.lbl = bgui.Label(self, text="I'm a label!", pos=[.75, .5],
+			sub_theme='small', options = bgui.BGUI_DEFAULT)
 		
 		# A couple of progress bars to demonstrate sub themes
 		self.progress = bgui.ProgressBar(self.win, percent=0.0, size=[0.92, 0.06], pos=[.2, 0.17],
@@ -72,31 +72,33 @@ class SimpleLayout(bgui.bge_utils.Layout):
 			self.hidden = True
 
 
-	def on_input_enter(self, widget):
-		self.lbl.text = "You've entered: " + widget.text
-		widget.text = "You've locked this widget."
-		widget.deactivate()
-		widget.frozen = 1
+	#def on_input_enter(self, widget):
+	#	self.lbl.text = "You've entered: " + widget.text
+	#	widget.text = "You've locked this widget."
+	#	self.input.activate()
+		#widget.frozen = 1
 		
 	def on_img_click(self, widget):
 		self.lbl.text = self.input.text
 		self.progress.percent += .1
-		self.win.position = [.1,.1]
+		self.input.activate()
 
+	def update(self):
+		self.input.activate()
 
 def main(cont):
 	own = cont.owner
 	mouse = bge.logic.mouse
 
 	if 'sys' not in own:
-		ob_list = bge.logic.getCurrentScene().objects
+		#ob_list = bge.logic.getCurrentScene().objects
 		# Setup the viewports
-		x = bge.render.getWindowWidth()
-		y = bge.render.getWindowHeight()
+		#x = bge.render.getWindowWidth()
+		#y = bge.render.getWindowHeight()
 		
-		cam = ob_list['Camera']
-		cam.useViewport = True
-		cam.setViewport(0, 0, x, y)
+		#cam = ob_list['Camera']
+		#cam.useViewport = True
+		#cam.setViewport(0, 0, x, y)
 
 		# Create our system and show the mouse
 		own['sys'] = bgui.bge_utils.System('themes/default')
