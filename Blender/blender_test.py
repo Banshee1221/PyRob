@@ -7,15 +7,14 @@ import bgui
 import bgui.bge_utils
 import bge
 import time
-import test
-
-#import movers
+from test import tester
 
 class SimpleLayout(bgui.bge_utils.Layout):
 	"""A layout showcasing various Bgui features"""
 
 	def __init__(self, sys, data):
 		super().__init__(sys, data)
+		self.Cube = tester()
 		#self.a = movers.test();
 		self.hidden = False
 		# Use a frame to store all of our widgets
@@ -51,7 +50,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 											sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 			
 		# A few TextInput widgets
-		self.input = bgui.TextInput(self.win, text="num = 0\nif (num == 0):\n    Cube.moveForward()\n    C", size=[.92, .7], pos=[.01, 0.24],
+		self.input = bgui.TextInput(self.win, text="", size=[.92, .7], pos=[.01, 0.24],
 			input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX)
 		self.input.activate()
 		#self.input.on_enter_key = self.on_input_enter
@@ -83,10 +82,11 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		self.lbl.text = self.input.text
 		self.progress.percent += .1
 		self.input.activate()
-		test.setText(self.lbl.text)
+		self.Cube.setText(self.input.text)
 
 	def update(self):
 		self.input.activate()
+		self.Cube.run()
 
 def main(cont):
 	own = cont.owner
