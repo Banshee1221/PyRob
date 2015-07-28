@@ -27,7 +27,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		self.button.on_click = self.hide_show
 
 		# A themed frame
-		self.win = bgui.Frame(self, size=[0.6, 0.8], pos = [0, 0.19],
+		self.win = bgui.Frame(self, size=[0.3, 0.8], pos = [0, 0.19],
 			options=bgui.BGUI_DEFAULT)
 			
 		
@@ -43,14 +43,14 @@ class SimpleLayout(bgui.bge_utils.Layout):
 			sub_theme='small', options = bgui.BGUI_DEFAULT)
 		
 		# A couple of progress bars to demonstrate sub themes
-		self.progress = bgui.ProgressBar(self.win, percent=0.0, size=[0.92, 0.06], pos=[.2, 0.17],
+		self.progress = bgui.ProgressBar(self.frame, percent=0.0, size=[0.4, 0.02], pos=[0, 0.01],
 											sub_theme="Progress", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
 											
-		self.health = bgui.ProgressBar(self.win, percent=0.5, size=[0.92, 0.02], pos=[0, 0.14],
+		self.health = bgui.ProgressBar(self.win, percent=0.5, size=[0.92, 0.02], pos=[0, 0.01],
 											sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 			
 		# A few TextInput widgets
-		self.input = bgui.TextInput(self.win, text="num = 0\nif (num == 0):\n    Cube.moveForward()\n    C", size=[.92, .7], pos=[.01, 0.24],
+		self.input = bgui.TextInput(self.win, text="num = 0\nif (num == 0):\n    Cube.moveForward()\n    C", size=[.96, .95], pos=[.0, 0.04],
 			input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX)
 		self.input.activate()
 		#self.input.on_enter_key = self.on_input_enter
@@ -63,7 +63,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		if self.hidden:
 			print("show")
 			y=self.win.position[1]/self.size[1]
-			self.win.move([0, y], 500)
+			self.win.move([0.003, y], 500)
 			self.hidden = False
 		else:
 			print(self.win.size[0])
