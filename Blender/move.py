@@ -11,13 +11,13 @@ def moveUnit(obj, dir, steps):
     
     
     if dir is "n":
-        x = steps
-    elif dir is "s":
-        x = -steps
-    elif dir is "e":
         y = steps
-    elif dir is "w":
+    elif dir is "s":
         y = -steps
+    elif dir is "e":
+        x = steps
+    elif dir is "w":
+        x = -steps
         
-    obj.setLinearVelocity([y, x, 0], True)
-    
+    #obj.setLinearVelocity([y, x, 0], True)
+    obj.worldPosition = [obj.position.x + x,obj.position.y + y,obj.position.z]

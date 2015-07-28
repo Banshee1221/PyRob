@@ -1,7 +1,7 @@
 import bge
 import mathutils
 import move
-
+import time
 
 class tester:
 	
@@ -12,6 +12,7 @@ class tester:
 		self.Cube = objList[obj_name]
 		self.lines = []
 		self.counter = 0
+		self.timer = time.time()+1
 		
 	def setText(self, stri):
 		print(stri)
@@ -24,10 +25,10 @@ class tester:
 		error = -1
 		if self.counter < len(self.lines):
 	
-			tmp = self.Cube.getLinearVelocity()
-			print(str(tmp.x) + " | " + str(tmp.y))
+			#print(str(tmp.x) + " | " + str(tmp.y))
 			
-			if tmp.x == 0 and tmp.y == 0:
+			if self.timer < time.time():
+				self.timer = time.time()+1
 				dir = self.lines[self.counter].split(',')[0]
 				mov = int(self.lines[self.counter].split(',')[1])
 				self.counter += 1
