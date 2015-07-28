@@ -21,6 +21,7 @@ class tester:
 		
 	
 	def run(self):
+		error = -1
 		if self.counter < len(self.lines):
 	
 			tmp = self.Cube.getLinearVelocity()
@@ -31,15 +32,34 @@ class tester:
 				mov = int(self.lines[self.counter].split(',')[1])
 				self.counter += 1
 				if dir[0] is "n":
-					move.moveUnit(self.Cube, "n", mov)
+					if (self.Cube.rayCastTo([self.Cube.localPosition.x, self.Cube.localPosition.y + mov, self.Cube.localPosition.z], 0)) is None:
+						move.moveUnit(self.Cube, "n", mov)
+					else:
+						error = self.counter
+						self.counter = len(self.lines)
 				if dir[0] is "s":
-					move.moveUnit(self.Cube, "s", mov)
+					if (self.Cube.rayCastTo([self.Cube.localPosition.x, self.Cube.localPosition.y - mov, self.Cube.localPosition.z], 0)) is None:
+						move.moveUnit(self.Cube, "s", mov)
+					else:
+						error = self.counter
+						self.counter = len(self.lines)
 				if dir[0] is "e":
-					move.moveUnit(self.Cube, "e", mov)
+					if (self.Cube.rayCastTo([self.Cube.localPosition.x + mov, self.Cube.localPosition.y, self.Cube.localPosition.z], 0)) is None:
+						move.moveUnit(self.Cube, "e", mov)
+					else:
+						error = self.counter
+						self.counter = len(self.lines)
 				if dir[0] is "w":
-					move.moveUnit(self.Cube, "w", mov)
+					if (self.Cube.rayCastTo([self.Cube.localPosition.x - mov, self.Cube.localPosition.y, self.Cube.localPosition.z], 0)) is None:
+						move.moveUnit(self.Cube, "w", mov)
+					else:
+						error = self.counter
+						self.counter = len(self.lines)
 		else:
 			self.counter = 0
+			self.lines = []
+			
+		return error
 		
 def main(self):
 	print("wot")

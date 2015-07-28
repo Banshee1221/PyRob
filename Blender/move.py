@@ -11,13 +11,13 @@ def moveUnit(obj, dir, steps):
     
     
     if dir is "n":
-        x += steps
+        x = steps
     elif dir is "s":
-        x -= steps
+        x = -steps
     elif dir is "e":
-        y += steps
+        y = steps
     elif dir is "w":
-        y -= steps
+        y = -steps
         
     obj.setLinearVelocity([y, x, 0], True)
     

@@ -86,7 +86,9 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
 	def update(self):
 		self.input.activate()
-		self.Cube.run()
+		error = self.Cube.run()
+		if error > -1:
+			self.lbl.text = str(error)
 
 def main(cont):
 	own = cont.owner
