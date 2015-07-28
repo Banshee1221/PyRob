@@ -213,7 +213,7 @@ class TextInput(Widget):
 	def _update_char_widths(self):
 		self.char_widths = []
 		for char in self.text:
-			self.char_widths.append(self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20)
+			self.char_widths = self.char_widths[:self.slice[0]] + [self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20] + self.char_widths[self.slice[1]:]
 
 	def select_all(self):
 		"""Change the selection to include all of the text"""
@@ -462,6 +462,8 @@ class TextInput(Widget):
 			elif self.slice[0] > 0:
 				self.label.text = self.text[:self.slice[0] - 1] + self.text[self.slice[1]:]
 				self.slice = [self.slice[0] - 1, self.slice[1] - 1]
+				if (self.slice[0] < newlines[self.lineNumber][1]):
+					self.lineNumber = self.lineNumber-1
 		elif key == DELKEY:
 			if slice_len != 0:
 				self.label.text = self.text[:self.slice[0]] + self.text[self.slice[1]:]
@@ -523,15 +525,16 @@ class TextInput(Widget):
 				if self.slice[0] - self.slice[1] == 0:
 					self.slice_direction = 0
 		elif key == DOWNARROWKEY:
-			self.lineNumber = self.lineNumber+1
-			self.slice = [((self.slice[0]-newlines[self.lineNumber-1][1])+newlines[self.lineNumber][1]),
-							((self.slice[1]-newlines[self.lineNumber-1][1])+newlines[self.lineNumber][1])]
+			if self.lineNumber < len(newlines) - 2:
+				self.lineNumber = self.lineNumber+1
+				self.slice = [min((self.slice[0]-newlines[self.lineNumber-1][1])+newlines[self.lineNumber][1], newlines[self.lineNumber+1][0]),
+							  min((self.slice[1]-newlines[self.lineNumber-1][1])+newlines[self.lineNumber][1], newlines[self.lineNumber+1][0])]
+			print (self.slice)
 		elif key == UPARROWKEY:
-			print(newlines)
-			print(self.slice)
-			self.lineNumber = self.lineNumber-1
-			self.slice = [(self.slice[0]-newlines[self.lineNumber+1][1]) + newlines[self.lineNumber][1],(self.slice[1]-newlines[self.lineNumber+1][1]) + newlines[self.lineNumber][1]]
-			print(self.slice)
+			if (self.lineNumber > 0):
+				self.lineNumber = self.lineNumber-1
+				self.slice = [min((self.slice[0]-newlines[self.lineNumber+1][1]) + newlines[self.lineNumber][1], newlines[self.lineNumber+1][0]),
+							  min((self.slice[1]-newlines[self.lineNumber+1][1]) + newlines[self.lineNumber][1], newlines[self.lineNumber+1][0])]
 		else:
 			char = None
 			if ord(AKEY) <= key <= ord(ZKEY):
@@ -561,7 +564,7 @@ class TextInput(Widget):
 			elif key == PADMINUS: char = "-"
 			elif key == PADPLUSKEY: char = "+"
 			elif key == SPACEKEY: char = " "
-			elif key == TABKEY: char = "\t"
+			#elif key == TABKEY: char = "\t"
 			elif key == ENTERKEY :
 				char = "\n"
 				self.lineNumber = self.lineNumber + 1
@@ -594,12 +597,13 @@ class TextInput(Widget):
 				elif key == SLASHKEY: char = "?"
 
 			if char:
-				#need option to limit text to length of box
+			    #need option to limit text to length of box
 				#need to replace all selected text with new char
 				#need copy place somewhere
 
 				self.label.text = self.text[:self.slice[0]] + char + self.text[self.slice[1]:]
-				self.char_widths = self.char_widths[:self.slice[0]] + [self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20] + self.char_widths[self.slice[1]:]
+				if (char == "\t"):
+					self.char_widths = self.char_widths[:self.slice[0]] + [self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20] + self.char_widths[self.slice[1]:]
 				self.slice = [self.slice[0] + 1, self.slice[0] + 1]
 				self.slice_direction = 0
 

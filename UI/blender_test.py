@@ -27,12 +27,12 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		self.button.on_click = self.hide_show
 
 		# A themed frame
-		self.win = bgui.Frame(self, size=[0.6, 0.8], pos = [0, 0.175],
+		self.win = bgui.Frame(self, size=[0.6, 0.8], pos = [0, 0.19],
 			options=bgui.BGUI_DEFAULT)
 			
 		
 		# A button
-		self.button = bgui.FrameButton(self.win, text='Click Me!', size=[.14, .09], pos=[.815, .03],
+		self.button = bgui.FrameButton(self.frame, text='Click Me!', size=[.14, .09], pos=[0, .095],
 			options = bgui.BGUI_DEFAULT)
 	
 		# Setup an on_click callback for the image
@@ -50,7 +50,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 											sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 			
 		# A few TextInput widgets
-		self.input = bgui.TextInput(self.win, text="aaaaaaaa\naaaaaaaa\naaaaaaaa", size=[.92, .7], pos=[.01, 0.24],
+		self.input = bgui.TextInput(self.win, text="num = 0\nif (num == 0):\n    Cube.moveForward()\n    C", size=[.92, .7], pos=[.01, 0.24],
 			input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX)
 		self.input.activate()
 		#self.input.on_enter_key = self.on_input_enter
@@ -91,12 +91,13 @@ def main(cont):
 	mouse = bge.logic.mouse
 
 	if 'sys' not in own:
-		#ob_list = bge.logic.getCurrentScene().objects
+		scene = bge.logic.getCurrentScene()
+		ob_list = scene.objects
 		# Setup the viewports
 		#x = bge.render.getWindowWidth()
 		#y = bge.render.getWindowHeight()
-		
-		#cam = ob_list['Camera']
+		cam = ob_list['Camera']
+		scene.active_camera = cam
 		#cam.useViewport = True
 		#cam.setViewport(0, 0, x, y)
 
