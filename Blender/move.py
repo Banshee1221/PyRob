@@ -2,14 +2,13 @@ import bge
 import bpy
 import mathutils
 
-#x = 0
-#y = 0
+x = 0
+y = 0
 
 def moveUnit(obj, dir, steps):
-    #global x
-    #global y
-    x = 0
-    y = 0
+    global x
+    global y
+    
     
     if dir is "n":
         y = steps
