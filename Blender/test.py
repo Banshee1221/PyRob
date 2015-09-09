@@ -2,6 +2,7 @@ import bge
 import mathutils
 import move
 import time
+import ast
 
 class tester:
 	
@@ -13,55 +14,62 @@ class tester:
 		self.lines = []
 		self.counter = 0
 		self.timer = time.time()+1
+		self.passed = False
+		self.moved = False
 		
 	def setText(self, stri):
-		print(stri)
-		
+		#print(stri)
+		self.text = stri
 		self.lines = stri.split('\n')
-		
-		
 	
 	def run(self):
+				
 		error = -1
 		if self.counter < len(self.lines):
 	
+			print(str(self.text))
+			print(self.compile_check(str(self.text)))
+			print(valid_check(str(self.text)))
+
+		
 			#print(str(tmp.x) + " | " + str(tmp.y))
-			
+
 			if self.timer < time.time():
+				print("Hello!")
 				self.timer = time.time()+1
-				dir = self.lines[self.counter].split(',')[0]
-				mov = int(self.lines[self.counter].split(',')[1])
-				self.counter += 1
-				if dir[0] is "n":
-					if (self.Cube.rayCastTo([self.Cube.localPosition.x, self.Cube.localPosition.y + mov, self.Cube.localPosition.z], 0)) is None:
-						move.moveUnit(self.Cube, "n", mov)
-					else:
-						error = self.counter
-						self.counter = len(self.lines)
-				if dir[0] is "s":
-					if (self.Cube.rayCastTo([self.Cube.localPosition.x, self.Cube.localPosition.y - mov, self.Cube.localPosition.z], 0)) is None:
-						move.moveUnit(self.Cube, "s", mov)
-					else:
-						error = self.counter
-						self.counter = len(self.lines)
-				if dir[0] is "e":
-					if (self.Cube.rayCastTo([self.Cube.localPosition.x + mov, self.Cube.localPosition.y, self.Cube.localPosition.z], 0)) is None:
-						move.moveUnit(self.Cube, "e", mov)
-					else:
-						error = self.counter
-						self.counter = len(self.lines)
-				if dir[0] is "w":
-					if (self.Cube.rayCastTo([self.Cube.localPosition.x - mov, self.Cube.localPosition.y, self.Cube.localPosition.z], 0)) is None:
-						move.moveUnit(self.Cube, "w", mov)
-					else:
-						error = self.counter
-						self.counter = len(self.lines)
+				try:
+					codeobj = compile(str(self.text), '', 'exec')
+					eval(codeobj, globals(), locals())
+				except AttributeError as e:
+					print(e)
+				self.counter += 1	
+		
+		
 		else:
 			self.counter = 0
 			self.lines = []
 			
 		return error
 		
+	def compile_check(self, code):
+		try:
+			compile(code, '<string>', 'single')
+		except SyntaxError as e:
+			print("Error executing code!\n=====================\nLine:\t{0}\nSnip:\t{1}\nIssue:\t{2}".format(e.lineno, e.text, e))
+			return False
+		
+		return True
+		
+def valid_check(code):
+	try:
+		node = ast.parse(code)
+		#print(ast.dump(node))
+	except SyntaxError:
+		return False
+	return True
+	
+
+	
 def main(self):
 	print("wot")
 	
