@@ -2,6 +2,7 @@ import bge
 import mathutils
 import move
 import time
+import ast
 
 class tester:
 	
@@ -10,58 +11,65 @@ class tester:
 		objList = scene.objects
 		obj_name = 'Cube'
 		self.Cube = objList[obj_name]
-		self.lines = []
-		self.counter = 0
-		self.timer = time.time()+1
+		self.text = ''
+		self.actions = []
+		self.passed = False
+		self.moved = False
+		self.m = move.move()
+		self.running = False
 		
 	def setText(self, stri):
-		print(stri)
-		
-		self.lines = stri.split('\n')
-		
-		
+		self.text = stri
 	
 	def run(self):
+				
 		error = -1
-		if self.counter < len(self.lines):
-	
-			#print(str(tmp.x) + " | " + str(tmp.y))
-			
-			if self.timer < time.time():
-				self.timer = time.time()+1
-				dir = self.lines[self.counter].split(',')[0]
-				mov = int(self.lines[self.counter].split(',')[1])
-				self.counter += 1
-				if dir[0] is "n":
-					if (self.Cube.rayCastTo([self.Cube.localPosition.x, self.Cube.localPosition.y + mov, self.Cube.localPosition.z], 0)) is None:
-						move.moveUnit(self.Cube, "n", mov)
-					else:
-						error = self.counter
-						self.counter = len(self.lines)
-				if dir[0] is "s":
-					if (self.Cube.rayCastTo([self.Cube.localPosition.x, self.Cube.localPosition.y - mov, self.Cube.localPosition.z], 0)) is None:
-						move.moveUnit(self.Cube, "s", mov)
-					else:
-						error = self.counter
-						self.counter = len(self.lines)
-				if dir[0] is "e":
-					if (self.Cube.rayCastTo([self.Cube.localPosition.x + mov, self.Cube.localPosition.y, self.Cube.localPosition.z], 0)) is None:
-						move.moveUnit(self.Cube, "e", mov)
-					else:
-						error = self.counter
-						self.counter = len(self.lines)
-				if dir[0] is "w":
-					if (self.Cube.rayCastTo([self.Cube.localPosition.x - mov, self.Cube.localPosition.y, self.Cube.localPosition.z], 0)) is None:
-						move.moveUnit(self.Cube, "w", mov)
-					else:
-						error = self.counter
-						self.counter = len(self.lines)
-		else:
-			self.counter = 0
-			self.lines = []
+		if (self.text != ''):
+			print(str(self.text))
+			print(self.compile_check(str(self.text)))
+			print(valid_check(str(self.text)))
+
+			try:
+				codeobj = compile(str(self.text), '<string>', 'exec')
+				eval(codeobj, globals(), locals())
+				self.text = ''
+				print(self.actions)
+			except Exception as e:
+				print(e)
+				self.text = ''
+				
+		if (len(self.actions) > 0):
+			currItem = self.actions[0]
+			if list(currItem.items())[0][0] == 'move':
+				checker = self.m.moveUnitOne(self.Cube, list(currItem.items())[0][1])
+				if checker == 1:
+					del self.actions[0]
 			
 		return error
 		
+	def compile_check(self, code):
+		try:
+			compile(code, '<string>', 'exec')
+		except Exception as e:
+			print("Error executing code!\n=====================\nLine:\t{0}\nSnip:\t{1}\nIssue:\t{2}".format(e.lineno, e.text, e))
+			return False
+		
+		return True
+		
+	def move(self, dir):
+		self.actions.append({'move':dir})
+		#self.actions.append[{'open':password}]
+		
+def valid_check(code):
+	try:
+		node = ast.parse(code)
+		#print(ast.dump(node))
+	except SyntaxError:
+		return False
+	return True
+	
+
+	
 def main(self):
 	print("wot")
 	
