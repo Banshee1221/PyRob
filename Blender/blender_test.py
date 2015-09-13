@@ -41,8 +41,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		self.run_button.on_click = self.on_run_click
 
 		# Add a label
-		self.lbl = bgui.Label(self, text="I'm a label!", pos=[.75, .5],
-			sub_theme='small', options = bgui.BGUI_DEFAULT)
+		#self.lbl = bgui.Label(self, text="I'm a label!", pos=[.75, .5],
+		#	sub_theme='small', options = bgui.BGUI_DEFAULT)
 		
 		# A couple of progress bars to demonstrate sub themes
 		#self.progress = bgui.ProgressBar(self.win, percent=0.0, size=[0.92, 0.06], pos=[.2, 0.17],
@@ -88,13 +88,14 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		#self.lbl.text = self.input.text
 		#self.progress.percent += .1
 		self.input.activate()
+		self.Cube.resetPos()
 		self.Cube.setText(self.input.text)
 
 	def update(self):
 		self.input.activate()
 		error = self.Cube.run()
-		if error > -1:
-			self.lbl.text = str(error)
+		if error is not "":
+			self.console.text = str(error)
 
 def main(cont):
 	own = cont.owner

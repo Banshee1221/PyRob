@@ -6,6 +6,9 @@ import ast
 
 class tester:
 
+	staticPosX = -9.5
+	staticPosY = -9.5
+	staticPosZ = 1.06
 	actions = []
 	
 	def __init__(self):
@@ -24,7 +27,7 @@ class tester:
 	
 	def run(self):
 				
-		error = -1
+		error = ""
 		if (self.text != ''):
 			print(str(self.text))
 			print(self.compile_check(str(self.text)))
@@ -36,8 +39,8 @@ class tester:
 				self.text = ''
 				print(self.actions)
 			except Exception as e:
-				print(e)
 				self.text = ''
+				return e
 				
 		if (len(self.actions) > 0):
 			currItem = self.actions[0]
@@ -56,6 +59,9 @@ class tester:
 			return False
 		
 		return True
+	
+	def resetPos(self):
+		self.Cube.worldPosition = [self.staticPosX, self.staticPosY, self.staticPosZ]
 	
 	@classmethod
 	def move(cls, dir):
@@ -81,7 +87,7 @@ def valid_check(code):
 	except SyntaxError:
 		return False
 	return True
-	
+
 
 	
 def main(self):
