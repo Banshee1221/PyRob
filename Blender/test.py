@@ -5,6 +5,8 @@ import time
 import ast
 
 class tester:
+
+	actions = []
 	
 	def __init__(self):
 		scene = bge.logic.getCurrentScene()
@@ -12,7 +14,6 @@ class tester:
 		obj_name = 'Cube'
 		self.Cube = objList[obj_name]
 		self.text = ''
-		self.actions = []
 		self.passed = False
 		self.moved = False
 		self.m = move.move()
@@ -55,10 +56,23 @@ class tester:
 			return False
 		
 		return True
-		
-	def move(self, dir):
-		self.actions.append({'move':dir})
+	
+	@classmethod
+	def move(cls, dir):
+		cls.actions.append({'move':dir})
 		#self.actions.append[{'open':password}]
+		
+def moveUp():
+	tester.move("n")
+	
+def moveDown():
+	tester.move("s")
+	
+def moveRight():
+	tester.move("e")
+	
+def moveLeft():
+	tester.move("w")
 		
 def valid_check(code):
 	try:
