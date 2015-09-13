@@ -22,36 +22,42 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		self.frame.colors = [(0, 0, 0, 0) for i in range(4)]
 		self.frame.visible = True
 		
-		self.button = bgui.FrameButton(self.frame, text='Hide/Show', size=[.14, .09], pos=[.0, .0],
+		self.reset_button = bgui.FrameButton(self.frame, text='Reset', size=[.07, .04], pos=[.08, .0],
 			options = bgui.BGUI_DEFAULT)
-		self.button.on_click = self.hide_show
+		#self.button.on_click = self.hide_show
 
 		# A themed frame
-		self.win = bgui.Frame(self, size=[0.6, 0.8], pos = [0, 0.19],
+		self.win = bgui.Frame(self, size=[0.5, 0.95], pos = [0, 0.05],
 			options=bgui.BGUI_DEFAULT)
 			
+		self.rightWin = bgui.Frame(self, size=[0.5, 0.25], pos = [0.5, 0.05],
+			options=bgui.BGUI_DEFAULT)	
 		
 		# A button
-		self.button = bgui.FrameButton(self.frame, text='Click Me!', size=[.14, .09], pos=[0, .095],
+		self.run_button = bgui.FrameButton(self.frame, text='Run', size=[.07, .04], pos=[0, .0],
 			options = bgui.BGUI_DEFAULT)
 	
 		# Setup an on_click callback for the image
-		self.button.on_click = self.on_img_click
+		self.run_button.on_click = self.on_run_click
 
 		# Add a label
 		self.lbl = bgui.Label(self, text="I'm a label!", pos=[.75, .5],
 			sub_theme='small', options = bgui.BGUI_DEFAULT)
 		
 		# A couple of progress bars to demonstrate sub themes
-		self.progress = bgui.ProgressBar(self.win, percent=0.0, size=[0.92, 0.06], pos=[.2, 0.17],
-											sub_theme="Progress", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
+		#self.progress = bgui.ProgressBar(self.win, percent=0.0, size=[0.92, 0.06], pos=[.2, 0.17],
+		#									sub_theme="Progress", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
 											
-		self.health = bgui.ProgressBar(self.win, percent=0.5, size=[0.92, 0.02], pos=[0, 0.14],
-											sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
+		#self.health = bgui.ProgressBar(self.win, percent=0.5, size=[0.92, 0.02], pos=[0, 0.14],
+		#									sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 			
 		# A few TextInput widgets
-		self.input = bgui.TextInput(self.win, text="", size=[.92, .7], pos=[.01, 0.24],
+		self.input = bgui.TextInput(self.win, text="", size=[.96, .98], pos=[.01, .01],
 			input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX)
+
+		self.console = bgui.TextBlock(self.rightWin, text="console", size=[.96, .98], pos=[.01, .01],
+			options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX)
+
 		self.input.activate()
 		#self.input.on_enter_key = self.on_input_enter
 
@@ -59,17 +65,17 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		# A counter property used for the on_img_click() method
 		self.counter = 0
 
-	def hide_show(self, widget):
-		if self.hidden:
-			print("show")
-			y=self.win.position[1]/self.size[1]
-			self.win.move([0, y], 500)
-			self.hidden = False
-		else:
-			print(self.win.size[0])
-			y=self.win.position[1]/self.size[1]
-			self.win.move([-self.win.size[0]/self.size[0], y], 500)
-			self.hidden = True
+	# def hide_show(self, widget):
+	# 	if self.hidden:
+	# 		print("show")
+	# 		y=self.win.position[1]/self.size[1]
+	# 		self.win.move([0, y], 500)
+	# 		self.hidden = False
+	# 	else:
+	# 		print(self.win.size[0])
+	# 		y=self.win.position[1]/self.size[1]
+	# 		self.win.move([-self.win.size[0]/self.size[0], y], 500)
+	# 		self.hidden = True
 
 
 	#def on_input_enter(self, widget):
@@ -78,9 +84,9 @@ class SimpleLayout(bgui.bge_utils.Layout):
 	#	self.input.activate()
 		#widget.frozen = 1
 		
-	def on_img_click(self, widget):
-		self.lbl.text = self.input.text
-		self.progress.percent += .1
+	def on_run_click(self, widget):
+		#self.lbl.text = self.input.text
+		#self.progress.percent += .1
 		self.input.activate()
 		self.Cube.setText(self.input.text)
 
