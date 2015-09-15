@@ -13,23 +13,25 @@ class mover:
 		
 	def moveUnitOne(self, obj, dir):
 		
+		win = False
 		x = 0
 		y = 0
 		 
 		if dir is "n":
-			if (obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 1, obj.localPosition.z], 0)) is not None:
+			#if 
+			if (obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 0.5, obj.localPosition.z], 0)) is not None:
 				return -1
 			y = 1
 		elif dir is "s":
-			if (obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 1, obj.localPosition.z], 0)) is not None:
+			if (obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 0.5, obj.localPosition.z], 0)) is not None:
 				return -1
 			y = -1
 		elif dir is "e":
-			if (obj.rayCastTo([obj.localPosition.x + 1, obj.localPosition.y, obj.localPosition.z], 0)) is not None:
+			if (obj.rayCastTo([obj.localPosition.x + 0.5, obj.localPosition.y, obj.localPosition.z], 0)) is not None:
 				return -1
 			x = 1
 		elif dir is "w":
-			if (obj.rayCastTo([obj.localPosition.x - 1, obj.localPosition.y, obj.localPosition.z], 0)) is not None:
+			if (obj.rayCastTo([obj.localPosition.x - 0.5, obj.localPosition.y, obj.localPosition.z], 0)) is not None:
 				return -1
 			x = -1
 		
@@ -49,6 +51,10 @@ class mover:
 			obj.worldPosition = lerp(self.startPos, self.endPos, percent)
 			self.moving = False
 		#obj.worldPosition = [obj.position.x + x,obj.position.y + y,obj.position.z]
+		
+		if win:
+			return 2
+			
 		return percent
 		
 	def moveUnit(self, obj, dir, steps):
