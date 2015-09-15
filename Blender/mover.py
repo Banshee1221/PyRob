@@ -1,9 +1,8 @@
 import bge
-import bpy
 import mathutils
 import time
 
-class move:
+class mover:
 	def __init__(self):
 		#pass
 		self.moving = False
@@ -18,14 +17,21 @@ class move:
 		y = 0
 		 
 		if dir is "n":
+			if (obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 1, obj.localPosition.z], 0)) is not None:
+				return -1
 			y = 1
 		elif dir is "s":
+			if (obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 1, obj.localPosition.z], 0)) is not None:
+				return -1
 			y = -1
 		elif dir is "e":
+			if (obj.rayCastTo([obj.localPosition.x + 1, obj.localPosition.y, obj.localPosition.z], 0)) is not None:
+				return -1
 			x = 1
 		elif dir is "w":
+			if (obj.rayCastTo([obj.localPosition.x - 1, obj.localPosition.y, obj.localPosition.z], 0)) is not None:
+				return -1
 			x = -1
-			
 		
 		if (self.moving == False):
 			self.startTime = time.time()

@@ -1,6 +1,6 @@
 import bge
 import mathutils
-import move
+import mover
 import time
 import ast
 
@@ -19,7 +19,7 @@ class tester:
 		self.text = ''
 		self.passed = False
 		self.moved = False
-		self.m = move.move()
+		self.m = mover.mover()
 		self.running = False
 		
 	def setText(self, stri):
@@ -46,7 +46,10 @@ class tester:
 			currItem = self.actions[0]
 			if list(currItem.items())[0][0] == 'move':
 				checker = self.m.moveUnitOne(self.Cube, list(currItem.items())[0][1])
-				if checker == 1:
+				if checker == -1:
+					print("Error!")
+					del self.actions[0]
+				elif checker == 1:
 					del self.actions[0]
 			
 		return error

@@ -7,15 +7,14 @@ import bgui
 import bgui.bge_utils
 import bge
 import time
-from test import tester
+import codeInterp
 
 class SimpleLayout(bgui.bge_utils.Layout):
 	"""A layout showcasing various Bgui features"""
-
+	
 	def __init__(self, sys, data):
 		super().__init__(sys, data)
-		self.Cube = tester()
-		#self.a = movers.test();
+		self.Cube = codeInterp.tester()
 		self.hidden = False
 		# Use a frame to store all of our widgets
 		self.frame = bgui.Frame(self, border=0)
