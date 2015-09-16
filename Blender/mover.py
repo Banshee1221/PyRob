@@ -3,6 +3,8 @@ import mathutils
 import time
 
 class mover:
+
+	winObj = bge.logic.getCurrentScene().objects["win"]
 	def __init__(self):
 		#pass
 		self.moving = False
@@ -18,20 +20,31 @@ class mover:
 		y = 0
 		 
 		if dir is "n":
-			#if 
-			if (obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 0.5, obj.localPosition.z], 0)) is not None:
+			rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 0.5, obj.localPosition.z], 0)
+			if (rayTest) is self.winObj:
+				win = True
+			elif (rayTest) is not None:
 				return -1
 			y = 1
 		elif dir is "s":
-			if (obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 0.5, obj.localPosition.z], 0)) is not None:
+			rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 0.5, obj.localPosition.z], 0)
+			if (rayTest) is self.winObj:
+				win = True
+			elif (rayTest) is not None:
 				return -1
 			y = -1
 		elif dir is "e":
-			if (obj.rayCastTo([obj.localPosition.x + 0.5, obj.localPosition.y, obj.localPosition.z], 0)) is not None:
+			rayTest = obj.rayCastTo([obj.localPosition.x + 0.5, obj.localPosition.y, obj.localPosition.z], 0)
+			if (rayTest) is self.winObj:
+				win = True
+			elif (rayTest) is not None:
 				return -1
 			x = 1
 		elif dir is "w":
-			if (obj.rayCastTo([obj.localPosition.x - 0.5, obj.localPosition.y, obj.localPosition.z], 0)) is not None:
+			rayTest = obj.rayCastTo([obj.localPosition.x - 0.5, obj.localPosition.y, obj.localPosition.z], 0)
+			if (rayTest) is self.winObj:
+				win = True
+			elif (rayTest) is not None:
 				return -1
 			x = -1
 		
@@ -50,9 +63,9 @@ class mover:
 			percent = 1
 			obj.worldPosition = lerp(self.startPos, self.endPos, percent)
 			self.moving = False
-		#obj.worldPosition = [obj.position.x + x,obj.position.y + y,obj.position.z]
 		
 		if win:
+			obj.worldPosition = self.winObj.worldPosition
 			return 2
 			
 		return percent

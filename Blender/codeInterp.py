@@ -51,6 +51,9 @@ class tester:
 					del self.actions[0]
 				elif checker == 1:
 					del self.actions[0]
+				elif checker == 2:
+					del self.actions[0]
+					print("WINNER!")
 			
 		return error
 		

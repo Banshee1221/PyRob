@@ -23,6 +23,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		
 		self.reset_button = bgui.FrameButton(self.frame, text='Reset', size=[.07, .04], pos=[.08, .0],
 			options = bgui.BGUI_DEFAULT)
+		self.reset_button.on_click = self.on_reset_click
 		#self.button.on_click = self.hide_show
 
 		# A themed frame
@@ -89,6 +90,10 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		self.input.activate()
 		self.Cube.resetPos()
 		self.Cube.setText(self.input.text)
+		
+	def on_reset_click(self, widget):
+		self.input.activate()
+		self.Cube.resetPos()
 
 	def update(self):
 		self.input.activate()
