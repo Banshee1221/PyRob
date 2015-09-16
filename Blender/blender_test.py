@@ -1,4 +1,5 @@
 import sys
+import os
 
 # So we can find the bgui module
 sys.path.append('../..')
@@ -87,9 +88,21 @@ class SimpleLayout(bgui.bge_utils.Layout):
 	def on_run_click(self, widget):
 		#self.lbl.text = self.input.text
 		#self.progress.percent += .1
-		self.input.activate()
+		#print(os.getcwd())
+		externalFile = ''
+		data = ''
+		try:
+			externalFile = open("external.py", "r")
+			if os.stat("external.py").st_size > 0:
+				data = externalFile.read()
+		except:
+			print("File not found/can't be read")
 		self.Cube.resetPos()
-		self.Cube.setText(self.input.text)
+		if externalFile is not '':
+			self.Cube.setText(data)
+		else:
+			self.input.activate()
+			self.Cube.setText(self.input.text)
 		
 	def on_reset_click(self, widget):
 		self.input.activate()
