@@ -29,6 +29,8 @@ class tester:
 				
 		error = ""
 		if (self.text != ''):
+			tmp = while_check(str(self.text))
+			self.text = tmp
 			print(str(self.text))
 			print(self.compile_check(str(self.text)))
 			print(valid_check(str(self.text)))
@@ -93,6 +95,40 @@ def valid_check(code):
 	except SyntaxError:
 		return False
 	return True
+
+def while_check(code):
+	tab = False
+	pass1 = False
+	tmpArr = code.split('\n')
+	lineCount = 0
+	wordList = ["_tmpWhileTrackCounter = 0","_tmpWhileTrackCounter += 1", "if _tmpWhileTrackCounter >= 21:", "break"]
+	for all in tmpArr:
+		if pass1:
+			lineCount += 1
+			pass
+		elif "while" in all:
+			if "\t" in all or "\t" in tmpArr[lineCount + 1]:
+				tab = True
+			spacing = (len(all) - len(all.lstrip()))
+			#print(spacing)
+			if tab:
+				tmpArr.insert(lineCount, wordList[0].rjust(len(wordList[0]) + spacing, "\t"))
+				tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing + 1, "\t"))
+				tmpArr.insert(lineCount + 3, wordList[2].rjust(len(wordList[2]) + spacing + 1, "\t"))
+				tmpArr.insert(lineCount + 4, wordList[3].rjust(len(wordList[3]) + spacing + 2, "\t"))
+				pass1 = True
+			else:
+				tmpArr.insert(lineCount, wordList[0].rjust(len(wordList[0]) + spacing))
+				tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing + 4))
+				tmpArr.insert(lineCount + 3, wordList[2].rjust(len(wordList[2]) + spacing + 4))
+				tmpArr.insert(lineCount + 4, wordList[3].rjust(len(wordList[3]) + spacing + 8))
+				pass1 = True
+		lineCount += 1
+	
+	retVal = '\n'.join([str(x) for x in tmpArr])
+	#print(retVal)
+	return retVal
+			
 	
 def main(self):
 	print("wot")
