@@ -98,7 +98,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		except:
 			print("File not found/can't be read")
 		self.Cube.resetPos()
-		if externalFile is not '':
+		if data is not '':
 			self.Cube.setText(data)
 		else:
 			self.input.activate()

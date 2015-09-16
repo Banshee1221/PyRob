@@ -16,6 +16,7 @@ class mover:
 	def moveUnitOne(self, obj, dir):
 		
 		win = False
+		fail = False
 		x = 0
 		y = 0
 		 
@@ -24,28 +25,28 @@ class mover:
 			if (rayTest) is self.winObj:
 				win = True
 			elif (rayTest) is not None:
-				return -1
+				fail = True
 			y = 1
 		elif dir is "s":
 			rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 0.5, obj.localPosition.z], 0)
 			if (rayTest) is self.winObj:
 				win = True
 			elif (rayTest) is not None:
-				return -1
+				fail = True
 			y = -1
 		elif dir is "e":
 			rayTest = obj.rayCastTo([obj.localPosition.x + 0.5, obj.localPosition.y, obj.localPosition.z], 0)
 			if (rayTest) is self.winObj:
 				win = True
 			elif (rayTest) is not None:
-				return -1
+				fail = True
 			x = 1
 		elif dir is "w":
 			rayTest = obj.rayCastTo([obj.localPosition.x - 0.5, obj.localPosition.y, obj.localPosition.z], 0)
 			if (rayTest) is self.winObj:
 				win = True
 			elif (rayTest) is not None:
-				return -1
+				fail = True
 			x = -1
 		
 		if (self.moving == False):
@@ -65,8 +66,13 @@ class mover:
 			self.moving = False
 		
 		if win:
+			percent = 0
 			obj.worldPosition = self.winObj.worldPosition
 			return 2
+		
+		if fail:
+			percent = 0
+			return -1
 			
 		return percent
 		
