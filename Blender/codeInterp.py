@@ -109,19 +109,20 @@ def while_check(code):
 		elif "while" in all:
 			if "\t" in all or "\t" in tmpArr[lineCount + 1]:
 				tab = True
-			spacing = (len(all) - len(all.lstrip()))
+			spacing = len(all) - len(all.lstrip())
+			spacing1 = len(tmpArr[lineCount + 1]) - len(tmpArr[lineCount + 1].lstrip())
 			#print(spacing)
 			if tab:
 				tmpArr.insert(lineCount, wordList[0].rjust(len(wordList[0]) + spacing, "\t"))
-				tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing + 1, "\t"))
-				tmpArr.insert(lineCount + 3, wordList[2].rjust(len(wordList[2]) + spacing + 1, "\t"))
-				tmpArr.insert(lineCount + 4, wordList[3].rjust(len(wordList[3]) + spacing + 2, "\t"))
+				tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing1, "\t"))
+				tmpArr.insert(lineCount + 3, wordList[2].rjust(len(wordList[2]) + spacing1, "\t"))
+				tmpArr.insert(lineCount + 4, wordList[3].rjust(len(wordList[3]) + spacing1 + 1, "\t"))
 				pass1 = True
 			else:
 				tmpArr.insert(lineCount, wordList[0].rjust(len(wordList[0]) + spacing))
-				tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing + 4))
-				tmpArr.insert(lineCount + 3, wordList[2].rjust(len(wordList[2]) + spacing + 4))
-				tmpArr.insert(lineCount + 4, wordList[3].rjust(len(wordList[3]) + spacing + 8))
+				tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing1))
+				tmpArr.insert(lineCount + 3, wordList[2].rjust(len(wordList[2]) + spacing1))
+				tmpArr.insert(lineCount + 4, wordList[3].rjust(len(wordList[3]) + spacing1 + 4))
 				pass1 = True
 		lineCount += 1
 	
