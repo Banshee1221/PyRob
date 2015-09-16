@@ -1,2 +1,2 @@
-while True:
-	print("test")
+for i in range(19):
+    moveRight()

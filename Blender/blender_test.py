@@ -95,6 +95,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 			externalFile = open("external.py", "r")
 			if os.stat("external.py").st_size > 0:
 				data = externalFile.read()
+			print("data loaded")
 		except:
 			print("File not found/can't be read")
 		self.Cube.resetPos()
@@ -111,6 +112,14 @@ class SimpleLayout(bgui.bge_utils.Layout):
 	def update(self):
 		self.input.activate()
 		error = self.Cube.run()
+		#print(str(bge.logic.getCurrentScene()))
+		if error is "win":
+			print(bge.logic.getCurrentScene())
+			if str(bge.logic.getCurrentScene()) == 'tut1':
+				bge.logic.LibFree('tut1')
+				bge.logic.LibLoad(str(os.getcwd())+'\\loops1.blend', 'Scene')
+				#print("ugh")
+				#error = ""
 		if error is not "":
 			self.console.text = str(error)
 
