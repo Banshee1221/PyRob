@@ -59,14 +59,16 @@ class tester:
 				checker = self.m.moveUnitOne(self.Cube, list(currItem.items())[0][1], self.winObj)
 				if checker == -1:
 					print("Error!")
-					del self.actions[0]
 					self.step += 1
+					del self.actions[:]
+					
 				elif checker == 1:
-					del self.actions[0]
 					self.step += 1
+					del self.actions[0]
+					
 				elif checker == 2:
-					del self.actions[0]
 					self.step += 1
+					del self.actions[0]
 					return -2
 		
 		if len(self.actions) == 0:

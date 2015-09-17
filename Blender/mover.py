@@ -50,6 +50,10 @@ class mover:
 				fail = True
 			x = -1
 		
+		if fail:
+			percent = 0
+			return -1
+			
 		if (self.moving == False):
 			self.startTime = time.time()
 			self.endTime = self.startTime + 0.25
@@ -69,11 +73,7 @@ class mover:
 		if win:
 			percent = 0
 			obj.worldPosition = winObj.worldPosition
-			return 2
-		
-		if fail:
-			percent = 0
-			return -1
+			return 2		
 			
 		return percent
 		
