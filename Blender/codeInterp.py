@@ -72,7 +72,7 @@ class tester:
 		if len(self.actions) == 0:
 			return 0
 		
-		return (self.step / self.actionsLen) * 100
+		return (self.step / self.actionsLen)
 		
 	def compile_check(self, code):
 		try:

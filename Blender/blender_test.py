@@ -46,8 +46,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		#	sub_theme='small', options = bgui.BGUI_DEFAULT)
 		
 		# A couple of progress bars to demonstrate sub themes
-		#self.progress = bgui.ProgressBar(self.win, percent=0.0, size=[0.92, 0.06], pos=[.2, 0.17],
-		#									sub_theme="Progress", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
+		self.progress = bgui.ProgressBar(self.frame, percent=0.0, size=[0.5, 0.03], pos=[.15, 0.01],
+											sub_theme="Progress", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
 											
 		#self.health = bgui.ProgressBar(self.win, percent=0.5, size=[0.92, 0.02], pos=[0, 0.14],
 		#									sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
@@ -118,8 +118,12 @@ class SimpleLayout(bgui.bge_utils.Layout):
 			if str(scene) == 'tut1':
 				scene.replace("loops")
 				#error = ""
-		if error is not "":
+		elif error is -1:
 			self.console.text = str(error)
+		else:
+			print(error)
+			self.progress.percent = error
+
 
 def main(cont):
 	own = cont.owner
