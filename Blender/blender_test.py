@@ -112,7 +112,6 @@ class SimpleLayout(bgui.bge_utils.Layout):
 	def update(self):
 		self.input.activate()
 		error = self.Cube.run()
-		print(error)
 		#print(str(bge.logic.getCurrentScene()))
 		if error is "win":
 			print(bge.logic.getCurrentScene())
