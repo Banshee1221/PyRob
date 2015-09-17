@@ -134,6 +134,7 @@ def main(cont):
 		#x = bge.render.getWindowWidth()
 		#y = bge.render.getWindowHeight()
 		cam = ob_list['Camera']
+		print(cam)
 		scene.active_camera = cam
 		#cam.useViewport = True
 		#cam.setViewport(0, 0, x, y)

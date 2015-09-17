@@ -564,7 +564,7 @@ class TextInput(Widget):
 			elif key == PADMINUS: char = "-"
 			elif key == PADPLUSKEY: char = "+"
 			elif key == SPACEKEY: char = " "
-			#elif key == TABKEY: char = "\t"
+			elif key == TABKEY: char = "\t"
 			elif key == ENTERKEY :
 				char = "\n"
 				self.lineNumber = self.lineNumber + 1
@@ -600,10 +600,19 @@ class TextInput(Widget):
 			    #need option to limit text to length of box
 				#need to replace all selected text with new char
 				#need copy place somewhere
-
-				self.label.text = self.text[:self.slice[0]] + char + self.text[self.slice[1]:]
 				if (char == "\t"):
-					self.char_widths = self.char_widths[:self.slice[0]] + [self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20] + self.char_widths[self.slice[1]:]
+					print("tab")
+					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
+					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
+					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
+					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
+					self.slice[0] = self.slice[0] + 4
+					self.slice[1] = self.slice[1] + 4
+				else:
+					print("other")
+					self.label.text = self.text[:self.slice[0]] + char + self.text[self.slice[1]:]
+				
+				#	self.char_widths = self.char_widths[:self.slice[0]] + [self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20] + self.char_widths[self.slice[1]:]
 				self.slice = [self.slice[0] + 1, self.slice[0] + 1]
 				self.slice_direction = 0
 
