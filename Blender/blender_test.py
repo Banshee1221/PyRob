@@ -113,7 +113,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		self.input.activate()
 		error = self.Cube.run()
 		#print(str(bge.logic.getCurrentScene()))
-		if error is "win":
+		if error is -2:
 			print(bge.logic.getCurrentScene())
 			if str(bge.logic.getCurrentScene()) == 'tut1':
 				bge.logic.LibFree('tut1')
