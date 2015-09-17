@@ -12,6 +12,7 @@ class tester:
 	actions = []
 	actionsLen = 0
 	step = 1
+	winObj = ""
 	
 	def __init__(self):
 		scene = bge.logic.getCurrentScene()
@@ -29,6 +30,11 @@ class tester:
 	
 	def run(self):
 		
+		
+		for i in bge.logic.getCurrentScene().objects:
+			if "win" in str(i):
+				self.winObj = bge.logic.getCurrentScene().objects[str(i)]
+		#print(self.winObj)	
 		if (self.text != ''):
 			tmp = while_check(str(self.text))
 			self.text = tmp
@@ -50,7 +56,7 @@ class tester:
 		if (len(self.actions) > 0):
 			currItem = self.actions[0]
 			if list(currItem.items())[0][0] == 'move':
-				checker = self.m.moveUnitOne(self.Cube, list(currItem.items())[0][1])
+				checker = self.m.moveUnitOne(self.Cube, list(currItem.items())[0][1], self.winObj)
 				if checker == -1:
 					print("Error!")
 					del self.actions[0]

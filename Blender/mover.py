@@ -4,7 +4,7 @@ import time
 
 class mover:
 
-	winObj = bge.logic.getCurrentScene().objects["win"]
+	#print(bge.logic.getCurrentScene().objects)
 	
 	def __init__(self):
 		#pass
@@ -14,7 +14,7 @@ class mover:
 		self.endPos = []
 		self.startPos = []
 		
-	def moveUnitOne(self, obj, dir):
+	def moveUnitOne(self, obj, dir, winObj):
 		
 		win = False
 		fail = False
@@ -23,28 +23,28 @@ class mover:
 		 
 		if dir is "n":
 			rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 0.5, obj.localPosition.z], 0)
-			if (rayTest) is self.winObj:
+			if (rayTest) is winObj:
 				win = True
 			elif (rayTest) is not None:
 				fail = True
 			y = 1
 		elif dir is "s":
 			rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 0.5, obj.localPosition.z], 0)
-			if (rayTest) is self.winObj:
+			if (rayTest) is winObj:
 				win = True
 			elif (rayTest) is not None:
 				fail = True
 			y = -1
 		elif dir is "e":
 			rayTest = obj.rayCastTo([obj.localPosition.x + 0.5, obj.localPosition.y, obj.localPosition.z], 0)
-			if (rayTest) is self.winObj:
+			if (rayTest) is winObj:
 				win = True
 			elif (rayTest) is not None:
 				fail = True
 			x = 1
 		elif dir is "w":
 			rayTest = obj.rayCastTo([obj.localPosition.x - 0.5, obj.localPosition.y, obj.localPosition.z], 0)
-			if (rayTest) is self.winObj:
+			if (rayTest) is winObj:
 				win = True
 			elif (rayTest) is not None:
 				fail = True
@@ -68,7 +68,7 @@ class mover:
 		
 		if win:
 			percent = 0
-			obj.worldPosition = self.winObj.worldPosition
+			obj.worldPosition = winObj.worldPosition
 			return 2
 		
 		if fail:
