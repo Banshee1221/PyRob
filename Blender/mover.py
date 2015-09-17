@@ -5,6 +5,7 @@ import time
 class mover:
 
 	winObj = bge.logic.getCurrentScene().objects["win"]
+	
 	def __init__(self):
 		#pass
 		self.moving = False
@@ -58,7 +59,7 @@ class mover:
 		
 		percent = (time.time() - self.startTime) * 4
 		if (percent < 1):
-			print(percent)
+			#print(percent)
 			obj.worldPosition = lerp(self.startPos, self.endPos, percent)
 		else:
 			percent = 1

@@ -10,6 +10,8 @@ class tester:
 	staticPosY = -9.5
 	staticPosZ = 1.06
 	actions = []
+	actionsLen = 0
+	step = 1
 	
 	def __init__(self):
 		scene = bge.logic.getCurrentScene()
@@ -26,8 +28,7 @@ class tester:
 		self.text = stri
 	
 	def run(self):
-				
-		error = ""
+		
 		if (self.text != ''):
 			tmp = while_check(str(self.text))
 			self.text = tmp
@@ -38,6 +39,8 @@ class tester:
 			try:
 				codeobj = compile(str(self.text), '<string>', 'exec')
 				eval(codeobj, globals(), locals())
+				self.actionsLen = len(self.actions)
+				self.step = 1
 				self.text = ''
 				print(self.actions)
 			except Exception as e:
@@ -51,13 +54,19 @@ class tester:
 				if checker == -1:
 					print("Error!")
 					del self.actions[0]
+					self.step += 1
 				elif checker == 1:
 					del self.actions[0]
+					self.step += 1
 				elif checker == 2:
 					del self.actions[0]
+					self.step += 1
 					return "win"
-			
-		return error
+		
+		if len(self.actions) == 0:
+			return 0
+		
+		return (self.step / self.actionsLen) * 100
 		
 	def compile_check(self, code):
 		try:
