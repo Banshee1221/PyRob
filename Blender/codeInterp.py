@@ -61,7 +61,7 @@ class tester:
 				elif checker == 2:
 					del self.actions[0]
 					self.step += 1
-					return "win"
+					return -2
 		
 		if len(self.actions) == 0:
 			return 0

@@ -114,11 +114,9 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		error = self.Cube.run()
 		#print(str(bge.logic.getCurrentScene()))
 		if error is -2:
-			print(bge.logic.getCurrentScene())
-			if str(bge.logic.getCurrentScene()) == 'tut1':
-				bge.logic.LibFree('tut1')
-				bge.logic.LibLoad(str(os.getcwd())+'\\loops1.blend', 'Scene')
-				#print("ugh")
+			scene = bge.logic.getCurrentScene()
+			if str(scene) == 'tut1':
+				scene.replace("loops")
 				#error = ""
 		if error is not "":
 			self.console.text = str(error)
