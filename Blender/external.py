@@ -1,2 +1,5 @@
-for i in range(19):
-    moveRight()
+for i in range(8):
+	moveUp()
+	
+for i in range(12):
+	moveRight()

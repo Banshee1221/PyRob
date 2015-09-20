@@ -22,28 +22,28 @@ class mover:
 		y = 0
 		 
 		if dir is "n":
-			rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 0.51, obj.localPosition.z], 0)
+			rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 0.501, obj.localPosition.z], 0)
 			if (rayTest) is winObj:
 				win = True
 			elif (rayTest) is not None:
 				fail = True
 			y = 1
 		elif dir is "s":
-			rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 0.51, obj.localPosition.z], 0)
+			rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 0.501, obj.localPosition.z], 0)
 			if (rayTest) is winObj:
 				win = True
 			elif (rayTest) is not None:
 				fail = True
 			y = -1
 		elif dir is "e":
-			rayTest = obj.rayCastTo([obj.localPosition.x + 0.51, obj.localPosition.y, obj.localPosition.z], 0)
+			rayTest = obj.rayCastTo([obj.localPosition.x + 0.501, obj.localPosition.y, obj.localPosition.z], 0)
 			if (rayTest) is winObj:
 				win = True
 			elif (rayTest) is not None:
 				fail = True
 			x = 1
 		elif dir is "w":
-			rayTest = obj.rayCastTo([obj.localPosition.x - 0.51, obj.localPosition.y, obj.localPosition.z], 0)
+			rayTest = obj.rayCastTo([obj.localPosition.x - 0.501, obj.localPosition.y, obj.localPosition.z], 0)
 			if (rayTest) is winObj:
 				win = True
 			elif (rayTest) is not None:
@@ -51,6 +51,7 @@ class mover:
 			x = -1
 		
 		if fail:
+			print(rayTest)
 			percent = 0
 			return -1
 			

@@ -116,8 +116,9 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		if error is -2:
 			scene = bge.logic.getCurrentScene()
 			if str(scene) == 'tut1':
+				scene.replace("tut2")
+			if str(scene) == 'tut2':
 				scene.replace("loops")
-				#error = ""
 		elif error is -1:
 			self.console.text = str(error)
 		else:
