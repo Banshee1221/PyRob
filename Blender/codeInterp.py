@@ -1,11 +1,13 @@
 import bge
 import mathutils
 import mover
+import picker
 import time
 import ast
 
 class tester:
 
+	levelScore = 0
 	staticPosX = -9.5
 	staticPosY = -9.5
 	staticPosZ = 1.06
@@ -23,6 +25,7 @@ class tester:
 		self.passed = False
 		self.moved = False
 		self.m = mover.mover()
+		self.p = picker.pickup()
 		self.running = False
 		
 	def setText(self, stri):
@@ -30,11 +33,11 @@ class tester:
 	
 	def run(self):
 		
-		
-		for i in bge.logic.getCurrentScene().objects:
-			if "win" in str(i):
-				self.winObj = bge.logic.getCurrentScene().objects[str(i)]
-		#print(self.winObj)	
+		if self.winObj is not "":
+			for i in bge.logic.getCurrentScene().objects:
+				if "win" in str(i):
+					self.winObj = bge.logic.getCurrentScene().objects[str(i)]
+
 		if (self.text != ''):
 			tmp = while_check(str(self.text))
 			self.text = tmp
