@@ -16,6 +16,7 @@ class tester:
 	actionsLen = 0
 	step = 1
 	winObj = ""
+	val = None
 	
 	def __init__(self):
 		scene = bge.logic.getCurrentScene()
@@ -59,6 +60,7 @@ class tester:
 				
 		if (len(self.actions) > 0):
 			currItem = self.actions[0]
+			
 			if list(currItem.items())[0][0] == 'move':
 				checker = self.m.moveUnitOne(self.Cube, list(currItem.items())[0][1], self.winObj)
 				if checker == -1:
@@ -74,15 +76,31 @@ class tester:
 					self.step += 1
 					del self.actions[0]
 					return -2
-			if list(currItem.items())[0][0] == 'pickup':
-				checker_pick = self.p.evaluate(self.Cube, self.objList)
+		
+			if list(currItem.items())[0][0] == 'check':
+				checker_pick = self.p.confirmObject(self.Cube)
 				if checker_pick == -1:
-					pass
+					print("Error!")
+					self.step += 1
+					del self.actions[:]
+				else:
+					#print(checker_pick)
+					self.step += 1
+					del self.actions[0]
+					self.val = checker_pick
+					#return checker_pick
+				
+			if list(currItem.items())[0][0] == 'pickup':
+				checker_pick = self.p.evaluate(self.Cube)
+				if self.val is None or checker_pick == -1:
+					print("Error!")
+					self.step += 1
+					del self.actions[:]
 				else:
 					self.levelScore += checker_pick
-				del self.actions[0]
-				print(self.levelScore)
-		
+					del self.actions[0]
+					print(self.levelScore)
+			
 		if len(self.actions) == 0:
 			return 0
 		
@@ -106,7 +124,11 @@ class tester:
 	
 	@classmethod
 	def pick(cls):
-		cls.actions.append({'pickup':dir})
+		cls.actions.append({'pickup':0})
+		
+	@classmethod
+	def checker(cls):
+		cls.actions.append({'check':0})
 		
 def moveUp():
 	tester.move("n")
@@ -122,7 +144,10 @@ def moveLeft():
 	
 def pickup():
 	tester.pick()
-		
+
+def check():
+	tester.checker()
+	
 def valid_check(code):
 	try:
 		node = ast.parse(code)
