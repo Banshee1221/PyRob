@@ -33,7 +33,7 @@ class tester:
 	
 	def run(self):
 		
-		if self.winObj is not "":
+		if self.winObj is "":
 			for i in bge.logic.getCurrentScene().objects:
 				if "win" in str(i):
 					self.winObj = bge.logic.getCurrentScene().objects[str(i)]
