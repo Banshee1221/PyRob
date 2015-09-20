@@ -3,8 +3,6 @@ import mathutils
 import time
 
 class mover:
-
-	#print(bge.logic.getCurrentScene().objects)
 	
 	def __init__(self):
 		#pass

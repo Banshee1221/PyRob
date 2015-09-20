@@ -7,10 +7,14 @@ class pickup:
 	def __init__(self):
 		pass
 		
-	def evaluate(self, object):
-		toStr = str(object)
+	def evaluate(self, player, object):
+	
+		rayTest = player.rayCastTo([player.localPosition.x, player.localPosition.y, player.localPosition.z - 0.6], 0)
 		
-		if toStr in scores:
-			return scores[toStr]
-			
-		return -1
+		#print(scores)
+		#print(scores[str(rayTest)])
+		
+		try:
+			return self.scores[str(rayTest)]
+		except:
+			return -1

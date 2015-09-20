@@ -7,6 +7,7 @@ import ast
 
 class tester:
 
+	objList = None
 	levelScore = 0
 	staticPosX = -9.5
 	staticPosY = -9.5
@@ -18,9 +19,9 @@ class tester:
 	
 	def __init__(self):
 		scene = bge.logic.getCurrentScene()
-		objList = scene.objects
+		self.objList = scene.objects
 		obj_name = 'Cube'
-		self.Cube = objList[obj_name]
+		self.Cube = self.objList[obj_name]
 		self.text = ''
 		self.passed = False
 		self.moved = False
@@ -34,9 +35,9 @@ class tester:
 	def run(self):
 		
 		if self.winObj is "":
-			for i in bge.logic.getCurrentScene().objects:
+			for i in self.objList:
 				if "win" in str(i):
-					self.winObj = bge.logic.getCurrentScene().objects[str(i)]
+					self.winObj = self.objList[str(i)]
 
 		if (self.text != ''):
 			tmp = while_check(str(self.text))
@@ -74,7 +75,13 @@ class tester:
 					del self.actions[0]
 					return -2
 			if list(currItem.items())[0][0] == 'pickup':
-				pass
+				checker_pick = self.p.evaluate(self.Cube, self.objList)
+				if checker_pick == -1:
+					pass
+				else:
+					self.levelScore += checker_pick
+				del self.actions[0]
+				print(self.levelScore)
 		
 		if len(self.actions) == 0:
 			return 0
