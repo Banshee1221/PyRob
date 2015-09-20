@@ -21,6 +21,14 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		self.frame = bgui.Frame(self, border=0)
 		self.frame.colors = [(0, 0, 0, 0) for i in range(4)]
 		self.frame.visible = True
+
+		self.scene = bge.logic.getCurrentScene()
+		ob_list = self.scene.objects
+		self.cam1 = ob_list['Camera']
+		self.cam2 = ob_list['Cam_Follow']
+
+
+
 		
 		self.reset_button = bgui.FrameButton(self.frame, text='Reset', size=[.07, .04], pos=[.08, .0],
 			options = bgui.BGUI_DEFAULT)
@@ -53,13 +61,22 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		#									sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 			
 		# A few TextInput widgets
-		self.input = bgui.TextInput(self.win, text="", size=[.96, .98], pos=[.01, .01],
-			input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX)
+		self.input = bgui.TextInput(self.win, text="", size=[.93, .98], pos=[.05, .01],
+			input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT)
 
 		self.console = bgui.TextBlock(self.rightWin, text="console", size=[.96, .98], pos=[.01, .01],
 			options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX)
 
-		self.input.activate()
+		self.lines = []
+		incriment = .0258
+		start = 0.9675
+		count = 1
+		for i in range(20):
+			self.lines.append(bgui.Label(self.win, text=str(count) + ".", pos=[.01, start], options = bgui.BGUI_DEFAULT))
+			start = start-incriment
+			count = count + 1
+		#self.lines.append(bgui.Label(self.win, text="2.", pos=[.01, .94], options = bgui.BGUI_DEFAULT))
+		#self.input.activate()
 		#self.input.on_enter_key = self.on_input_enter
 
 		
@@ -89,6 +106,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		#self.lbl.text = self.input.text
 		#self.progress.percent += .1
 		#print(os.getcwd())
+		self.scene.active_camera = self.cam2
 		externalFile = ''
 		data = ''
 		try:
@@ -108,6 +126,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 	def on_reset_click(self, widget):
 		self.input.activate()
 		self.Cube.resetPos()
+		self.scene.active_camera = self.cam1
 
 	def update(self):
 		self.input.activate()
@@ -122,7 +141,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		elif error is -1:
 			self.console.text = str(error)
 		else:
-			print(error)
+			#print(error)
 			self.progress.percent = error
 
 
