@@ -70,6 +70,8 @@ class tester:
 					self.step += 1
 					del self.actions[0]
 					return -2
+			if list(currItem.items())[0][0] == 'pickup':
+				pass
 		
 		if len(self.actions) == 0:
 			return 0
@@ -91,7 +93,10 @@ class tester:
 	@classmethod
 	def move(cls, dir):
 		cls.actions.append({'move':dir})
-		#self.actions.append[{'open':password}]
+	
+	@classmethod
+	def pick(cls):
+		cls.actions.append({'pickup':dir})
 		
 def moveUp():
 	tester.move("n")
@@ -104,6 +109,9 @@ def moveRight():
 	
 def moveLeft():
 	tester.move("w")
+	
+def pickup():
+	tester.pick()
 		
 def valid_check(code):
 	try:
