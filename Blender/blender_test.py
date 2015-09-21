@@ -16,7 +16,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
     def __init__(self, sys, data):
         super().__init__(sys, data)
         self.Cube = codeInterp.tester()
-        self.hidden = False
+        self.hidden = True
         # Use a frame to store all of our widgets
         self.frame = bgui.Frame(self, border=0)
         self.frame.colors = [(0, 0, 0, 0) for i in range(4)]
@@ -38,6 +38,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
         self.rightWin = bgui.Frame(self, size=[0.5, 0.25], pos=[0.5, 0.05],
                                    options=bgui.BGUI_DEFAULT)
+        
 
         # A button
         self.run_button = bgui.FrameButton(self.frame, text='Run', size=[.07, .04], pos=[0, .0],
@@ -74,29 +75,29 @@ class SimpleLayout(bgui.bge_utils.Layout):
             count = count + 1
         #self.lines.append(bgui.Label(self.win, text="2.", pos=[.01, .94], options = bgui.BGUI_DEFAULT))
         #self.input.activate()
-        #self.input.on_enter_key = self.on_input_enter
+        #self.input.on_enter_key = self.on_run_click
 
 
         # A counter property used for the on_img_click() method
-        self.counter = 0
+        #self.counter = 0
 
-    # self.helpWin = bgui.Frame(self, size=[0.75, .9], pos=[.5, 0],
-    # options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
+        self.helpWin = bgui.Frame(self, size=[0.75, .9], pos=[.5, 1],
+                              options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 
-    # self.helpText = bgui.TextBlock(self.helpWin, text="Help", size=[.9, .9], pos=[.0, .0],
-    # 	options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
+        self.helpText = bgui.TextBlock(self.helpWin, text="Help", size=[.9, .9], pos=[.0, .0],
+    	                      options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
 
-    # def hide_show(self, widget):
-    # 	if self.hidden:
-    # 		print("show")
-    # 		y=self.win.position[1]/self.size[1]
-    # 		self.win.move([0, y], 500)
-    # 		self.hidden = False
-    # 	else:
-    # 		print(self.win.size[0])
-    # 		y=self.win.position[1]/self.size[1]
-    # 		self.win.move([-self.win.size[0]/self.size[0], y], 500)
-    # 		self.hidden = True
+        self.help_button = bgui.FrameButton(self, text='Help', size=[.07, .04], pos=[0.93, .96],
+                                             options=bgui.BGUI_DEFAULT)
+        self.help_button.on_click = self.hide_show
+
+    def hide_show(self, widget):
+    	if self.hidden:
+    		self.helpWin.move([.5, .05], 400)
+    		self.hidden = False
+    	else:
+    		self.helpWin.move([.5, 1.5], 400)
+    		self.hidden = True
 
 
     #def on_input_enter(self, widget):
