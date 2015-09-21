@@ -27,7 +27,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		self.cam1 = ob_list['Camera']
 		self.cam2 = ob_list['Cam_Follow']
 
-
+		
 
 		
 		self.reset_button = bgui.FrameButton(self.frame, text='Reset', size=[.07, .04], pos=[.08, .0],
@@ -66,6 +66,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
 		self.console = bgui.TextBlock(self.rightWin, text="console", size=[.96, .98], pos=[.01, .01],
 			options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX)
+		
 
 		self.lines = []
 		incriment = .0258
@@ -82,6 +83,11 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		
 		# A counter property used for the on_img_click() method
 		self.counter = 0
+		self.helpWin = bgui.Frame(self, size=[0.75, .9], pos=[.5, 0],
+			options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
+
+		self.helpText = bgui.TextBlock(self.helpWin, text="Help", size=[.9, .9], pos=[.0, .0],
+			options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
 
 	# def hide_show(self, widget):
 	# 	if self.hidden:
