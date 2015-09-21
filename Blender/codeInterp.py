@@ -2,10 +2,12 @@ import ast
 import bge
 import mover
 import picker
-
+import outWriter
 
 class tester:
     objList = None
+    scene = None
+    codeList = {'tut1': [], 'tut2': [], 'tut3': [], 'loops': []}
     levelScore = 0
     staticPosX = -9.5
     staticPosY = -9.5
@@ -17,8 +19,8 @@ class tester:
     val = False
 
     def __init__(self):
-        scene = bge.logic.getCurrentScene()
-        self.objList = scene.objects
+        self.scene = bge.logic.getCurrentScene()
+        self.objList = self.scene.objects
         obj_name = 'Cube'
         self.Cube = self.objList[obj_name]
         self.text = ''
@@ -39,13 +41,15 @@ class tester:
                     self.winObj = self.objList[str(i)]
 
         if self.text != '':
+            self.codeList[str(self.scene)].append(self.text)
             tmp = while_check(str(self.text))
             tmp2 = if_handler(str(tmp))
             self.text = tmp2
             print(str(self.text))
             print(self.compile_check(str(self.text)))
             print(valid_check(str(self.text)))
-
+            print(self.codeList)
+            print(outWriter.FileWriter.dictFormatter(self.codeList))
             try:
                 codeobj = compile(str(self.text), '<string>', 'exec')
                 eval(codeobj, globals(), locals())
@@ -137,6 +141,11 @@ class tester:
     @classmethod
     def checker(cls):
         cls.actions.append({'check': 1})
+
+    @classmethod
+    def clearArrayOnSceneChange(cls):
+        cls.actions = []
+        cls.actionsLen = 0
 
 
 def moveUp():
