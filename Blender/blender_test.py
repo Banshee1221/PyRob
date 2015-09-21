@@ -106,10 +106,9 @@ class SimpleLayout(bgui.bge_utils.Layout):
     #widget.frozen = 1
 
     def on_run_click(self, widget):
-        #self.lbl.text = self.input.text
-        #self.progress.percent += .1
         #print(os.getcwd())
         self.scene.active_camera = self.cam2
+        self.win.visible = False
         externalFile = ''
         data = ''
         try:
@@ -127,9 +126,14 @@ class SimpleLayout(bgui.bge_utils.Layout):
             self.Cube.setText(self.input.text)
 
     def on_reset_click(self, widget):
-        self.input.activate()
+
+    	
         self.Cube.resetPos()
+        self.win.visible = True
         self.scene.active_camera = self.cam1
+    	#win_y=self.win.position[1]/self.size[1]
+    	#print("reset", y)
+		
 
     def update(self):
         self.input.activate()
@@ -145,8 +149,9 @@ class SimpleLayout(bgui.bge_utils.Layout):
                 scene.replace("loops")
         elif isinstance(error, str):
             self.console.text = str(error)
-        else:
-            #print(error)
+            self.progress.percent = 1
+        elif 0 < error <= 1:
+            print(error)
             self.progress.percent = error
 
 
