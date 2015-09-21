@@ -42,6 +42,7 @@ class tester:
 
         if self.text != '':
             self.codeList[str(self.scene)].append(self.text)
+            outWriter.dictFormatter(self.codeList)
             tmp = while_check(str(self.text))
             tmp2 = if_handler(str(tmp))
             self.text = tmp2
@@ -49,7 +50,6 @@ class tester:
             print(self.compile_check(str(self.text)))
             print(valid_check(str(self.text)))
             print(self.codeList)
-            print(outWriter.FileWriter.dictFormatter(self.codeList))
             try:
                 codeobj = compile(str(self.text), '<string>', 'exec')
                 eval(codeobj, globals(), locals())

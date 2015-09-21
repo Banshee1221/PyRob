@@ -126,14 +126,11 @@ class SimpleLayout(bgui.bge_utils.Layout):
             self.Cube.setText(self.input.text)
 
     def on_reset_click(self, widget):
-
-    	
         self.Cube.resetPos()
         self.win.visible = True
         self.scene.active_camera = self.cam1
     	#win_y=self.win.position[1]/self.size[1]
     	#print("reset", y)
-		
 
     def update(self):
         self.input.activate()
@@ -142,10 +139,13 @@ class SimpleLayout(bgui.bge_utils.Layout):
         if error is -2:
             scene = bge.logic.getCurrentScene()
             if str(scene) == 'tut1':
+                self.Cube.clearArrayOnSceneChange()
                 scene.replace("tut2")
             if str(scene) == 'tut2':
+                self.Cube.clearArrayOnSceneChange()
                 scene.replace("tut3")
             if str(scene) == 'tut3':
+                self.Cube.clearArrayOnSceneChange()
                 scene.replace("loops")
         elif isinstance(error, str):
             self.console.text = str(error)
