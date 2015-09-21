@@ -1,195 +1,203 @@
+import ast
 import bge
-import mathutils
 import mover
 import picker
-import time
-import ast
+
 
 class tester:
+    objList = None
+    levelScore = 0
+    staticPosX = -9.5
+    staticPosY = -9.5
+    staticPosZ = 1.06
+    actions = []
+    actionsLen = 0
+    step = 1
+    winObj = ""
+    val = None
 
-	objList = None
-	levelScore = 0
-	staticPosX = -9.5
-	staticPosY = -9.5
-	staticPosZ = 1.06
-	actions = []
-	actionsLen = 0
-	step = 1
-	winObj = ""
-	val = None
-	
-	def __init__(self):
-		scene = bge.logic.getCurrentScene()
-		self.objList = scene.objects
-		obj_name = 'Cube'
-		self.Cube = self.objList[obj_name]
-		self.text = ''
-		self.passed = False
-		self.moved = False
-		self.m = mover.mover()
-		self.p = picker.pickup()
-		self.running = False
-		
-	def setText(self, stri):
-		self.text = stri
-	
-	def run(self):
-		
-		if self.winObj is "":
-			for i in self.objList:
-				if "win" in str(i):
-					self.winObj = self.objList[str(i)]
+    def __init__(self):
+        scene = bge.logic.getCurrentScene()
+        self.objList = scene.objects
+        obj_name = 'Cube'
+        self.Cube = self.objList[obj_name]
+        self.text = ''
+        self.passed = False
+        self.moved = False
+        self.m = mover.mover()
+        self.p = picker.pickup()
+        self.running = False
 
-		if (self.text != ''):
-			tmp = while_check(str(self.text))
-			self.text = tmp
-			print(str(self.text))
-			print(self.compile_check(str(self.text)))
-			print(valid_check(str(self.text)))
+    def setText(self, stri):
+        self.text = stri
 
-			try:
-				codeobj = compile(str(self.text), '<string>', 'exec')
-				eval(codeobj, globals(), locals())
-				self.actionsLen = len(self.actions)
-				self.step = 1
-				self.text = ''
-				print(self.actions)
-			except Exception as e:
-				self.text = ''
-				return e
-				
-		if (len(self.actions) > 0):
-			currItem = self.actions[0]
-			
-			if list(currItem.items())[0][0] == 'move':
-				checker = self.m.moveUnitOne(self.Cube, list(currItem.items())[0][1], self.winObj)
-				if checker == -1:
-					print("Error!")
-					self.step += 1
-					del self.actions[:]
-					
-				elif checker == 1:
-					self.step += 1
-					del self.actions[0]
-					
-				elif checker == 2:
-					self.step += 1
-					del self.actions[0]
-					return -2
-		
-			if list(currItem.items())[0][0] == 'check':
-				checker_pick = self.p.confirmObject(self.Cube)
-				if checker_pick == -1:
-					print("Error!")
-					self.step += 1
-					del self.actions[:]
-				else:
-					#print(checker_pick)
-					self.step += 1
-					del self.actions[0]
-					self.val = checker_pick
-					#return checker_pick
-				
-			if list(currItem.items())[0][0] == 'pickup':
-				checker_pick = self.p.evaluate(self.Cube)
-				if self.val is None or checker_pick == -1:
-					print("Error!")
-					self.step += 1
-					del self.actions[:]
-				else:
-					self.levelScore += checker_pick
-					del self.actions[0]
-					print(self.levelScore)
-			
-		if len(self.actions) == 0:
-			return 0
-		
-		return (self.step / self.actionsLen)
-		
-	def compile_check(self, code):
-		try:
-			compile(code, '<string>', 'exec')
-		except Exception as e:
-			print("Error executing code!\n=====================\nLine:\t{0}\nSnip:\t{1}\nIssue:\t{2}".format(e.lineno, e.text, e))
-			return False
-		
-		return True
-	
-	def resetPos(self):
-		self.Cube.worldPosition = [self.staticPosX, self.staticPosY, self.staticPosZ]
-	
-	@classmethod
-	def move(cls, dir):
-		cls.actions.append({'move':dir})
-	
-	@classmethod
-	def pick(cls):
-		cls.actions.append({'pickup':0})
-		
-	@classmethod
-	def checker(cls):
-		cls.actions.append({'check':0})
-		
+    def run(self):
+
+        if self.winObj is "":
+            for i in self.objList:
+                if "win" in str(i):
+                    self.winObj = self.objList[str(i)]
+
+        if (self.text != ''):
+            tmp = while_check(str(self.text))
+            self.text = tmp
+            print(str(self.text))
+            print(self.compile_check(str(self.text)))
+            print(valid_check(str(self.text)))
+
+            try:
+                codeobj = compile(str(self.text), '<string>', 'exec')
+                eval(codeobj, globals(), locals())
+                self.actionsLen = len(self.actions)
+                self.step = 1
+                self.text = ''
+                print(self.actions)
+            except Exception as e:
+                self.text = ''
+                return e
+
+        if (len(self.actions) > 0):
+            currItem = self.actions[0]
+
+            if list(currItem.items())[0][0] == 'move':
+                checker = self.m.moveUnitOne(self.Cube, list(currItem.items())[0][1], self.winObj)
+                if checker == -1:
+                    print("Error!")
+                    self.step += 1
+                    del self.actions[:]
+
+                elif checker == 1:
+                    self.step += 1
+                    del self.actions[0]
+
+                elif checker == 2:
+                    self.step += 1
+                    del self.actions[0]
+                    return -2
+
+            if list(currItem.items())[0][0] == 'check':
+                checker_pick = self.p.confirmObject(self.Cube)
+                if checker_pick == -1:
+                    print("Error!")
+                    self.step += 1
+                    del self.actions[:]
+                else:
+                    # print(checker_pick)
+                    self.step += 1
+                    del self.actions[0]
+                    self.val = checker_pick
+                    # return checker_pick
+
+            if list(currItem.items())[0][0] == 'pickup':
+                checker_pick = self.p.evaluate(self.Cube)
+                if self.val is None or checker_pick == -1:
+                    print("Error!")
+                    self.step += 1
+                    del self.actions[:]
+                else:
+                    self.levelScore += checker_pick
+                    del self.actions[0]
+                    print(self.levelScore)
+
+        if len(self.actions) == 0:
+            return 0
+
+        return (self.step / self.actionsLen)
+
+    def compile_check(self, code):
+        try:
+            compile(code, '<string>', 'exec')
+        except Exception as e:
+            print(
+            "Error executing code!\n=====================\nLine:\t{0}\nSnip:\t{1}\nIssue:\t{2}".format(e.lineno, e.text,
+                                                                                                       e))
+            return False
+
+        return True
+
+    def resetPos(self):
+        self.Cube.worldPosition = [self.staticPosX, self.staticPosY, self.staticPosZ]
+
+    @classmethod
+    def move(cls, dir):
+        cls.actions.append({'move': dir})
+
+    @classmethod
+    def pick(cls):
+        cls.actions.append({'pickup': 0})
+
+    @classmethod
+    def checker(cls):
+        cls.actions.append({'check': 0})
+
+
 def moveUp():
-	tester.move("n")
-	
+    tester.move("n")
+
+
 def moveDown():
-	tester.move("s")
-	
+    tester.move("s")
+
+
 def moveRight():
-	tester.move("e")
-	
+    tester.move("e")
+
+
 def moveLeft():
-	tester.move("w")
-	
+    tester.move("w")
+
+
 def pickup():
-	tester.pick()
+    tester.pick()
+
 
 def check():
-	tester.checker()
-	
+    tester.checker()
+
+
 def valid_check(code):
-	try:
-		node = ast.parse(code)
-		#print(ast.dump(node))
-	except SyntaxError:
-		return False
-	return True
+    try:
+        node = ast.parse(code)
+        # print(ast.dump(node))
+    except SyntaxError:
+        return False
+    return True
+
 
 def while_check(code):
-	tab = False
-	pass1 = False
-	tmpArr = code.split('\n')
-	lineCount = 0
-	wordList = ["_tmpWhileTrackCounter = 0","_tmpWhileTrackCounter += 1", "if _tmpWhileTrackCounter >= 21:", "break"]
-	for all in tmpArr:
-		if pass1:
-			lineCount += 1
-			pass
-		elif "while" in all:
-			if "\t" in all or "\t" in tmpArr[lineCount + 1]:
-				tab = True
-			spacing = len(all) - len(all.lstrip())
-			spacing1 = len(tmpArr[lineCount + 1]) - len(tmpArr[lineCount + 1].lstrip())
-			#print(spacing)
-			if tab:
-				tmpArr.insert(lineCount, wordList[0].rjust(len(wordList[0]) + spacing, "\t"))
-				tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing1, "\t"))
-				tmpArr.insert(lineCount + 3, wordList[2].rjust(len(wordList[2]) + spacing1, "\t"))
-				tmpArr.insert(lineCount + 4, wordList[3].rjust(len(wordList[3]) + spacing1 + 1, "\t"))
-				pass1 = True
-			else:
-				tmpArr.insert(lineCount, wordList[0].rjust(len(wordList[0]) + spacing))
-				tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing1))
-				tmpArr.insert(lineCount + 3, wordList[2].rjust(len(wordList[2]) + spacing1))
-				tmpArr.insert(lineCount + 4, wordList[3].rjust(len(wordList[3]) + spacing1 + 4))
-				pass1 = True
-		lineCount += 1
-	
-	retVal = '\n'.join([str(x) for x in tmpArr])
-	#print(retVal)
-	return retVal
-			
-	
+    tab = False
+    pass1 = False
+    tmpArr = code.split('\n')
+    lineCount = 0
+    wordList = ["_tmpWhileTrackCounter = 0", "_tmpWhileTrackCounter += 1", "if _tmpWhileTrackCounter >= 21:", "break"]
+    for all in tmpArr:
+        if pass1:
+            lineCount += 1
+            pass
+        elif "while" in all:
+            if "\t" in all or "\t" in tmpArr[lineCount + 1]:
+                tab = True
+            spacing = len(all) - len(all.lstrip())
+            spacing1 = len(tmpArr[lineCount + 1]) - len(tmpArr[lineCount + 1].lstrip())
+            # print(spacing)
+            if tab:
+                tmpArr.insert(lineCount, wordList[0].rjust(len(wordList[0]) + spacing, "\t"))
+                tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing1, "\t"))
+                tmpArr.insert(lineCount + 3, wordList[2].rjust(len(wordList[2]) + spacing1, "\t"))
+                tmpArr.insert(lineCount + 4, wordList[3].rjust(len(wordList[3]) + spacing1 + 1, "\t"))
+                pass1 = True
+            else:
+                tmpArr.insert(lineCount, wordList[0].rjust(len(wordList[0]) + spacing))
+                tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing1))
+                tmpArr.insert(lineCount + 3, wordList[2].rjust(len(wordList[2]) + spacing1))
+                tmpArr.insert(lineCount + 4, wordList[3].rjust(len(wordList[3]) + spacing1 + 4))
+                pass1 = True
+        lineCount += 1
+
+    retVal = '\n'.join([str(x) for x in tmpArr])
+    # print(retVal)
+    return retVal
+
+
 def main(self):
-	print("wot")
+    print("wot")
