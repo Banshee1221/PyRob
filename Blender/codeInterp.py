@@ -14,7 +14,7 @@ class tester:
     actionsLen = 0
     step = 1
     winObj = ""
-    val = None
+    val = False
 
     def __init__(self):
         scene = bge.logic.getCurrentScene()
@@ -38,9 +38,10 @@ class tester:
                 if "win" in str(i):
                     self.winObj = self.objList[str(i)]
 
-        if (self.text != ''):
+        if self.text != '':
             tmp = while_check(str(self.text))
-            self.text = tmp
+            tmp2 = if_handler(str(tmp))
+            self.text = tmp2
             print(str(self.text))
             print(self.compile_check(str(self.text)))
             print(valid_check(str(self.text)))
@@ -56,44 +57,46 @@ class tester:
                 self.text = ''
                 return e
 
-        if (len(self.actions) > 0):
+        if len(self.actions) > 0:
             currItem = self.actions[0]
 
             if list(currItem.items())[0][0] == 'move':
                 checker = self.m.moveUnitOne(self.Cube, list(currItem.items())[0][1], self.winObj)
                 if checker == -1:
-                    print("Error!")
                     self.step += 1
                     del self.actions[:]
+                    return "Runtime error on move command. Probably into a wall!"
 
                 elif checker == 1:
                     self.step += 1
                     del self.actions[0]
+                    self.val = False
 
                 elif checker == 2:
                     self.step += 1
                     del self.actions[0]
+                    self.val = False
                     return -2
 
             if list(currItem.items())[0][0] == 'check':
                 checker_pick = self.p.confirmObject(self.Cube)
                 if checker_pick == -1:
-                    print("Error!")
                     self.step += 1
                     del self.actions[:]
+                    return "The object you are checking for does not exist."
                 else:
-                    # print(checker_pick)
+                    print("at check")
                     self.step += 1
                     del self.actions[0]
-                    self.val = checker_pick
-                    # return checker_pick
+                    self.val = True
 
             if list(currItem.items())[0][0] == 'pickup':
                 checker_pick = self.p.evaluate(self.Cube)
-                if self.val is None or checker_pick == -1:
-                    print("Error!")
+                print(self.val, checker_pick)
+                if not self.val or checker_pick == -1:
                     self.step += 1
                     del self.actions[:]
+                    return "You are not on top of an object, so you can't pick it up."
                 else:
                     self.levelScore += checker_pick
                     del self.actions[0]
@@ -102,7 +105,7 @@ class tester:
         if len(self.actions) == 0:
             return 0
 
-        return (self.step / self.actionsLen)
+        return self.step / self.actionsLen
 
     def compile_check(self, code):
         try:
@@ -124,11 +127,11 @@ class tester:
 
     @classmethod
     def pick(cls):
-        cls.actions.append({'pickup': 0})
+        cls.actions.append({'pickup': 1})
 
     @classmethod
     def checker(cls):
-        cls.actions.append({'check': 0})
+        cls.actions.append({'check': 1})
 
 
 def moveUp():
@@ -151,8 +154,13 @@ def pickup():
     tester.pick()
 
 
-def check():
+def object():
+    return False
+
+
+def ground():
     tester.checker()
+    return False
 
 
 def valid_check(code):
@@ -162,7 +170,6 @@ def valid_check(code):
     except SyntaxError:
         return False
     return True
-
 
 def while_check(code):
     tab = False
@@ -198,6 +205,27 @@ def while_check(code):
     # print(retVal)
     return retVal
 
+def if_handler(code):
+    print("if handler")
+    tmpArr = code.split('\n')
+    lineCount = 0
+    for all in tmpArr:
+        lineCount += 1
+        if "if" in all:
+            if all != "if object() is on ground():":
+                print("error!!!!")
+                return -1
+            else:
+                tmpArr[lineCount - 1] = str.replace(tmpArr[lineCount - 1], "is on", "==")
+                break
+        #spacing = len(tmpArr[lineCount - 1]) - len(tmpArr[lineCount - 1].lstrip())
+        #checkval = spacing
+        #while spacing == checkval:
 
-def main(self):
+
+    retVal = '\n'.join([str(x) for x in tmpArr])
+    # print(retVal)
+    return retVal
+
+def main():
     print("wot")

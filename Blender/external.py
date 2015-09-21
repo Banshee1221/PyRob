@@ -1,3 +1,8 @@
+
 for i in range(9):
     moveRight()
-check()
+
+if object() is on ground():
+    moveRight()
+
+pickup()
