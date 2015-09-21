@@ -83,11 +83,11 @@ class SimpleLayout(bgui.bge_utils.Layout):
 		
 		# A counter property used for the on_img_click() method
 		self.counter = 0
-		self.helpWin = bgui.Frame(self, size=[0.75, .9], pos=[.5, 0],
-			options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
+		# self.helpWin = bgui.Frame(self, size=[0.75, .9], pos=[.5, 0],
+		# 	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 
-		self.helpText = bgui.TextBlock(self.helpWin, text="Help", size=[.9, .9], pos=[.0, .0],
-			options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
+		# self.helpText = bgui.TextBlock(self.helpWin, text="Help", size=[.9, .9], pos=[.0, .0],
+		# 	options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
 
 	# def hide_show(self, widget):
 	# 	if self.hidden:
