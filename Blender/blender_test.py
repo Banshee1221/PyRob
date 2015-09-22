@@ -84,7 +84,11 @@ class SimpleLayout(bgui.bge_utils.Layout):
         self.helpWin = bgui.Frame(self, size=[0.75, .9], pos=[.5, 1],
                               options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 
-        self.helpText = bgui.TextBlock(self.helpWin, text="Help", size=[.9, .9], pos=[.0, .0],
+        self.helpText = bgui.TextBlock(self.helpWin, text="Help:\n\n"+
+        	"Movement:\nmoveUp()\nmoveDown()\nmoveLeft()\nmoveRight()"+
+        	"\n\nLoops:\nfor\nwhile"+
+        	"\n\nConditionals:\nif with keyword 'not on'"+
+        	"\n\nFunctions:\nobject()\nground()\npickup()", size=[.9, .9], pos=[.0, .0],
     	                      options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
 
         self.help_button = bgui.FrameButton(self, text='Help', size=[.07, .04], pos=[0.93, .96],
