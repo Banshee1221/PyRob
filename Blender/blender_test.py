@@ -74,7 +74,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
             start = start - incriment
             count = count + 1
         #self.lines.append(bgui.Label(self.win, text="2.", pos=[.01, .94], options = bgui.BGUI_DEFAULT))
-        #self.input.activate()
+        self.input.activate()
         #self.input.on_enter_key = self.on_run_click
 
 
@@ -134,6 +134,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
         self.Cube.resetPos()
         self.win.visible = True
         self.scene.active_camera = self.cam1
+        self.console.text = "Console"
+        self.progress.percent = 0
     	#win_y=self.win.position[1]/self.size[1]
     	#print("reset", y)
 
