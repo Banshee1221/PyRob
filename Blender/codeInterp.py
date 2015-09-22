@@ -59,7 +59,7 @@ class tester:
                 print(self.actions)
             except Exception as e:
                 self.text = ''
-                return e
+                return str(e)
 
         if len(self.actions) > 0:
             currItem = self.actions[0]
