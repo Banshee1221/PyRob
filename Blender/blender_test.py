@@ -25,7 +25,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
         self.scene = bge.logic.getCurrentScene()
         ob_list = self.scene.objects
         self.cam1 = ob_list['Camera']
-        self.cam2 = ob_list['Cam_Follow']
+        self.cam2 = ob_list['Cam_Zoomed']
 
         self.reset_button = bgui.FrameButton(self.frame, text='Reset', size=[.07, .04], pos=[.08, .0],
                                              options=bgui.BGUI_DEFAULT)
@@ -113,7 +113,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
     def on_run_click(self, widget):
         #print(os.getcwd())
         self.scene.active_camera = self.cam2
-        self.win.visible = False
+        #self.win.visible = False
         externalFile = ''
         data = ''
         try:

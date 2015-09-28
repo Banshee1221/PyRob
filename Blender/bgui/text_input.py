@@ -104,7 +104,7 @@ class TextInput(Widget):
 
 		#gauge height of the drawn font
 		fd = self.system.textlib.dimensions(self.label.fontid, "Egj/}|^,")
-		print(fd)
+		#print(fd)
 		py = 1 - (fd[1] / self.size[1])
 		px = fd[1] / self.size[0] - fd[1] / 1.5 / self.size[0]
 		self.label.position = [px, py]
@@ -213,7 +213,7 @@ class TextInput(Widget):
 	def _update_char_widths(self):
 		self.char_widths = []
 		for char in self.text:
-			self.char_widths = self.char_widths[:self.slice[0]] + [self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20] + self.char_widths[self.slice[1]:]
+			self.char_widths.append(self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20)
 
 	def select_all(self):
 		"""Change the selection to include all of the text"""
@@ -275,8 +275,7 @@ class TextInput(Widget):
 		#right = min(r2, right)
 		#left = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[:self.slice[0]])[0]
 		#right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[:self.slice[1]])[0]
-		self.highlight.position = [left, 1]
-
+		self.highlight.position = [left, self.size[1] - self.label._pt_size*(1+self.lineNumber)]
 		self.highlight.size = [right - left, self.label._pt_size]
 		if self.slice_direction in [0, 1]:
 			self.cursor.position = [left, self.size[1] - self.label._pt_size*(1+self.lineNumber)]
@@ -285,7 +284,7 @@ class TextInput(Widget):
 		self.cursor.size = [2, self.label._pt_size ]
 
 	def find_mouse_slice(self, pos):
-		newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
+		newlines = [(i.start(), i.end()) for i in re.finditer('\n', self.text)]
 		newlines.insert(0,(0,0))
 		newlines.append((len(self.text), len(self.text)))
 		#print(newlines)
@@ -296,14 +295,15 @@ class TextInput(Widget):
 		mss = self.mouse_slice_start
 		self.mouse_slice_end = cmc
 		if cmc < mss:
-			print("asd")
+			#print("asd")
 			self.slice_direction = -1
-			self.slice = [self.mouse_slice_end, self.mouse_slice_start]
+			self.slice = [self.mouse_slice_start+newlines[self.lineNumber][1], self.mouse_slice_end+newlines[self.lineNumber][1]]
 		elif cmc > mss:
-			print("fas")
+			#print("fas")
 			self.slice_direction = 1
-			self.slice = [self.mouse_slice_start, self.mouse_slice_end]
+			self.slice = [self.mouse_slice_start+newlines[self.lineNumber][1], self.mouse_slice_end+newlines[self.lineNumber][1]]
 		else:
+			#print ("qwe")
 			self.slice_direction = 0
 			self.slice = [self.mouse_slice_start+newlines[self.lineNumber][1], self.mouse_slice_end+newlines[self.lineNumber][1]]
 			#print(self.slice)
@@ -346,15 +346,16 @@ class TextInput(Widget):
 		adj_pos = pos[0] - (self.position[0] + self.fd)
 		find_slice = 0
 		i = 0
-		#print(self.text[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][0]])
+		self._update_char_widths()
+		#print(self.char_widths)
 		for entry in self.char_widths[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][0]]:
-			#print (i)
+			#print (entry)
 			if find_slice + entry > adj_pos:
 				if abs((find_slice + entry) - adj_pos) >= abs(adj_pos - find_slice):
-					print("middle :" + str(i))
+					#print("middle :" + str(i))
 					return i
 				else:
-					print("other :" + str(i))
+					#print("other :" + str(i))
 					return i
 			else:
 				find_slice += entry
@@ -601,15 +602,15 @@ class TextInput(Widget):
 				#need to replace all selected text with new char
 				#need copy place somewhere
 				if (char == "\t"):
-					print("tab")
+					#print("tab")
 					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
 					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
 					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
 					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
-					self.slice[0] = self.slice[0] + 4
-					self.slice[1] = self.slice[1] + 4
+					self.slice[0] = self.slice[0] + 3
+					self.slice[1] = self.slice[1] + 3
 				else:
-					print("other")
+					#print("other")
 					self.label.text = self.text[:self.slice[0]] + char + self.text[self.slice[1]:]
 				
 				#	self.char_widths = self.char_widths[:self.slice[0]] + [self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20] + self.char_widths[self.slice[1]:]
