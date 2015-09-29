@@ -1,1 +1,1 @@
-{"loops": [], "tut1": ["moveRight()", "moveRight()", "moveRight()", "moveRight()", "moveRight()", "moveRight()", "moveRight()", "moveRight()", "moveRight()\nmoveRight()", "moveRight()\nmoveRight()", "moveRight()\nmoveRight()"], "tut2": [], "tut3": []}
+{"tut2": ["for i in range(8):\n    moveUp()\nfor i in range(12):\n    moveRight()\nfor i in range(8):\n    moveDown()\n    moveRight()"], "tut3": [], "tut1": [], "loops": []}
