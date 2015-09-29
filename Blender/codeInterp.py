@@ -45,6 +45,8 @@ class tester:
             outWriter.dictFormatter(self.codeList)
             tmp = while_check(str(self.text))
             tmp2 = if_handler(str(tmp))
+            if tmp2 == -1:
+                return "Incorrect command used somewhere. Syntax Error."
             self.text = tmp2
             print(str(self.text))
             print(self.compile_check(str(self.text)))
