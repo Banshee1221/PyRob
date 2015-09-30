@@ -134,7 +134,6 @@ class SimpleLayout(bgui.bge_utils.Layout):
         self.Cube.resetPos()
         self.win.visible = True
         self.scene.active_camera = self.cam1
-        self.console.text = "Console"
         self.progress.percent = 0
     	#win_y=self.win.position[1]/self.size[1]
     	#print("reset", y)
@@ -158,7 +157,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
             self.console.text = str(error)
             self.progress.percent = 1
         elif 0 < error <= 1:
-            print(error)
+            #print(error)
+            self.console.text = "Console"
             self.progress.percent = error
 
 
