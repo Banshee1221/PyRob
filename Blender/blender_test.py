@@ -26,23 +26,27 @@ class SimpleLayout(bgui.bge_utils.Layout):
         ob_list = self.scene.objects
         self.cam1 = ob_list['Camera']
         self.cam2 = ob_list['Cam_Zoomed']
+        self.cam3 = ob_list['Cam_Follow']
+
+        self.bgFrame = bgui.Frame(self, size=[1, 1], pos=[0,0],
+                            sub_theme="BG",  options=bgui.BGUI_DEFAULT)
 
         self.reset_button = bgui.FrameButton(self.frame, text='Reset', size=[.07, .04], pos=[.08, .0],
-                                             options=bgui.BGUI_DEFAULT)
+                                            sub_theme="Reset", options=bgui.BGUI_DEFAULT)
         self.reset_button.on_click = self.on_reset_click
         # self.button.on_click = self.hide_show
 
         # A themed frame
-        self.win = bgui.Frame(self, size=[0.5, 0.95], pos=[0, 0.05],
+        self.win = bgui.Frame(self.bgFrame, size=[0.5, 0.95], pos=[0, 0.05],
                               options=bgui.BGUI_DEFAULT)
 
         self.rightWin = bgui.Frame(self, size=[0.5, 0.25], pos=[0.5, 0.05],
-                                   options=bgui.BGUI_DEFAULT)
+                                  sub_theme="Console", options=bgui.BGUI_DEFAULT)
         
 
         # A button
         self.run_button = bgui.FrameButton(self.frame, text='Run', size=[.07, .04], pos=[0, .0],
-                                           options=bgui.BGUI_DEFAULT)
+                                        sub_theme="Run",   options=bgui.BGUI_DEFAULT)
 
         # Setup an on_click callback for the image
         self.run_button.on_click = self.on_run_click
@@ -59,22 +63,23 @@ class SimpleLayout(bgui.bge_utils.Layout):
         #									sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 
         # A few TextInput widgets
-        self.input = bgui.TextInput(self.win, text="", size=[.93, .98], pos=[.05, .01],
+        self.input = bgui.TextInput(self.win, text="", font="consola.ttf", pt_size=26, size=[.92, .98], pos=[.059, .01],
                                     input_options=bgui.BGUI_INPUT_NONE, options=bgui.BGUI_DEFAULT)
+        self.input.activate()
 
         self.console = bgui.TextBlock(self.rightWin, text="console", size=[.96, .98], pos=[.01, .01],
-                                      options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
+                                     sub_theme="Cons", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
 
         self.lines = []
-        incriment = .0258
+        incriment = .0275
         start = 0.9675
         count = 1
-        for i in range(20):
-            self.lines.append(bgui.Label(self.win, text=str(count) + ".", pos=[.01, start], options=bgui.BGUI_DEFAULT))
+        for i in range(35):
+            self.lines.append(bgui.Label(self.win, text=str(count) + ".", font="arial.ttf", pos=[.01, start], options=bgui.BGUI_DEFAULT))
             start = start - incriment
             count = count + 1
         #self.lines.append(bgui.Label(self.win, text="2.", pos=[.01, .94], options = bgui.BGUI_DEFAULT))
-        self.input.activate()
+        
         #self.input.on_enter_key = self.on_run_click
 
 
@@ -82,7 +87,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
         #self.counter = 0
 
         self.helpWin = bgui.Frame(self, size=[0.75, .9], pos=[.5, 1],
-                              options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
+                               options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 
         self.helpText = bgui.TextBlock(self.helpWin, text="Help:\n\n"+
         	"Movement:\nmoveUp()\nmoveDown()\nmoveLeft()\nmoveRight()"+
@@ -91,8 +96,13 @@ class SimpleLayout(bgui.bge_utils.Layout):
         	"\n\nFunctions:\nobject()\nground()\npickup()", size=[.9, .9], pos=[.0, .0],
     	                      options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
 
+        self.closeHelp =    bgui.FrameButton(self.helpWin, text='Close', size=[.1, .04], pos=[0.93, .1],
+                                             options=bgui.BGUI_DEFAULT| bgui.BGUI_CENTERX)
+
+        self.closeHelp.on_click = self.hide_show
+
         self.help_button = bgui.FrameButton(self, text='Help', size=[.07, .04], pos=[0.93, .96],
-                                             options=bgui.BGUI_DEFAULT)
+                                            sub_theme="Help", options=bgui.BGUI_DEFAULT)
         self.help_button.on_click = self.hide_show
 
     def hide_show(self, widget):
@@ -127,7 +137,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
         if data is not '':
             self.Cube.setText(data)
         else:
-            self.input.activate()
+            #self.input.activate()
             self.Cube.setText(self.input.text)
 
     def on_reset_click(self, widget):
@@ -140,6 +150,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
     def update(self):
         self.input.activate()
+        #self.input.system.focused_widget
+
         error = self.Cube.run()
         #print(str(bge.logic.getCurrentScene()))
         if error is -2:

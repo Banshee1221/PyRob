@@ -468,8 +468,8 @@ class Widget:
 	def _handle_key(self, key, is_shifted):
 		"""Handle any keyboard input"""
 		for widget in self.children.values():
-			if self._hover:
-				widget._handle_key(key, is_shifted)
+			#if self._hover:
+			widget._handle_key(key, is_shifted)
 
 	# These exist so they can be overridden by subclasses
 	def _handle_click(self):

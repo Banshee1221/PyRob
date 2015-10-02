@@ -68,6 +68,7 @@ class TextInput(Widget):
 		self.pos = len(text)
 		self.input_options = input_options
 		self.colors = {}
+		self.pt_size=pt_size
 
 		#create widgets
 		self.frame = Frame(self, size=[1, 1], options=BGUI_NO_FOCUS | BGUI_DEFAULT)
@@ -104,7 +105,7 @@ class TextInput(Widget):
 
 		#gauge height of the drawn font
 		fd = self.system.textlib.dimensions(self.label.fontid, "Egj/}|^,")
-		#print(fd)
+		self.height=fd[1]
 		py = 1 - (fd[1] / self.size[1])
 		px = fd[1] / self.size[0] - fd[1] / 1.5 / self.size[0]
 		self.label.position = [px, py]
@@ -267,21 +268,13 @@ class TextInput(Widget):
 		#print (newlines)
 		left = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[0]])[0]
 		right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[1]])[0]
-		#r2 = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][1]])[0]
-		#l2 = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][1]])[0]
-		#print ("(" + str(left) + ", " + str(right) + ")" + " : (" + str(l2) + ", " + str(r2) + ")" + " -- " + str(newlines[self.lineNumber + 1]) )
-
-		#left = min(l2, left)
-		#right = min(r2, right)
-		#left = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[:self.slice[0]])[0]
-		#right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[:self.slice[1]])[0]
-		self.highlight.position = [left, self.size[1] - self.label._pt_size*(1+self.lineNumber)]
+		self.highlight.position = [left, self.size[1] - (self.label._pt_size+.7)*(1+self.lineNumber)]
 		self.highlight.size = [right - left, self.label._pt_size]
 		if self.slice_direction in [0, 1]:
-			self.cursor.position = [left, self.size[1] - self.label._pt_size*(1+self.lineNumber)]
+			self.cursor.position = [left, self.size[1] - (self.label._pt_size+.7)*(1+self.lineNumber)]
 		else:
-			self.cursor.position = [right, self.size[1] -  self.label._pt_size*(1+self.lineNumber)] # 15 line 2
-		self.cursor.size = [2, self.label._pt_size ]
+			self.cursor.position = [right, self.size[1] -  (self.label._pt_size+.7)*(1+self.lineNumber)] # 15 line 2
+		self.cursor.size = [1, self.label._pt_size ]
 
 	def find_mouse_slice(self, pos):
 		newlines = [(i.start(), i.end()) for i in re.finditer('\n', self.text)]
@@ -297,7 +290,7 @@ class TextInput(Widget):
 		if cmc < mss:
 			#print("asd")
 			self.slice_direction = -1
-			self.slice = [self.mouse_slice_start+newlines[self.lineNumber][1], self.mouse_slice_end+newlines[self.lineNumber][1]]
+			self.slice = [self.mouse_slice_end+newlines[self.lineNumber][1], self.mouse_slice_start+newlines[self.lineNumber][1]]
 		elif cmc > mss:
 			#print("fas")
 			self.slice_direction = 1
@@ -348,6 +341,7 @@ class TextInput(Widget):
 		i = 0
 		self._update_char_widths()
 		#print(self.char_widths)
+		#print(self.lineNumber)
 		for entry in self.char_widths[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][0]]:
 			#print (entry)
 			if find_slice + entry > adj_pos:
@@ -376,8 +370,9 @@ class TextInput(Widget):
 			newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
 			newlines.insert(0,(0,0))
 			newlines.append((len(self.text), len(self.text)))
-			#print(newlines)
-			self.lineNumber = (int)((self.size[1] -(pos[1] - self.position[1]))/self.label._pt_size)
+			print(self.size)
+			print(pos)
+			self.lineNumber = (int)(pos[1]/self.label._pt_size-.7)
 			if self.lineNumber > len(newlines)-2:
 				self.lineNumber = len(newlines)-2
 			self.mouse_slice_start = self.calc_mouse_cursor(pos)
@@ -400,34 +395,34 @@ class TextInput(Widget):
 			self.just_activated = 0
 
 			#work out single / double / triple clicks
-			if self.click_counter == 0:
-				self.single_click_time = time.time()
-				self.click_counter = 1
-			elif self.click_counter == 1:
-				if time.time() - self.single_click_time < .2:
-					self.click_counter = 2
-					self.double_click_time = time.time()
-					words = self.text.split(" ")
-					i = 0
-					for entry in words:
-						if self.slice[0] < i + len(entry):
-							self.slice = [i, i + len(entry) + 1]
-							break
-						i += len(entry) + 1
-				else:
-					self.click_counter = 1
-					self.single_click_time = time.time()
-			elif self.click_counter == 2:
-				if time.time() - self.double_click_time < .2:
-					self.click_counter = 3
-					self.slice = [0, len(self.text)]
-					self.slice_direction = -1
-				else:
-					self.click_counter = 1
-					self.single_click_time = time.time()
-			elif self.click_counter == 3:
-				self.single_click_time = time.time()
-				self.click_counter = 1
+			# if self.click_counter == 0:
+			# 	self.single_click_time = time.time()
+			# 	self.click_counter = 1
+			# elif self.click_counter == 1:
+			# 	if time.time() - self.single_click_time < .2:
+			# 		self.click_counter = 2
+			# 		self.double_click_time = time.time()
+			# 		words = self.text.split(" ")
+			# 		i = 0
+			# 		for entry in words:
+			# 			if self.slice[0] < i + len(entry):
+			# 				self.slice = [i, i + len(entry) + 1]
+			# 				break
+			# 			i += len(entry) + 1
+			# 	else:
+			# 		self.click_counter = 1
+			# 		self.single_click_time = time.time()
+			# elif self.click_counter == 2:
+			# 	if time.time() - self.double_click_time < .2:
+			# 		self.click_counter = 3
+			# 		self.slice = [0, len(self.text)]
+			# 		self.slice_direction = -1
+			# 	else:
+			# 		self.click_counter = 1
+			# 		self.single_click_time = time.time()
+			# elif self.click_counter == 3:
+			# 	self.single_click_time = time.time()
+			# 	self.click_counter = 1
 
 			self.time = time.time()
 
@@ -530,7 +525,7 @@ class TextInput(Widget):
 				self.lineNumber = self.lineNumber+1
 				self.slice = [min((self.slice[0]-newlines[self.lineNumber-1][1])+newlines[self.lineNumber][1], newlines[self.lineNumber+1][0]),
 							  min((self.slice[1]-newlines[self.lineNumber-1][1])+newlines[self.lineNumber][1], newlines[self.lineNumber+1][0])]
-			print (self.slice)
+			#print (self.slice)
 		elif key == UPARROWKEY:
 			if (self.lineNumber > 0):
 				self.lineNumber = self.lineNumber-1
