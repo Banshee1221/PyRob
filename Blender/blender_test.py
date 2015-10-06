@@ -24,9 +24,11 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
         self.scene = bge.logic.getCurrentScene()
         ob_list = self.scene.objects
-        self.cam1 = ob_list['Camera']
-        self.cam2 = ob_list['Cam_Zoomed']
-        self.cam3 = ob_list['Cam_Follow']
+        self.Camera = ob_list['Camera']
+        self.Cam_Zoomed = ob_list['Cam_Zoomed']
+        self.Cam_Follow = ob_list['Cam_Follow']
+
+        self.whichCam = 2
 
         self.bgFrame = bgui.Frame(self, size=[1, 1], pos=[0,0],
                             sub_theme="BG",  options=bgui.BGUI_DEFAULT)
@@ -34,6 +36,9 @@ class SimpleLayout(bgui.bge_utils.Layout):
         self.reset_button = bgui.FrameButton(self.frame, text='Reset', size=[.07, .04], pos=[.08, .0],
                                             sub_theme="Reset", options=bgui.BGUI_DEFAULT)
         self.reset_button.on_click = self.on_reset_click
+
+        #self.reset_button.on_click = self.on_reset_click
+
         # self.button.on_click = self.hide_show
 
         # A themed frame
@@ -58,6 +63,12 @@ class SimpleLayout(bgui.bge_utils.Layout):
         # A couple of progress bars to demonstrate sub themes
         self.progress = bgui.ProgressBar(self.frame, percent=0.0, size=[0.5, 0.03], pos=[.15, 0.01],
                                          sub_theme="Progress", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
+
+        self.cam_button = bgui.FrameButton(self.frame, text='Zoomed', size=[.1, .04], pos=[.8, .0],
+                                           options=bgui.BGUI_DEFAULT)
+
+        # Setup an on_click callback for the image
+        self.cam_button.on_click = self.on_cam_click
 
         #self.health = bgui.ProgressBar(self.win, percent=0.5, size=[0.92, 0.02], pos=[0, 0.14],
         #									sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
@@ -120,10 +131,25 @@ class SimpleLayout(bgui.bge_utils.Layout):
     #	self.input.activate()
     #widget.frozen = 1
 
+    def on_cam_click(self, widget):
+    	self.whichCam += 1
+    	if self.whichCam == 4:
+    		self.whichCam = 1
+    		self.cam_button.text = 'Normal'
+    	elif self.whichCam == 2:
+    		self.cam_button.text = 'Zoomed in'
+    	elif self.whichCam == 3:
+    		self.cam_button.text = 'Follow'
+
     def on_run_click(self, widget):
         #print(os.getcwd())
-        self.scene.active_camera = self.cam2
-        #self.win.visible = False
+        if self.whichCam == 1:
+        	self.scene.active_camera = self.Camera
+        elif self.whichCam == 2:
+        	self.scene.active_camera = self.Cam_Zoomed
+        elif self.whichCam == 3:
+        	self.scene.active_camera = self.Cam_Follow
+        	self.win.visible = False
         externalFile = ''
         data = ''
         try:
@@ -143,7 +169,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
     def on_reset_click(self, widget):
         self.Cube.resetPos()
         self.win.visible = True
-        self.scene.active_camera = self.cam1
+        self.scene.active_camera = self.Camera
         self.progress.percent = 0
     	#win_y=self.win.position[1]/self.size[1]
     	#print("reset", y)
