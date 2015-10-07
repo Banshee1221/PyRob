@@ -116,7 +116,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
     	                      options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
 
         self.closeHelp =    bgui.FrameButton(self.helpWin, text='Close', size=[.1, .04], pos=[0.93, .1],
-                                             options=bgui.BGUI_DEFAULT| bgui.BGUI_CENTERX)
+                                            sub_theme="Help", options=bgui.BGUI_DEFAULT| bgui.BGUI_CENTERX)
 
         self.closeHelp.on_click = self.hide_show
 
@@ -148,7 +148,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
         elif self.popupCounter == 2:
             self.popUpWindow.position = [.6,.75]
-            self.popUpText.text = "A list of commands can be found by clicking the\n'Help' button"
+            self.popUpText.text = "A list of commands can be found by\nclicking the'Help' button"
             self.win.img.position = [.85,.65]
             self.win.img.update_image("arrow_up.png")
         elif self.popupCounter == 3:
@@ -161,12 +161,13 @@ class SimpleLayout(bgui.bge_utils.Layout):
             self.popUpText.text = "Click the 'Reset' button to return the drone to its original position"
             self.win.img.position = [.05,.05]
         elif self.popupCounter == 5:
-            self.popUpWindow.position = [.5,.05]
+            self.popUpWindow.position = [.45,.05]
             self.popUpWindow.size = [.45,.25]
             self.popUpText.text = "This button changes which view is used during code execution\n'Default' is the current camera\n'Zoomed' is a zoomed in version of the default camera\n'Follow' is a third person view of the drone"
             self.popup_button.text = "Close"
             self.popup_button.position = [0.05,0.1]
-            self.win.img.position = [.725,.05]
+            self.popup_button.size = [0.2,0.15]
+            self.win.img.position = [.8,.05]
         else:
             self.popUpWindow.visible = False
 
