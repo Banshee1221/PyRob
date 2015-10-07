@@ -281,7 +281,9 @@ class TextInput(Widget):
 		newlines.insert(0,(0,0))
 		newlines.append((len(self.text), len(self.text)))
 		#print(newlines)
-		self.lineNumber = (int)((self.size[1] -(pos[1] - self.position[1]))/self.label._pt_size)
+		print((503-pos[1]+34))
+		#print(pos[1])
+		self.lineNumber = (int)(abs(((503-pos[1]+34)/14.8)))
 		if self.lineNumber > len(newlines)-2:
 			self.lineNumber = len(newlines)-2
 		cmc = self.calc_mouse_cursor(pos)
@@ -370,11 +372,10 @@ class TextInput(Widget):
 			newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
 			newlines.insert(0,(0,0))
 			newlines.append((len(self.text), len(self.text)))
-			print(self.size)
-			print(pos)
-			self.lineNumber = (int)(pos[1]/self.label._pt_size-.7)
-			if self.lineNumber > len(newlines)-2:
-				self.lineNumber = len(newlines)-2
+			#print(pos)
+			#self.lineNumber = (int)((533-pos[1])/self.label._pt_size)
+			#if self.lineNumber > len(newlines)-2:
+			#	self.lineNumber = len(newlines)-2
 			self.mouse_slice_start = self.calc_mouse_cursor(pos)
 
 			if not self._active:
