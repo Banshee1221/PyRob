@@ -1,3 +1,5 @@
+#Arrow Image from http://www.wpclipart.com/
+
 import sys
 import os
 
@@ -32,10 +34,14 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
         self.whichCam = 2
 
+        self.frame = bgui.Frame(self, size=[1, .045], pos=[0,0.0],
+                            sub_theme="Bar",  options=bgui.BGUI_DEFAULT)
+
+
         self.bgFrame = bgui.Frame(self, size=[1, 1], pos=[0,0],
                             sub_theme="BG",  options=bgui.BGUI_DEFAULT)
 
-        self.reset_button = bgui.FrameButton(self.frame, text='Reset', size=[.07, .04], pos=[.08, .0],
+        self.reset_button = bgui.FrameButton(self.frame, text='Reset', size=[.07, .7], pos=[.08, .15],
                                             sub_theme="Reset", options=bgui.BGUI_DEFAULT)
         self.reset_button.on_click = self.on_reset_click
 
@@ -52,7 +58,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
         
 
         # A button
-        self.run_button = bgui.FrameButton(self.frame, text='Run', size=[.07, .04], pos=[0, .0],
+        self.run_button = bgui.FrameButton(self.frame, text='Run', size=[.07, .7], pos=[.005, .15],
                                         sub_theme="Run",   options=bgui.BGUI_DEFAULT)
 
         # Setup an on_click callback for the image
@@ -63,11 +69,11 @@ class SimpleLayout(bgui.bge_utils.Layout):
         	sub_theme='small', options = bgui.BGUI_DEFAULT)
 
         # A couple of progress bars to demonstrate sub themes
-        self.progress = bgui.ProgressBar(self.frame, percent=0.0, size=[0.5, 0.03], pos=[.15, 0.01],
+        self.progress = bgui.ProgressBar(self.frame, percent=0.0, size=[0.5, 0.7], pos=[.15, 0.15],
                                          sub_theme="Progress", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
 
-        self.cam_button = bgui.FrameButton(self.frame, text='Zoomed', size=[.1, .04], pos=[.8, .0],
-                                           options=bgui.BGUI_DEFAULT)
+        self.cam_button = bgui.FrameButton(self.frame, text='Zoomed', size=[.1, .7], pos=[.8, .15],
+                                           sub_theme="Help", options=bgui.BGUI_DEFAULT)
 
         # Setup an on_click callback for the image
         self.cam_button.on_click = self.on_cam_click
@@ -118,11 +124,14 @@ class SimpleLayout(bgui.bge_utils.Layout):
                                             sub_theme="Help", options=bgui.BGUI_DEFAULT)
         self.help_button.on_click = self.hide_show
 
-        self.popUpWindow = bgui.Frame(self, size=[0.4, .2], pos=[.5, 0.5],
-                               options=bgui.BGUI_DEFAULT)
+        self.popUpWindow = bgui.Frame(self, size=[0.4, .2], pos=[.5, 0.52],
+                               sub_theme="PopUp", options=bgui.BGUI_DEFAULT)
 
         self.popUpText = bgui.TextBlock(self.popUpWindow, text="Your goal is to move the drone from the start \nlocation on the left, to the red block on the right", size=[.9, .8], pos=[.0, .0],
-                              options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
+                              sub_theme="PopUp", options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
+
+        self.win.img = bgui.Image(self.popUpWindow, 'arrow_down.png', size=[.1, .3], pos=[.112, .05],
+            options = bgui.BGUI_DEFAULT|bgui.BGUI_CACHE)
 
         self.popup_button = bgui.FrameButton(self.popUpWindow, text='Next', size=[.2, .2], pos=[0.7, 0.1],
                                             sub_theme="Help", options=bgui.BGUI_DEFAULT)
@@ -135,21 +144,29 @@ class SimpleLayout(bgui.bge_utils.Layout):
         if self.popupCounter == 1:
             self.popUpWindow.position = [.05,.75]
             self.popUpText.text = "Do this by typing python code in this window"
+            self.win.img.position = [.35,.05]
 
         elif self.popupCounter == 2:
             self.popUpWindow.position = [.6,.75]
-            self.popUpText.text = "A list of commands can be found by clicking the 'Help' button"
+            self.popUpText.text = "A list of commands can be found by clicking the\n'Help' button"
+            self.win.img.position = [.85,.65]
+            self.win.img.update_image("arrow_up.png")
         elif self.popupCounter == 3:
             self.popUpWindow.position = [.01,.05]
             self.popUpText.text = "Click the 'Run' button to execute the code that you input"
+            self.win.img.position = [.05,.05]
+            self.win.img.update_image("arrow_down.png")
         elif self.popupCounter == 4:
-            self.popUpWindow.position = [.1,.05]
+            self.popUpWindow.position = [.09,.05]
             self.popUpText.text = "Click the 'Reset' button to return the drone to its original position"
+            self.win.img.position = [.05,.05]
         elif self.popupCounter == 5:
             self.popUpWindow.position = [.5,.05]
             self.popUpWindow.size = [.45,.25]
             self.popUpText.text = "This button changes which view is used during code execution\n'Default' is the current camera\n'Zoomed' is a zoomed in version of the default camera\n'Follow' is a third person view of the drone"
             self.popup_button.text = "Close"
+            self.popup_button.position = [0.05,0.1]
+            self.win.img.position = [.725,.05]
         else:
             self.popUpWindow.visible = False
 
