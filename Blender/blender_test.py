@@ -109,10 +109,17 @@ class SimpleLayout(bgui.bge_utils.Layout):
                                options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
 
         self.helpText = bgui.TextBlock(self.helpWin, text="Help:\n\n"+
-        	"Movement:\nmoveUp()\nmoveDown()\nmoveLeft()\nmoveRight()"+
-        	"\n\nLoops:\nfor\nwhile"+
-        	"\n\nConditionals:\nif with keyword 'not on'"+
-        	"\n\nFunctions:\nobject()\nground()\npickup()", size=[.9, .9], pos=[.0, .0],
+        	"There are four ways to move the quad-copter. Each command moves it one block."+
+            "\n\nmoveUp() - Moves the copter upwards."+
+            "\nmoveDown() - Moves the copter downwards."+
+            "\nmoveLeft() - Moves the copter to the left."+
+            "\nmoveRight() - Moves the copter to the right."+
+        	"\n\nYou can take advantages of both types of Python loops:"+
+            "\n\nfor <commands> - For loop limited to specification."+
+            "\nwhile <commands> - Possible infinite loop."+
+        	"\n\nThere is a special type of check that can be done in order to pick up objects:"+
+            "\nif - using the keyword 'is on' instead of '==' will allow you to check for below:"+
+        	"\n\nFunctions:\n\nobject() - Type object for comparison.\nground() - Check is something is on the ground.\npickup() - Pick up the object.", size=[.9, .9], pos=[.0, .0],
     	                      options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
 
         self.closeHelp =    bgui.FrameButton(self.helpWin, text='Close', size=[.1, .04], pos=[0.93, .1],
