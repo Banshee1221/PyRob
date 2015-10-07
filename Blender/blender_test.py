@@ -28,6 +28,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
         self.Cam_Zoomed = ob_list['Cam_Zoomed']
         self.Cam_Follow = ob_list['Cam_Follow']
 
+        self.popupCounter = 0
+
         self.whichCam = 2
 
         self.bgFrame = bgui.Frame(self, size=[1, 1], pos=[0,0],
@@ -57,8 +59,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
         self.run_button.on_click = self.on_run_click
 
         # Add a label
-        #self.lbl = bgui.Label(self, text="I'm a label!", pos=[.75, .5],
-        #	sub_theme='small', options = bgui.BGUI_DEFAULT)
+        self.lbl = bgui.Label(self, text="Score : 0", pos=[.5, .96],
+        	sub_theme='small', options = bgui.BGUI_DEFAULT)
 
         # A couple of progress bars to demonstrate sub themes
         self.progress = bgui.ProgressBar(self.frame, percent=0.0, size=[0.5, 0.03], pos=[.15, 0.01],
@@ -116,6 +118,41 @@ class SimpleLayout(bgui.bge_utils.Layout):
                                             sub_theme="Help", options=bgui.BGUI_DEFAULT)
         self.help_button.on_click = self.hide_show
 
+        self.popUpWindow = bgui.Frame(self, size=[0.4, .2], pos=[.5, 0.5],
+                               options=bgui.BGUI_DEFAULT)
+
+        self.popUpText = bgui.TextBlock(self.popUpWindow, text="Your goal is to move the drone from the start \nlocation on the left, to the red block on the right", size=[.9, .8], pos=[.0, .0],
+                              options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
+
+        self.popup_button = bgui.FrameButton(self.popUpWindow, text='Next', size=[.2, .2], pos=[0.7, 0.1],
+                                            sub_theme="Help", options=bgui.BGUI_DEFAULT)
+
+        self.popup_button.on_click = self.popup_button_next
+
+    def popup_button_next(self, widget):
+        self.popupCounter+=1
+        print(self.popupCounter)
+        if self.popupCounter == 1:
+            self.popUpWindow.position = [.05,.75]
+            self.popUpText.text = "Do this by typing python code in this window"
+
+        elif self.popupCounter == 2:
+            self.popUpWindow.position = [.6,.75]
+            self.popUpText.text = "A list of commands can be found by clicking the 'Help' button"
+        elif self.popupCounter == 3:
+            self.popUpWindow.position = [.01,.05]
+            self.popUpText.text = "Click the 'Run' button to execute the code that you input"
+        elif self.popupCounter == 4:
+            self.popUpWindow.position = [.1,.05]
+            self.popUpText.text = "Click the 'Reset' button to return the drone to its original position"
+        elif self.popupCounter == 5:
+            self.popUpWindow.position = [.5,.05]
+            self.popUpWindow.size = [.45,.25]
+            self.popUpText.text = "This button changes which view is used during code execution\n'Default' is the current camera\n'Zoomed' is a zoomed in version of the default camera\n'Follow' is a third person view of the drone"
+            self.popup_button.text = "Close"
+        else:
+            self.popUpWindow.visible = False
+
     def hide_show(self, widget):
     	if self.hidden:
     		self.helpWin.move([.5, .05], 400)
@@ -135,7 +172,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
     	self.whichCam += 1
     	if self.whichCam == 4:
     		self.whichCam = 1
-    		self.cam_button.text = 'Normal'
+    		self.cam_button.text = 'Default'
     	elif self.whichCam == 2:
     		self.cam_button.text = 'Zoomed in'
     	elif self.whichCam == 3:
