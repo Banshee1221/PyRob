@@ -90,10 +90,10 @@ class SimpleLayout(bgui.bge_utils.Layout):
                                      sub_theme="Cons", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
 
         self.lines = []
-        incriment = .0285
-        start = 0.9657
+        incriment = .0275
+        start = 0.9675
         count = 1
-        for i in range(34):
+        for i in range(35):
             self.lines.append(bgui.Label(self.win, text=str(count) + ".", font="arial.ttf", pos=[.01, start], options=bgui.BGUI_DEFAULT))
             start = start - incriment
             count = count + 1
@@ -116,7 +116,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
     	                      options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
 
         self.closeHelp =    bgui.FrameButton(self.helpWin, text='Close', size=[.1, .04], pos=[0.93, .1],
-                                            sub_theme="Help", options=bgui.BGUI_DEFAULT| bgui.BGUI_CENTERX)
+                                             options=bgui.BGUI_DEFAULT| bgui.BGUI_CENTERX)
 
         self.closeHelp.on_click = self.hide_show
 
@@ -148,7 +148,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
         elif self.popupCounter == 2:
             self.popUpWindow.position = [.6,.75]
-            self.popUpText.text = "A list of commands can be found by\nclicking the'Help' button"
+            self.popUpText.text = "A list of commands can be found by clicking the\n'Help' button"
             self.win.img.position = [.85,.65]
             self.win.img.update_image("arrow_up.png")
         elif self.popupCounter == 3:
@@ -161,13 +161,12 @@ class SimpleLayout(bgui.bge_utils.Layout):
             self.popUpText.text = "Click the 'Reset' button to return the drone to its original position"
             self.win.img.position = [.05,.05]
         elif self.popupCounter == 5:
-            self.popUpWindow.position = [.45,.05]
+            self.popUpWindow.position = [.5,.05]
             self.popUpWindow.size = [.45,.25]
             self.popUpText.text = "This button changes which view is used during code execution\n'Default' is the current camera\n'Zoomed' is a zoomed in version of the default camera\n'Follow' is a third person view of the drone"
             self.popup_button.text = "Close"
             self.popup_button.position = [0.05,0.1]
-            self.popup_button.size = [0.2,0.15]
-            self.win.img.position = [.8,.05]
+            self.win.img.position = [.725,.05]
         else:
             self.popUpWindow.visible = False
 
@@ -245,10 +244,15 @@ class SimpleLayout(bgui.bge_utils.Layout):
                 scene.replace("tut3")
             if str(scene) == 'tut3':
                 self.Cube.clearArrayOnSceneChange()
+                scene.replace("pre_loops")
+            if str(scene) == 'pre_loops':
+                self.Cube.clearArrayOnSceneChange()
                 scene.replace("loops")
         elif isinstance(error, str):
             self.console.text = str(error)
             self.progress.percent = 1
+        elif isinstance(error, tuple):
+            self.lbl.text = str(error)
         elif 0 < error <= 1:
             #print(error)
             self.console.text = "Console"
