@@ -7,7 +7,7 @@ import outWriter
 class tester:
     objList = None
     scene = None
-    codeList = {'tut1': [], 'tut2': [], 'tut3': [], 'loops': []}
+    codeList = {'tut1': [], 'tut2': [], 'tut3': [], 'pre_loops': [], 'loops': []}
     levelScore = 0
     staticPosX = -9.5
     staticPosY = -9.5
@@ -88,7 +88,7 @@ class tester:
                 checker_pick = self.p.confirmObject(self.Cube)
                 if checker_pick == -1:
                     self.step += 1
-                    del self.actions[:]
+                    del self.actions[0]
                     return "The object you are checking for does not exist."
                 else:
                     print("at check")
@@ -99,11 +99,12 @@ class tester:
             if list(currItem.items())[0][0] == 'pickup':
                 checker_pick = self.p.evaluate(self.Cube)
                 #print(self.val, checker_pick)
-                if not self.val and checker_pick == -1:
+                if checker_pick == -1:
+                    print("here")
                     self.step += 1
-                    del self.actions[:]
+                    del self.actions[0]
                     return "You are not on top of an object, so you can't pick it up."
-                elif not self.val and checker_pick != -1:
+                if not self.val and checker_pick != -1:
                     self.step += 1
                     del self.actions[:]
                     return "You did not do a check for object existence."
@@ -111,7 +112,7 @@ class tester:
                     self.step += 1
                     self.levelScore += checker_pick
                     del self.actions[0]
-                    print(self.levelScore)
+                    return ("score", self.levelScore)
 
         if len(self.actions) == 0:
             return 0
@@ -228,7 +229,7 @@ def if_handler(code):
     for all in tmpArr:
         lineCount += 1
         if "if" in all:
-            if all != "if object() is on ground():":
+            if all.lstrip() != "if object() is on ground():":
                 print("error!!!!")
                 return -1
             else:
