@@ -17,6 +17,6 @@ class pickup:
         rayTest = player.rayCastTo([player.localPosition.x, player.localPosition.y, player.localPosition.z - 1.0], 0)
 
         try:
-            return self.scores[str(rayTest)]
+            return (rayTest, self.scores[str(rayTest)])
         except:
-            return -1
+            return ("fail", -1)

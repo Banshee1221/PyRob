@@ -155,7 +155,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
         elif self.popupCounter == 2:
             self.popUpWindow.position = [.6,.75]
-            self.popUpText.text = "A list of commands can be found by clicking the\n'Help' button"
+            self.popUpText.text = "A list of commands can be found by\nclicking the 'Help' button"
             self.win.img.position = [.85,.65]
             self.win.img.update_image("arrow_up.png")
         elif self.popupCounter == 3:
@@ -173,7 +173,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
             self.popUpText.text = "This button changes which view is used during code execution\n'Default' is the current camera\n'Zoomed' is a zoomed in version of the default camera\n'Follow' is a third person view of the drone"
             self.popup_button.text = "Close"
             self.popup_button.position = [0.05,0.1]
-            self.win.img.position = [.725,.05]
+            self.popup_button.size = [.2, .15]
+            self.win.img.position = [.75,.05]
         else:
             self.popUpWindow.visible = False
 
@@ -213,6 +214,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
         	self.win.visible = False
         externalFile = ''
         data = ''
+        self.Cube.resetScore()
+        self.lbl.text = "Score: 0"
         try:
             externalFile = open("external.py", "r")
             if os.stat("external.py").st_size > 0:
@@ -238,7 +241,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
     def update(self):
         self.input.activate()
         #self.input.system.focused_widget
-
+        if (str(self.scene) != 'tut1'):
+            self.popUpWindow.visible = False
         error = self.Cube.run()
         #print(str(bge.logic.getCurrentScene()))
         if error is -2:
@@ -259,7 +263,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
             self.console.text = str(error)
             self.progress.percent = 1
         elif isinstance(error, tuple):
-            self.lbl.text = str(error)
+            self.lbl.text = "Score: "+str(error[1])
         elif 0 < error <= 1:
             #print(error)
             self.console.text = "Console"

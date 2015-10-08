@@ -99,19 +99,20 @@ class tester:
             if list(currItem.items())[0][0] == 'pickup':
                 checker_pick = self.p.evaluate(self.Cube)
                 #print(self.val, checker_pick)
-                if checker_pick == -1:
+                if checker_pick[1] == -1:
                     print("here")
                     self.step += 1
                     del self.actions[0]
                     return "You are not on top of an object, so you can't pick it up."
-                if not self.val and checker_pick != -1:
+                if not self.val and checker_pick[1] != -1:
                     self.step += 1
                     del self.actions[:]
                     return "You did not do a check for object existence."
                 else:
                     self.step += 1
-                    self.levelScore += checker_pick
+                    self.levelScore += checker_pick[1]
                     del self.actions[0]
+                    checker_pick[0].endObject()
                     return ("score", self.levelScore)
 
         if len(self.actions) == 0:
@@ -150,6 +151,8 @@ class tester:
         cls.actions = []
         cls.actionsLen = 0
 
+    def resetScore(self):
+        self.levelScore = 0
 
 def moveUp():
     tester.move("n")
