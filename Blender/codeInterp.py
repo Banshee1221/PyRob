@@ -44,10 +44,10 @@ class tester:
             self.codeList[str(self.scene)].append(self.text)
             outWriter.dictFormatter(self.codeList)
             tmp = while_check(str(self.text))
-            tmp2 = if_handler(str(tmp))
-            if tmp2 == -1:
+            #tmp2 = if_handler(str(tmp))
+            if tmp == -1:
                 return "Incorrect command used somewhere. Syntax Error."
-            self.text = tmp2
+            self.text = tmp
             print(str(self.text))
             print(self.compile_check(str(self.text)))
             print(valid_check(str(self.text)))
