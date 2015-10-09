@@ -123,7 +123,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
     	                      options = bgui.BGUI_DEFAULT |bgui.BGUI_CENTERX | bgui.BGUI_CENTERY)
 
         self.closeHelp =    bgui.FrameButton(self.helpWin, text='Close', size=[.1, .04], pos=[0.93, .1],
-                                             options=bgui.BGUI_DEFAULT| bgui.BGUI_CENTERX)
+                                            sub_theme="Help", options=bgui.BGUI_DEFAULT| bgui.BGUI_CENTERX)
 
         self.closeHelp.on_click = self.hide_show
 

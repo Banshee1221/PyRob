@@ -281,7 +281,7 @@ class TextInput(Widget):
 		newlines.insert(0,(0,0))
 		newlines.append((len(self.text), len(self.text)))
 		#print(newlines)
-		print((503-pos[1]+34))
+		#print((503-pos[1]+34))
 		#print(pos[1])
 		self.lineNumber = (int)(abs(((503-pos[1]+34)/14.8)))
 		if self.lineNumber > len(newlines)-2:
