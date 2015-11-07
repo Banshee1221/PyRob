@@ -4,6 +4,16 @@ import mathutils
 
 
 class mover:
+    """Handles the movement of the player avatar on the Blender scene.
+
+    Attributes:
+        moving (bool):      Keeps track of whether the player avatar is moving or not.
+        endTime (float):    Tracks the time that the player avatar moves.
+        startTime (float):  When the player avatar starts moving.
+        endPos (list):      Position in world space where the player avatar stops.
+        startPos (list):    Position in world space before the player avatar starts moving.
+
+    """
     def __init__(self):
         # pass
         self.moving = False
@@ -13,6 +23,18 @@ class mover:
         self.startPos = []
 
     def moveUnitOne(self, obj, dir, winObj):
+        """Function to manage the movement of the player avatar and check collisions.
+
+        Args:
+            obj:    The Blender game object of the player avatar.
+            dir:    The string which indicates the direction that the avatar will move.
+            winobj: The Blender game object of the object that needs to be conected with in order for the player to win.
+
+        Returns:
+            -1 if the player avatar object fails a raycast test,
+            2 if the player object raycasts and moves towards the winning object,
+            the time delta of the movement.
+        """
 
         win = False
         fail = False
@@ -76,7 +98,9 @@ class mover:
 
         return percent
 
+    """
     def moveUnit(self, obj, dir, steps):
+
         x = 0
         y = 0
 
@@ -91,9 +115,21 @@ class mover:
 
             # obj.setLinearVelocity([y, x, 0], True)
         obj.worldPosition = [obj.position.x + x, obj.position.y + y, obj.position.z]
+    """
 
 
 def lerp(startPos, endPos, percent):
+    """Lerp function to move the player avatar object along with the main game loop.
+
+    Args:
+        startPos:   The position of the player avatar object before the move.
+        endPos:     The position that the player avatar object needs to move towards.
+        percent:    The time delta as calculated in moveUnitOne.
+
+    Returns:
+        The position of the game object.
+
+    """
     x = startPos[0] + percent * (endPos[0] - startPos[0])
     y = startPos[1] + percent * (endPos[1] - startPos[1])
     return ([x, y, startPos[2]])
