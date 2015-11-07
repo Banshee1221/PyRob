@@ -5,6 +5,29 @@ import picker
 import outWriter
 
 class tester:
+    """The main class for the game logic.
+
+    Attributes:
+        objList (list):     Stores a list of game objects form Blender.
+        scene (KX_Scene):   Stores the scene object of the current Blender level.
+        codeList (dict):    Stores all the code that a player submits per level.
+        levelScore (int):   Keeps track of user score per level.
+        staticPosX (float): Static X world position for player avatar default.
+        staticPosY (float): Static Y world position for player avatar default.
+        staticPosZ (float): Static Z world position for player avatar default.
+        actions (list):     Array for storing list of actions to be performed on user submission.
+        actionsLen (int):   Keeps track of total action list length for submission.
+        step (int):         Progression of current submission.
+        winObj (str):       String name of the Blender object that the player needs to reach.
+        val (bool):         Bool to ensure player is on an object.
+        obj_name (str):     Static string that stores the name of the player object.
+        text (str):         Stores the text (code) that a user submits to be evaluated.
+        m (mover.mover):    Initialise the mover class.
+        p (picker.pickup)   Initialise the picker class.
+        running (bool):     Keeps track of whether the player code is interpreted and executing.
+
+    """
+
     objList = None
     scene = None
     codeList = {'tut1': [], 'tut2': [], 'tut3': [], 'pre_loops': [], 'loops': []}
@@ -14,7 +37,7 @@ class tester:
     staticPosZ = 1.06
     actions = []
     actionsLen = 0
-    step = 1
+    step = 1 
     winObj = ""
     val = False
 
@@ -24,13 +47,12 @@ class tester:
         obj_name = 'Cube'
         self.Cube = self.objList[obj_name]
         self.text = ''
-        self.passed = False
-        self.moved = False
         self.m = mover.mover()
         self.p = picker.pickup()
         self.running = False
 
     def setText(self, stri):
+        """Sets the string variable to the text submitted by the user."""
         self.text = stri
 
     def run(self):
@@ -121,6 +143,15 @@ class tester:
         return self.step / self.actionsLen
 
     def compile_check(self, code):
+        """Performs a check to ensure that the code provided by the user is correct.
+
+        Args:
+            code:   Source code string block.
+        
+        Returns:
+            True is successfully compiled, False otherwise.
+
+        """
         try:
             compile(code, '<string>', 'exec')
         except Exception as e:
@@ -132,58 +163,95 @@ class tester:
         return True
 
     def resetPos(self):
+        """Set the player avatar to default world position."""
         self.Cube.worldPosition = [self.staticPosX, self.staticPosY, self.staticPosZ]
 
     @classmethod
     def move(cls, dir):
+        """Adds a move instruction to the action list in the direction specified.
+
+        Args:
+            dir:    String for the direction the avatar should move.
+
+        """
         cls.actions.append({'move': dir})
 
     @classmethod
     def pick(cls):
+        """Adds a pickup instruction to the action list."""
         cls.actions.append({'pickup': 1})
 
     @classmethod
     def checker(cls):
+        """Adds a checker instruction to the action list."""
         cls.actions.append({'check': 1})
 
     @classmethod
     def clearArrayOnSceneChange(cls):
+        """Clears the actions array in preperation for a new Blender scene to be loaded."""
         cls.actions = []
         cls.actionsLen = 0
 
     def resetScore(self):
+        """Set the user score to zero."""
         self.levelScore = 0
 
 def moveUp():
+    """Calls the move classmethod from the tester class for the direction North."""
     tester.move("n")
 
 
 def moveDown():
+    """Calls the move classmethod from the tester class for the direction South."""
     tester.move("s")
 
 
 def moveRight():
+    """Calls the move classmethod from the tester class for the direction East."""
     tester.move("e")
 
 
 def moveLeft():
+    """Calls the move classmethod from the tester class for the direction West."""
     tester.move("w")
 
 
 def pickup():
+    """Calls the pick classmethod from the tester class."""
     tester.pick()
 
 
 def object():
+    """Placeholder function to always return False.
+
+    Returns:
+        False
+
+    """
     return False
 
 
 def ground():
+    """Calls the checker classmethod from the tester class.
+
+    Returns:
+        False
+
+    """
     tester.checker()
     return False
 
 
 def valid_check(code):
+    """Performs a check to ensure that the code provided by the user is syntactically correct.
+
+    Args:
+        code:   Source code string block.
+    
+    Returns:
+        True is successfully compiled, False otherwise.
+
+    """
     try:
         node = ast.parse(code)
         # print(ast.dump(node))
@@ -192,6 +260,15 @@ def valid_check(code):
     return True
 
 def while_check(code):
+    """Prevents player from using indefinite while loops by breaking loop after pre-defined amount of iterations.
+
+    Args:
+        code:   Source code string block.
+
+    Returns:
+        retVal: The modified user source code string block.
+
+    """
     tab = False
     pass1 = False
     tmpArr = code.split('\n')
@@ -206,7 +283,6 @@ def while_check(code):
                 tab = True
             spacing = len(all) - len(all.lstrip())
             spacing1 = len(tmpArr[lineCount + 1]) - len(tmpArr[lineCount + 1].lstrip())
-            # print(spacing)
             if tab:
                 tmpArr.insert(lineCount, wordList[0].rjust(len(wordList[0]) + spacing, "\t"))
                 tmpArr.insert(lineCount + 2, wordList[1].rjust(len(wordList[1]) + spacing1, "\t"))
@@ -222,10 +298,18 @@ def while_check(code):
         lineCount += 1
 
     retVal = '\n'.join([str(x) for x in tmpArr])
-    # print(retVal)
     return retVal
 
 def if_handler(code):
+    """Prevents player from using indefinite while loops by breaking loop after pre-defined amount of iterations.
+
+    Args:
+        code:   Source code string block.
+
+    Returns:
+        The modified user source code string block is successful or -1 if failure.
+
+    """
     print("if handler")
     tmpArr = code.split('\n')
     lineCount = 0
@@ -238,14 +322,6 @@ def if_handler(code):
             else:
                 tmpArr[lineCount - 1] = str.replace(tmpArr[lineCount - 1], "is on", "==")
                 break
-        #spacing = len(tmpArr[lineCount - 1]) - len(tmpArr[lineCount - 1].lstrip())
-        #checkval = spacing
-        #while spacing == checkval:
-
 
     retVal = '\n'.join([str(x) for x in tmpArr])
-    # print(retVal)
     return retVal
-
-def main():
-    print("wot")
