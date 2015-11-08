@@ -90,10 +90,10 @@ class SimpleLayout(bgui.bge_utils.Layout):
                                      sub_theme="Cons", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
 
         self.lines = []
-        incriment = .0275
-        start = 0.9675
+        incriment = .0285
+        start = 0.9665
         count = 1
-        for i in range(35):
+        for i in range(34):
             self.lines.append(bgui.Label(self.win, text=str(count) + ".", font="arial.ttf", pos=[.01, start], options=bgui.BGUI_DEFAULT))
             start = start - incriment
             count = count + 1

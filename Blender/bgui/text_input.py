@@ -140,57 +140,61 @@ class TextInput(Widget):
 		#line number
 		self.lineNumber = 0
 
+		self.lineHeight = 0
+
 	@property
 	def text(self):
 		return self.label.text
 
-	@text.setter
-	def text(self, value):
-		# Get rid of any old lines
-		for line in self._lines:
-			self._remove_widget(line)
+	# @text.setter
+	# def text(self, value):
+	# 	# Get rid of any old lines
+	# 	for line in self._lines:
+	# 		self._remove_widget(line)
 
-		self._lines = []
-		self._text = value
+	# 	self._lines = []
+	# 	self._text = value
 
-		# If the string is empty, then we are done
-		if not value:
-			return
+	# 	# If the string is empty, then we are done
+	# 	if not value:
+	# 		return
 
-		lines = value.split('\n')
-		for i, v in enumerate(lines):
-			lines[i] = v.split()
+	# 	lines = value.split('\n')
+	# 	for i, v in enumerate(lines):
+	# 		lines[i] = v.split()
 
-		cur_line = 0
-		line = Label(self, "tmp", "Mj|", font=self._font, pt_size=self._pt_size, color=self._color, sub_theme=self.theme['LabelSubTheme'])
-		self._remove_widget(line)
-		char_height = line.size[1]
+	# 	cur_line = 0
+	# 	line = Label(self, "tmp", "Mj|", font=self._font, pt_size=self._pt_size, color=self._color, sub_theme=self.theme['LabelSubTheme'])
+	# 	self._remove_widget(line)
+	# 	char_height = line.size[1]
 
-		char_height /= self.size[1]
+	# 	char_height /= self.size[1]
 
-		for words in lines:
-			line = Label(self, "lines_" + str(cur_line), "", self._font, self._pt_size, self._color, pos=[0, 1 - (cur_line + 1) * char_height], sub_theme=self.theme['LabelSubTheme'])
+	# 	self.lineHeight = char_height
 
-			while words:
-				# Try to add a word
-				if line.text:
-					line.text += " " + words[0]
-				else:
-					line.text = words[0]
+	# 	for words in lines:
+	# 		line = Label(self, "lines_" + str(cur_line), "", self._font, self._pt_size, self._color, pos=[0, 1 - (cur_line + 1) * char_height], sub_theme=self.theme['LabelSubTheme'])
 
-				# The line is too big, remove the word and create a new line
-				if line.size[0] > self.size[0]:
-					line.text = line.text[0:-(len(words[0]) + 1)]
-					self._lines.append(line)
-					cur_line += 1
-					line = Label(self, "lines_" + str(cur_line), "", self._font, self._pt_size, self._color, pos=[0, 1 - (cur_line + 1) * char_height], sub_theme=self.theme['LabelSubTheme'])
-				else:
-					# The word fit, so remove it from the words list
-					words.remove(words[0])
+	# 		while words:
+	# 			# Try to add a word
+	# 			if line.text:
+	# 				line.text += " " + words[0]
+	# 			else:
+	# 				line.text = words[0]
 
-			# Add what's left
-			self._lines.append(line)
-			cur_line += 1
+	# 			# The line is too big, remove the word and create a new line
+	# 			if line.size[0] > self.size[0]:
+	# 				line.text = line.text[0:-(len(words[0]) + 1)]
+	# 				self._lines.append(line)
+	# 				cur_line += 1
+	# 				line = Label(self, "lines_" + str(cur_line), "", self._font, self._pt_size, self._color, pos=[0, 1 - (cur_line + 1) * char_height], sub_theme=self.theme['LabelSubTheme'])
+	# 			else:
+	# 				# The word fit, so remove it from the words list
+	# 				words.remove(words[0])
+
+	# 		# Add what's left
+	# 		self._lines.append(line)
+	# 		cur_line += 1
 
 	@property
 	def prefix(self):
@@ -270,10 +274,11 @@ class TextInput(Widget):
 		right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[1]])[0]
 		self.highlight.position = [left, self.size[1] - (self.label._pt_size+.7)*(1+self.lineNumber)]
 		self.highlight.size = [right - left, self.label._pt_size]
+		#print(self.size[1])
 		if self.slice_direction in [0, 1]:
-			self.cursor.position = [left, self.size[1] - (self.label._pt_size+.7)*(1+self.lineNumber)]
+			self.cursor.position = [left, (self.size[1] - (self.lineNumber + 1) * self.size[1]/34.425)]
 		else:
-			self.cursor.position = [right, self.size[1] -  (self.label._pt_size+.7)*(1+self.lineNumber)] # 15 line 2
+			self.cursor.position = [right, (self.size[1] - (self.lineNumber + 1) * self.size[1]/34.425)] # 15 line 2
 		self.cursor.size = [1, self.label._pt_size ]
 
 	def find_mouse_slice(self, pos):
@@ -283,7 +288,7 @@ class TextInput(Widget):
 		#print(newlines)
 		#print((503-pos[1]+34))
 		#print(pos[1])
-		self.lineNumber = (int)(abs(((503-pos[1]+34)/14.8)))
+		self.lineNumber = (int)(34.425 - ((34.425/self.size[1])*(pos[1]-30)))
 		if self.lineNumber > len(newlines)-2:
 			self.lineNumber = len(newlines)-2
 		cmc = self.calc_mouse_cursor(pos)
