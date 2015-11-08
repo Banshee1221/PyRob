@@ -146,56 +146,6 @@ class TextInput(Widget):
 	def text(self):
 		return self.label.text
 
-	# @text.setter
-	# def text(self, value):
-	# 	# Get rid of any old lines
-	# 	for line in self._lines:
-	# 		self._remove_widget(line)
-
-	# 	self._lines = []
-	# 	self._text = value
-
-	# 	# If the string is empty, then we are done
-	# 	if not value:
-	# 		return
-
-	# 	lines = value.split('\n')
-	# 	for i, v in enumerate(lines):
-	# 		lines[i] = v.split()
-
-	# 	cur_line = 0
-	# 	line = Label(self, "tmp", "Mj|", font=self._font, pt_size=self._pt_size, color=self._color, sub_theme=self.theme['LabelSubTheme'])
-	# 	self._remove_widget(line)
-	# 	char_height = line.size[1]
-
-	# 	char_height /= self.size[1]
-
-	# 	self.lineHeight = char_height
-
-	# 	for words in lines:
-	# 		line = Label(self, "lines_" + str(cur_line), "", self._font, self._pt_size, self._color, pos=[0, 1 - (cur_line + 1) * char_height], sub_theme=self.theme['LabelSubTheme'])
-
-	# 		while words:
-	# 			# Try to add a word
-	# 			if line.text:
-	# 				line.text += " " + words[0]
-	# 			else:
-	# 				line.text = words[0]
-
-	# 			# The line is too big, remove the word and create a new line
-	# 			if line.size[0] > self.size[0]:
-	# 				line.text = line.text[0:-(len(words[0]) + 1)]
-	# 				self._lines.append(line)
-	# 				cur_line += 1
-	# 				line = Label(self, "lines_" + str(cur_line), "", self._font, self._pt_size, self._color, pos=[0, 1 - (cur_line + 1) * char_height], sub_theme=self.theme['LabelSubTheme'])
-	# 			else:
-	# 				# The word fit, so remove it from the words list
-	# 				words.remove(words[0])
-
-	# 		# Add what's left
-	# 		self._lines.append(line)
-	# 		cur_line += 1
-
 	@property
 	def prefix(self):
 		return self.text_prefix
@@ -258,105 +208,65 @@ class TextInput(Widget):
 		self.highlight.colors = [self.colors["highlight"][state]] * 4
 		self.label.color = self.colors["text"][state]
 
-		#if state == 0:
-		#	self.cursor.colors = [[0.0, 0.0, 0.0, 0.0]] * 4
-		#else:
-		#	self.cursor.colors = [self.colors["text"][state]] * 4
-
 	#Selection Code
 	def update_selection(self):
+		# generate a list of all the lines
 		newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
 		newlines.insert(0,(0,0))
 		newlines.append((len(self.text), len(self.text)))
-		#print(newlines[self.lineNumber+1][1])
-		#print (newlines)
+		# find left and right cursor position in the relevant line
 		left = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[0]])[0]
 		right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[1]])[0]
+		# if text is highlited set find the position of the text ( 34.425 is the number of lines in the window)
 		self.highlight.position = [left, (self.size[1] - (self.lineNumber + 1) * self.size[1]/34.425)]
+		# the height of the highlite is the same as text height, the width is calculated using the selected positions
 		self.highlight.size = [right - left, self.label._pt_size]
-		#print(self.size[1])
+		# set the direction of the highlite, whether it is running from right to left or left to right
 		if self.slice_direction in [0, 1]:
 			self.cursor.position = [left, (self.size[1] - (self.lineNumber + 1) * self.size[1]/34.425)]
 		else:
-			self.cursor.position = [right, (self.size[1] - (self.lineNumber + 1) * self.size[1]/34.425)] # 15 line 2
+			self.cursor.position = [right, (self.size[1] - (self.lineNumber + 1) * self.size[1]/34.425)]
 		self.cursor.size = [1, self.label._pt_size ]
 
 	def find_mouse_slice(self, pos):
+		# generate a list of all the lines
 		newlines = [(i.start(), i.end()) for i in re.finditer('\n', self.text)]
 		newlines.insert(0,(0,0))
 		newlines.append((len(self.text), len(self.text)))
-		#print(newlines)
-		#print((503-pos[1]+34))
-		#print(pos[1])
+		#find the line number clicked by the mouse
 		self.lineNumber = (int)(34.425 - ((34.425/self.size[1])*(pos[1]-30)))
+		# ensure the cursor is not below the last line
 		if self.lineNumber > len(newlines)-2:
 			self.lineNumber = len(newlines)-2
 		cmc = self.calc_mouse_cursor(pos)
 		mss = self.mouse_slice_start
 		self.mouse_slice_end = cmc
+		# determine whether the mouse has just been clicked or beeing dragged to the left or to the right
 		if cmc < mss:
-			#print("asd")
 			self.slice_direction = -1
 			self.slice = [self.mouse_slice_end+newlines[self.lineNumber][1], self.mouse_slice_start+newlines[self.lineNumber][1]]
 		elif cmc > mss:
-			#print("fas")
 			self.slice_direction = 1
 			self.slice = [self.mouse_slice_start+newlines[self.lineNumber][1], self.mouse_slice_end+newlines[self.lineNumber][1]]
 		else:
-			#print ("qwe")
 			self.slice_direction = 0
 			self.slice = [self.mouse_slice_start+newlines[self.lineNumber][1], self.mouse_slice_end+newlines[self.lineNumber][1]]
-			#print(self.slice)
-			#print (self.mouse_slice_start, self.mouse_slice_end)
 		self.selection_refresh = 1
 
+	#calculate the position relative to the text for highliting
 	def calc_mouse_cursor(self, pos):
-
-		# newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
-		# newlines.insert(0,(0,0))
-		# newlines.append((len(self.text)-1, len(self.text)))
-		# adj_pos = pos[0] - (self.position[0] + self.fd)
-		# find_slice = 0
-		# i = 0
-		# c_widths = []
-		# print(self.text[newlines[self.lineNumber][0]:newlines[self.lineNumber+1][1]])
-		# for char in self.text[newlines[self.lineNumber][0]:newlines[self.lineNumber+1][1]]:
-		# 	c_widths.append(self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20)
-		# for entry in c_widths:
-		# 	if find_slice + entry > adj_pos:
-		# 		if abs((find_slice + entry) - adj_pos) >= abs(adj_pos - find_slice):
-		# 			return i
-		# 		else:
-		# 			return i + 1
-		# 	else:
-		# 		find_slice += entry
-		# 	i += 1
-
-		# self.time = time.time() - 0.501
-
-		# return i
-
 		newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
 		newlines.insert(0,(0,0))
 		newlines.append((len(self.text), len(self.text)))
-		#print(newlines)
-		#print(self.text[0:8])
-		#print(self.text[9:17])
-		#print(self.text[18:26])
 		adj_pos = pos[0] - (self.position[0] + self.fd)
 		find_slice = 0
 		i = 0
 		self._update_char_widths()
-		#print(self.char_widths)
-		#print(self.lineNumber)
 		for entry in self.char_widths[newlines[self.lineNumber][1]:newlines[self.lineNumber+1][0]]:
-			#print (entry)
 			if find_slice + entry > adj_pos:
 				if abs((find_slice + entry) - adj_pos) >= abs(adj_pos - find_slice):
-					#print("middle :" + str(i))
 					return i
 				else:
-					#print("other :" + str(i))
 					return i
 			else:
 				find_slice += entry
@@ -366,70 +276,30 @@ class TextInput(Widget):
 
 		return i
 
+	#Method for calulating whether the mouse was clicked or dragged
 	def _handle_mouse(self, pos, event):
 		"""Extend function's behaviour by providing focus to unfrozen inactive TextInput,
 		swapping out colors.
 		"""
 		if self.frozen:
 			return
-
 		if event == BGUI_MOUSE_CLICK:
 			newlines = [ (i.start(), i.end()) for i in re.finditer('\n', self.text)]
 			newlines.insert(0,(0,0))
 			newlines.append((len(self.text), len(self.text)))
-			#print(pos)
-			#self.lineNumber = (int)((533-pos[1])/self.label._pt_size)
-			#if self.lineNumber > len(newlines)-2:
-			#	self.lineNumber = len(newlines)-2
 			self.mouse_slice_start = self.calc_mouse_cursor(pos)
-
 			if not self._active:
 				self.activate()
-
 			if not self.input_options & BGUI_INPUT_SELECT_ALL:
 				self.find_mouse_slice(pos)
-
 		elif event == BGUI_MOUSE_ACTIVE:
 			if not self.just_activated or self.just_activated and not self.input_options & BGUI_INPUT_SELECT_ALL:
 				self.find_mouse_slice(pos)
-
 		if event == BGUI_MOUSE_RELEASE:
-
 			self.selection_refresh = 1
 			if self.slice[0] == self.slice[1]:
 				self.slice_direction = 0
 			self.just_activated = 0
-
-			#work out single / double / triple clicks
-			# if self.click_counter == 0:
-			# 	self.single_click_time = time.time()
-			# 	self.click_counter = 1
-			# elif self.click_counter == 1:
-			# 	if time.time() - self.single_click_time < .2:
-			# 		self.click_counter = 2
-			# 		self.double_click_time = time.time()
-			# 		words = self.text.split(" ")
-			# 		i = 0
-			# 		for entry in words:
-			# 			if self.slice[0] < i + len(entry):
-			# 				self.slice = [i, i + len(entry) + 1]
-			# 				break
-			# 			i += len(entry) + 1
-			# 	else:
-			# 		self.click_counter = 1
-			# 		self.single_click_time = time.time()
-			# elif self.click_counter == 2:
-			# 	if time.time() - self.double_click_time < .2:
-			# 		self.click_counter = 3
-			# 		self.slice = [0, len(self.text)]
-			# 		self.slice_direction = -1
-			# 	else:
-			# 		self.click_counter = 1
-			# 		self.single_click_time = time.time()
-			# elif self.click_counter == 3:
-			# 	self.single_click_time = time.time()
-			# 	self.click_counter = 1
-
 			self.time = time.time()
 
 		Widget._handle_mouse(self, pos, event)
@@ -570,9 +440,6 @@ class TextInput(Widget):
 			elif key == ENTERKEY :
 				char = "\n"
 				self.lineNumber = self.lineNumber + 1
-			#elif key in (ENTERKEY, PADENTER):
-			#	if self.on_enter_key:
-			#		self.on_enter_key(self)
 			elif not is_shifted:
 				if key == ACCENTGRAVEKEY: char = "`"
 				elif key == MINUSKEY: char = "-"
@@ -602,8 +469,8 @@ class TextInput(Widget):
 			    #need option to limit text to length of box
 				#need to replace all selected text with new char
 				#need copy place somewhere
+				# as the tab character does not work, 4 spaces are used instead
 				if (char == "\t"):
-					#print("tab")
 					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
 					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
 					self.label.text = self.text[:self.slice[0]] + " " + self.text[self.slice[1]:]
@@ -611,10 +478,9 @@ class TextInput(Widget):
 					self.slice[0] = self.slice[0] + 3
 					self.slice[1] = self.slice[1] + 3
 				else:
-					#print("other")
 					self.label.text = self.text[:self.slice[0]] + char + self.text[self.slice[1]:]
 				
-				#	self.char_widths = self.char_widths[:self.slice[0]] + [self.system.textlib.dimensions(self.label.fontid, char * 20)[0] / 20] + self.char_widths[self.slice[1]:]
+				#update the slice
 				self.slice = [self.slice[0] + 1, self.slice[0] + 1]
 				self.slice_direction = 0
 
