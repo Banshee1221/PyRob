@@ -74,6 +74,8 @@ class tester:
         :param stri: String code block provided by the user.
         :type stri: str
 
+        :returns: None
+
         """
         self.text = stri
 
@@ -219,6 +221,8 @@ class tester:
 
         :param dir: String for the direction the avatar should move.
         :type dir: str
+
+        :returns: None
 
         """
         cls.actions.append({'move': dir})

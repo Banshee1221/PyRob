@@ -1,0 +1,575 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to PyRob’s documentation! &mdash; PyRob 0.9 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="PyRob 0.9 documentation" href="#" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">PyRob 0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-pyrob-s-documentation">
+<h1>Welcome to PyRob&#8217;s documentation!<a class="headerlink" href="#welcome-to-pyrob-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Eugene:</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<div class="section" id="module-codeInterp">
+<span id="codeinterp"></span><h2>codeInterp<a class="headerlink" href="#module-codeInterp" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="codeInterp.ground">
+<code class="descclassname">codeInterp.</code><code class="descname">ground</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.ground" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the checker classmethod from the tester class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Always false.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="codeInterp.if_handler">
+<code class="descclassname">codeInterp.</code><code class="descname">if_handler</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.if_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prevents player from using indefinite while loops by breaking loop after pre-defined amount of iterations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> (<em>str</em>) &#8211; Source code string block.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The modified user source code string block is successful or -1 if failure.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="codeInterp.moveDown">
+<code class="descclassname">codeInterp.</code><code class="descname">moveDown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.moveDown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the move classmethod from the tester class for the direction South.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="codeInterp.moveLeft">
+<code class="descclassname">codeInterp.</code><code class="descname">moveLeft</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.moveLeft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the move classmethod from the tester class for the direction West.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="codeInterp.moveRight">
+<code class="descclassname">codeInterp.</code><code class="descname">moveRight</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.moveRight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the move classmethod from the tester class for the direction East.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="codeInterp.moveUp">
+<code class="descclassname">codeInterp.</code><code class="descname">moveUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.moveUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the move classmethod from the tester class for the direction North.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="codeInterp.object">
+<code class="descclassname">codeInterp.</code><code class="descname">object</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Placeholder function to always return False.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Always false.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="codeInterp.pickup">
+<code class="descclassname">codeInterp.</code><code class="descname">pickup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.pickup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the pick classmethod from the tester class.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="codeInterp.tester">
+<em class="property">class </em><code class="descclassname">codeInterp.</code><code class="descname">tester</code><a class="headerlink" href="#codeInterp.tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main class for the game logic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute objList:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Stores a list of game objects form Blender.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attribute scene:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">Stores the scene object of the current Blender level.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute codeList:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Stores all the code that a player submits per level.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attribute levelScore:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">Keeps track of user score per level.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute staticPosX:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Static X world position for player avatar default.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attribute staticPosY:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">Static Y world position for player avatar default.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute staticPosZ:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Static Z world position for player avatar default.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attribute actions:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">Array for storing list of actions to be performed on user submission.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute actionsLen:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Keeps track of total action list length for submission.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attribute step:</th><td class="field-body">Progression of current submission.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute winObj:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">String name of the Blender object that the player needs to reach.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attribute val:</th><td class="field-body">Bool to ensure player is on an object.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute obj_name:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Static string that stores the name of the player object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attribute text:</th><td class="field-body">Stores the text (code) that a user submits to be evaluated.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attribute m:</th><td class="field-body">Initialise the mover class.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attribute p:</th><td class="field-body">Initialise the picker class.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute running:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Keeps track of whether the player code is interpreted and executing.</td>
+</tr>
+</tbody>
+</table>
+<dl class="classmethod">
+<dt id="codeInterp.tester.checker">
+<em class="property">classmethod </em><code class="descname">checker</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.tester.checker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a checker instruction to the action list.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="codeInterp.tester.clearArrayOnSceneChange">
+<em class="property">classmethod </em><code class="descname">clearArrayOnSceneChange</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.tester.clearArrayOnSceneChange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears the actions array in preperation for a new Blender scene to be loaded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="codeInterp.tester.compile_check">
+<code class="descname">compile_check</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.tester.compile_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a check to ensure that the code provided by the user is correct.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> (<em>str</em>) &#8211; Source code string block.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">bool &#8211; True is successfully compiled, False otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="codeInterp.tester.move">
+<em class="property">classmethod </em><code class="descname">move</code><span class="sig-paren">(</span><em>dir</em><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.tester.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a move instruction to the action list in the direction specified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dir</strong> (<em>str</em>) &#8211; String for the direction the avatar should move.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="codeInterp.tester.pick">
+<em class="property">classmethod </em><code class="descname">pick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.tester.pick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a pickup instruction to the action list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="codeInterp.tester.resetPos">
+<code class="descname">resetPos</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.tester.resetPos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the player avatar to default world position.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="codeInterp.tester.resetScore">
+<code class="descname">resetScore</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.tester.resetScore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the user score to zero.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="codeInterp.tester.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.tester.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main operation. This function takes the user provided code, attempts to build an array of commands to
+execute and execute them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Strings for specific types of errors, -2 if the player collided with the winning object, 0 if moves are complete, a float for the moves progressed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="codeInterp.tester.setText">
+<code class="descname">setText</code><span class="sig-paren">(</span><em>stri</em><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.tester.setText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the string variable to the text submitted by the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stri</strong> (<em>str</em>) &#8211; String code block provided by the user.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="codeInterp.valid_check">
+<code class="descclassname">codeInterp.</code><code class="descname">valid_check</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.valid_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a check to ensure that the code provided by the user is syntactically correct.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> (<em>str</em>) &#8211; Source code string block.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True is successfully compiled, False otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="codeInterp.while_check">
+<code class="descclassname">codeInterp.</code><code class="descname">while_check</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#codeInterp.while_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prevents player from using indefinite while loops by breaking loop after pre-defined amount of iterations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> (<em>str</em>) &#8211; Source code string block.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The modified user source code string block.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mover">
+<span id="mover"></span><h2>mover<a class="headerlink" href="#module-mover" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="mover.lerp">
+<code class="descclassname">mover.</code><code class="descname">lerp</code><span class="sig-paren">(</span><em>startPos</em>, <em>endPos</em>, <em>percent</em><span class="sig-paren">)</span><a class="headerlink" href="#mover.lerp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lerp function to move the player avatar object along with the main game loop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>startPos</strong> (<em>list</em>) &#8211; The position of the player avatar object before the move.</li>
+<li><strong>endPos</strong> (<em>list</em>) &#8211; The position that the player avatar object needs to move towards.</li>
+<li><strong>percent</strong> (<em>float</em>) &#8211; The time delta as calculated in moveUnitOne.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The position of the game object.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="mover.mover">
+<em class="property">class </em><code class="descclassname">mover.</code><code class="descname">mover</code><a class="headerlink" href="#mover.mover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the movement of the player avatar on the Blender scene.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute moving:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Keeps track of whether the player avatar is moving or not.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attribute endTime:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">Tracks the time that the player avatar moves.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute startTime:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">When the player avatar starts moving.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attribute endPos:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">Position in world space where the player avatar stops.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute startPos:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Position in world space before the player avatar starts moving.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="mover.mover.moveUnitOne">
+<code class="descname">moveUnitOne</code><span class="sig-paren">(</span><em>obj</em>, <em>dir</em>, <em>winObj</em><span class="sig-paren">)</span><a class="headerlink" href="#mover.mover.moveUnitOne" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to manage the movement of the player avatar and check collisions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>obj</strong> (<em>KX_GameObject</em>) &#8211; The Blender game object of the player avatar.</li>
+<li><strong>dir</strong> (<em>str</em>) &#8211; The string which indicates the direction that the avatar will move.</li>
+<li><strong>winObj</strong> (<em>KX_GameObject</em>) &#8211; The Blender game object of the object that needs to be conected with in order for the player to win.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">-1 if the player avatar object fails a raycast test, 2 if the player object raycasts and moves towards the winning object, the time delta of the movement.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-outWriter">
+<span id="outwriter"></span><h2>outWriter<a class="headerlink" href="#module-outWriter" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="outWriter.dictFormatter">
+<code class="descclassname">outWriter.</code><code class="descname">dictFormatter</code><span class="sig-paren">(</span><em>dictionary</em><span class="sig-paren">)</span><a class="headerlink" href="#outWriter.dictFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formats the provided dictionary and writes it to file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dictionary</strong> (<em>dict</em>) &#8211; The dictionary containing all the user code to write out.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if successfully wrote the file, False otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="outWriter.dictReader">
+<code class="descclassname">outWriter.</code><code class="descname">dictReader</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#outWriter.dictReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the list of user operations from a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The dictionary containing the user actions if successful, -1 otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-picker">
+<span id="picker"></span><h2>picker<a class="headerlink" href="#module-picker" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="picker.pickup">
+<em class="property">class </em><code class="descclassname">picker.</code><code class="descname">pickup</code><a class="headerlink" href="#picker.pickup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Formats the provided dictionary and writes it to file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute scores:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">List of scores attached to the various game objects.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="picker.pickup.confirmObject">
+<code class="descname">confirmObject</code><span class="sig-paren">(</span><em>player</em><span class="sig-paren">)</span><a class="headerlink" href="#picker.pickup.confirmObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>RayCasts to ensure that the player avatar is above an object that is allowed to be picked up.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>player</strong> (<em>KX_GameObject</em>) &#8211; The game object of the player avatar.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">1 if success, -1 otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="picker.pickup.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>player</em><span class="sig-paren">)</span><a class="headerlink" href="#picker.pickup.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd><p>RayCasts to ensure that the player avatar is above an object that is allowed to be picked up and gives the player score.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>player</strong> (<em>KX_GameObject</em>) &#8211; The game object of the player avatar.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple containing the object as well as the score attached to the object if success , a tuple containing the string &#8216;fail&#8217; and -1 otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tut1">
+<span id="tut1"></span><h2>tut1<a class="headerlink" href="#module-tut1" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tut1.tut1">
+<em class="property">class </em><code class="descclassname">tut1.</code><code class="descname">tut1</code><span class="sig-paren">(</span><em>winCon</em><span class="sig-paren">)</span><a class="headerlink" href="#tut1.tut1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hotfix code for testing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attribute winCond:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Determine if the player wins.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="tut1.tut1.check">
+<code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tut1.tut1.check" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to PyRob&#8217;s documentation!</a><ul>
+<li><a class="reference internal" href="#module-codeInterp">codeInterp</a></li>
+<li><a class="reference internal" href="#module-mover">mover</a></li>
+<li><a class="reference internal" href="#module-outWriter">outWriter</a></li>
+<li><a class="reference internal" href="#module-picker">picker</a></li>
+<li><a class="reference internal" href="#module-tut1">tut1</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Eugene de Beste, Mark Grivainis.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/index.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

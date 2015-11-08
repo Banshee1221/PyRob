@@ -6,7 +6,7 @@
 Welcome to PyRob's documentation!
 =================================
 
-Contents:
+Eugene:
 
 .. toctree::
    :maxdepth: 2
@@ -35,6 +35,11 @@ picker
 .. automodule:: picker
 	:members:
 
+tut1
+----
+
+.. automodule:: tut1
+	:members:
 
 
 Indices and tables
