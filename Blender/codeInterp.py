@@ -4,6 +4,7 @@ import mover
 import picker
 import outWriter
 
+
 class tester:
     """The main class for the game logic.
 
@@ -53,7 +54,7 @@ class tester:
     staticPosZ = 1.06
     actions = []
     actionsLen = 0
-    step = 1 
+    step = 1
     winObj = ""
     val = False
 
@@ -87,7 +88,7 @@ class tester:
             self.codeList[str(self.scene)].append(self.text)
             outWriter.dictFormatter(self.codeList)
             tmp = while_check(str(self.text))
-            #tmp2 = if_handler(str(tmp))
+            # tmp2 = if_handler(str(tmp))
             if tmp == -1:
                 return "Incorrect command used somewhere. Syntax Error."
             self.text = tmp
@@ -141,7 +142,7 @@ class tester:
 
             if list(currItem.items())[0][0] == 'pickup':
                 checker_pick = self.p.evaluate(self.Cube)
-                #print(self.val, checker_pick)
+                # print(self.val, checker_pick)
                 if checker_pick[1] == -1:
                     print("here")
                     self.step += 1
@@ -175,8 +176,9 @@ class tester:
             compile(code, '<string>', 'exec')
         except Exception as e:
             print(
-            "Error executing code!\n=====================\nLine:\t{0}\nSnip:\t{1}\nIssue:\t{2}".format(e.lineno, e.text,
-                                                                                                       e))
+                "Error executing code!\n=====================\nLine:\t{0}\nSnip:\t{1}\nIssue:\t{2}".format(e.lineno,
+                                                                                                           e.text,
+                                                                                                           e))
             return False
 
         return True
@@ -214,6 +216,7 @@ class tester:
     def resetScore(self):
         """Set the user score to zero."""
         self.levelScore = 0
+
 
 def moveUp():
     """Calls the move classmethod from the tester class for the direction North."""
@@ -274,6 +277,7 @@ def valid_check(code):
         return False
     return True
 
+
 def while_check(code):
     """Prevents player from using indefinite while loops by breaking loop after pre-defined amount of iterations.
 
@@ -312,6 +316,7 @@ def while_check(code):
 
     retVal = '\n'.join([str(x) for x in tmpArr])
     return retVal
+
 
 def if_handler(code):
     """Prevents player from using indefinite while loops by breaking loop after pre-defined amount of iterations.

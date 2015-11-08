@@ -18,6 +18,7 @@ class mover:
     :type moving: list
 
     """
+
     def __init__(self):
         # pass
         self.moving = False
