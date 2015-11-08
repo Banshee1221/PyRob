@@ -6,12 +6,16 @@ import mathutils
 class mover:
     """Handles the movement of the player avatar on the Blender scene.
 
-    Attributes:
-        moving (bool):      Keeps track of whether the player avatar is moving or not.
-        endTime (float):    Tracks the time that the player avatar moves.
-        startTime (float):  When the player avatar starts moving.
-        endPos (list):      Position in world space where the player avatar stops.
-        startPos (list):    Position in world space before the player avatar starts moving.
+    :attribute moving: Keeps track of whether the player avatar is moving or not.
+    :type moving: bool      
+    :attribute endTime: Tracks the time that the player avatar moves.
+    :type moving: float
+    :attribute startTime: When the player avatar starts moving.
+    :type moving: float
+    :attribute endPos: Position in world space where the player avatar stops.
+    :type moving: list
+    :attribute startPos: Position in world space before the player avatar starts moving.
+    :type moving: list
 
     """
     def __init__(self):
@@ -25,15 +29,15 @@ class mover:
     def moveUnitOne(self, obj, dir, winObj):
         """Function to manage the movement of the player avatar and check collisions.
 
-        Args:
-            obj:    The Blender game object of the player avatar.
-            dir:    The string which indicates the direction that the avatar will move.
-            winobj: The Blender game object of the object that needs to be conected with in order for the player to win.
+        :param obj: The Blender game object of the player avatar.
+        :type obj: KX_GameObject
+        :param dir: The string which indicates the direction that the avatar will move.
+        :type dir: str
+        :param winObj: The Blender game object of the object that needs to be conected with in order for the player to win.
+        :type winObj: KX_GameObject
 
-        Returns:
-            -1 if the player avatar object fails a raycast test,
-            2 if the player object raycasts and moves towards the winning object,
-            the time delta of the movement.
+        :returns: -1 if the player avatar object fails a raycast test, 2 if the player object raycasts and moves towards the winning object, the time delta of the movement.
+
         """
 
         win = False
@@ -121,13 +125,14 @@ class mover:
 def lerp(startPos, endPos, percent):
     """Lerp function to move the player avatar object along with the main game loop.
 
-    Args:
-        startPos:   The position of the player avatar object before the move.
-        endPos:     The position that the player avatar object needs to move towards.
-        percent:    The time delta as calculated in moveUnitOne.
+    :param startPos: The position of the player avatar object before the move.
+    :type startPos: list
+    :param endPos: The position that the player avatar object needs to move towards.
+    :type endPos: list
+    :param percent: The time delta as calculated in moveUnitOne.
+    :type percent: float
 
-    Returns:
-        The position of the game object.
+    :returns: The position of the game object.
 
     """
     x = startPos[0] + percent * (endPos[0] - startPos[0])

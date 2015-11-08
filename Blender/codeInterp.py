@@ -7,24 +7,40 @@ import outWriter
 class tester:
     """The main class for the game logic.
 
-    Attributes:
-        objList (list):     Stores a list of game objects form Blender.
-        scene (KX_Scene):   Stores the scene object of the current Blender level.
-        codeList (dict):    Stores all the code that a player submits per level.
-        levelScore (int):   Keeps track of user score per level.
-        staticPosX (float): Static X world position for player avatar default.
-        staticPosY (float): Static Y world position for player avatar default.
-        staticPosZ (float): Static Z world position for player avatar default.
-        actions (list):     Array for storing list of actions to be performed on user submission.
-        actionsLen (int):   Keeps track of total action list length for submission.
-        step (int):         Progression of current submission.
-        winObj (str):       String name of the Blender object that the player needs to reach.
-        val (bool):         Bool to ensure player is on an object.
-        obj_name (str):     Static string that stores the name of the player object.
-        text (str):         Stores the text (code) that a user submits to be evaluated.
-        m (mover.mover):    Initialise the mover class.
-        p (picker.pickup)   Initialise the picker class.
-        running (bool):     Keeps track of whether the player code is interpreted and executing.
+    :attribute objList: Stores a list of game objects form Blender.
+    :type objList: list
+    :attribute scene: Stores the scene object of the current Blender level.
+    :type objList: KX_Scene
+    :attribute codeList: Stores all the code that a player submits per level.
+    :type objList: dict
+    :attribute levelScore: Keeps track of user score per level.
+    :type objList: int
+    :attribute staticPosX: Static X world position for player avatar default.
+    :type objList: float
+    :attribute staticPosY: Static Y world position for player avatar default.
+    :type objList: float
+    :attribute staticPosZ: Static Z world position for player avatar default.
+    :type objList: float
+    :attribute actions: Array for storing list of actions to be performed on user submission.
+    :type objList: list
+    :attribute actionsLen: Keeps track of total action list length for submission.
+    :type objList: int
+    :attribute step: Progression of current submission.
+    :type objList: int
+    :attribute winObj: String name of the Blender object that the player needs to reach.
+    :type objList: str
+    :attribute val: Bool to ensure player is on an object.
+    :type objList: bool
+    :attribute obj_name: Static string that stores the name of the player object.
+    :type objList: str
+    :attribute text: Stores the text (code) that a user submits to be evaluated.
+    :type objList: str
+    :attribute m: Initialise the mover class.
+    :type objList: mover.mover
+    :attribute p: Initialise the picker class.
+    :type objList: picker.pickup
+    :attribute running: Keeps track of whether the player code is interpreted and executing.
+    :type objList: bool
 
     """
 
@@ -52,7 +68,12 @@ class tester:
         self.running = False
 
     def setText(self, stri):
-        """Sets the string variable to the text submitted by the user."""
+        """Sets the string variable to the text submitted by the user.
+
+        :param stri: String code block provided by the user.
+        :type stri: str
+
+        """
         self.text = stri
 
     def run(self):
@@ -145,11 +166,9 @@ class tester:
     def compile_check(self, code):
         """Performs a check to ensure that the code provided by the user is correct.
 
-        Args:
-            code:   Source code string block.
-        
-        Returns:
-            True is successfully compiled, False otherwise.
+        :param code: Source code string block.
+        :type code: str        
+        :returns: bool -- True is successfully compiled, False otherwise.
 
         """
         try:
@@ -170,8 +189,8 @@ class tester:
     def move(cls, dir):
         """Adds a move instruction to the action list in the direction specified.
 
-        Args:
-            dir:    String for the direction the avatar should move.
+        :param dir: String for the direction the avatar should move.
+        :type dir: str
 
         """
         cls.actions.append({'move': dir})
@@ -224,8 +243,7 @@ def pickup():
 def object():
     """Placeholder function to always return False.
 
-    Returns:
-        False
+    :returns: Always false.
 
     """
     return False
@@ -234,8 +252,7 @@ def object():
 def ground():
     """Calls the checker classmethod from the tester class.
 
-    Returns:
-        False
+    :returns: Always false.
 
     """
     tester.checker()
@@ -245,11 +262,9 @@ def ground():
 def valid_check(code):
     """Performs a check to ensure that the code provided by the user is syntactically correct.
 
-    Args:
-        code:   Source code string block.
-    
-    Returns:
-        True is successfully compiled, False otherwise.
+    :param code: Source code string block.
+    :type code: str
+    :returns: True is successfully compiled, False otherwise.
 
     """
     try:
@@ -262,11 +277,9 @@ def valid_check(code):
 def while_check(code):
     """Prevents player from using indefinite while loops by breaking loop after pre-defined amount of iterations.
 
-    Args:
-        code:   Source code string block.
-
-    Returns:
-        retVal: The modified user source code string block.
+    :param code: Source code string block.
+    :type code: str
+    :returns: The modified user source code string block.
 
     """
     tab = False
@@ -303,11 +316,9 @@ def while_check(code):
 def if_handler(code):
     """Prevents player from using indefinite while loops by breaking loop after pre-defined amount of iterations.
 
-    Args:
-        code:   Source code string block.
-
-    Returns:
-        The modified user source code string block is successful or -1 if failure.
+    :param code: Source code string block.
+    :type code: str
+    :returns: The modified user source code string block is successful or -1 if failure.
 
     """
     print("if handler")
