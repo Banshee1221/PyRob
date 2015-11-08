@@ -46,6 +46,8 @@ class mover:
         x = 0
         y = 0
 
+        # Depending on the direction the avatar needs to move, do a raycast in that direction and if there is an object
+        # that is not the winObj, then fail.
         if dir is "n":
             rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 0.5000001, obj.localPosition.z], 0)
             if (rayTest) is winObj:
@@ -87,6 +89,8 @@ class mover:
             self.endPos = [obj.position.x + x, obj.position.y + y, obj.position.z]
             self.startPos = [obj.position.x, obj.position.y, obj.position.z]
 
+        # This section allows the player avatar object to be moved along the game world without freezing up the main
+        # game loop. It uses delta time from the time of initiation and the startTime of the movement.
         percent = (time.time() - self.startTime) * 4
 
         if percent < 1:
