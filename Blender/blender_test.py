@@ -17,6 +17,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
     def __init__(self, sys, data):
         super().__init__(sys, data)
+        #Reference to the cube used to move the quadcopter
         self.Cube = codeInterp.tester()
         self.hidden = True
         # Use a frame to store all of our widgets
@@ -34,20 +35,8 @@ class SimpleLayout(bgui.bge_utils.Layout):
 
         self.whichCam = 2
 
-        self.frame = bgui.Frame(self, size=[1, .045], pos=[0,0.0],
-                            sub_theme="Bar",  options=bgui.BGUI_DEFAULT)
-
-
         self.bgFrame = bgui.Frame(self, size=[1, 1], pos=[0,0],
                             sub_theme="BG",  options=bgui.BGUI_DEFAULT)
-
-        self.reset_button = bgui.FrameButton(self.frame, text='Reset', size=[.07, .7], pos=[.08, .15],
-                                            sub_theme="Reset", options=bgui.BGUI_DEFAULT)
-        self.reset_button.on_click = self.on_reset_click
-
-        #self.reset_button.on_click = self.on_reset_click
-
-        # self.button.on_click = self.hide_show
 
         # A themed frame
         self.win = bgui.Frame(self.bgFrame, size=[0.5, 0.95], pos=[0, 0.05],
@@ -57,9 +46,26 @@ class SimpleLayout(bgui.bge_utils.Layout):
                                   sub_theme="Console", options=bgui.BGUI_DEFAULT)
         
 
+        self.progressFrame = bgui.Frame(self, size=[1, .045], pos=[0,0.0],
+                            sub_theme="Bar",  options=bgui.BGUI_DEFAULT)
+
+        self.reset_button = bgui.FrameButton(self.progressFrame, text='Reset', size=[.07, .7], pos=[.08, .15],
+                                            sub_theme="Reset", options=bgui.BGUI_DEFAULT)
+        self.reset_button.on_click = self.on_reset_click
+
         # A button
-        self.run_button = bgui.FrameButton(self.frame, text='Run', size=[.07, .7], pos=[.005, .15],
+        self.run_button = bgui.FrameButton(self.progressFrame, text='Run', size=[.07, .7], pos=[.005, .15],
                                         sub_theme="Run",   options=bgui.BGUI_DEFAULT)
+
+        # A couple of progress bars to demonstrate sub themes
+        self.progress = bgui.ProgressBar(self.progressFrame, percent=0.0, size=[0.5, 0.7], pos=[.15, 0.15],
+                                         sub_theme="Progress", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
+
+        self.cam_button = bgui.FrameButton(self.progressFrame, text='Zoomed', size=[.1, .7], pos=[.8, .15],
+                                           sub_theme="Help", options=bgui.BGUI_DEFAULT)
+
+        # Setup an on_click callback for the image
+        self.cam_button.on_click = self.on_cam_click
 
         # Setup an on_click callback for the image
         self.run_button.on_click = self.on_run_click
@@ -68,15 +74,6 @@ class SimpleLayout(bgui.bge_utils.Layout):
         self.lbl = bgui.Label(self, text="Score : 0", pos=[.5, .96],
         	sub_theme='small', options = bgui.BGUI_DEFAULT)
 
-        # A couple of progress bars to demonstrate sub themes
-        self.progress = bgui.ProgressBar(self.frame, percent=0.0, size=[0.5, 0.7], pos=[.15, 0.15],
-                                         sub_theme="Progress", options=bgui.BGUI_DEFAULT | bgui.BGUI_CENTERX)
-
-        self.cam_button = bgui.FrameButton(self.frame, text='Zoomed', size=[.1, .7], pos=[.8, .15],
-                                           sub_theme="Help", options=bgui.BGUI_DEFAULT)
-
-        # Setup an on_click callback for the image
-        self.cam_button.on_click = self.on_cam_click
 
         #self.health = bgui.ProgressBar(self.win, percent=0.5, size=[0.92, 0.02], pos=[0, 0.14],
         #									sub_theme="Health",	options=bgui.BGUI_DEFAULT|bgui.BGUI_CENTERX)
@@ -204,6 +201,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
     		self.cam_button.text = 'Follow'
 
     def on_run_click(self, widget):
+        self.Cube.resetPos()
         #print(os.getcwd())
         if self.whichCam == 1:
         	self.scene.active_camera = self.Camera
@@ -223,7 +221,7 @@ class SimpleLayout(bgui.bge_utils.Layout):
             print("data loaded")
         except:
             print("File not found/can't be read")
-        self.Cube.resetPos()
+        
         if data is not '':
             self.Cube.setText(data)
         else:
