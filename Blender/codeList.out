@@ -1,1 +1,1 @@
-{"pre_loops": [], "tut1": ["for i in range(19):\n    moveRight()"], "tut2": [], "loops": [], "tut3": []}
+{"tut1": ["moveRight()", "moveRight()", "moveRight()", "moveRight()"], "tut3": [], "tut2": [], "loops": [], "pre_loops": []}
