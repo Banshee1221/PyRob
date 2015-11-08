@@ -272,7 +272,7 @@ class TextInput(Widget):
 		#print (newlines)
 		left = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[0]])[0]
 		right = self.fd + self.system.textlib.dimensions(self.label.fontid, self.text[newlines[self.lineNumber][1]:self.slice[1]])[0]
-		self.highlight.position = [left, self.size[1] - (self.label._pt_size+.7)*(1+self.lineNumber)]
+		self.highlight.position = [left, (self.size[1] - (self.lineNumber + 1) * self.size[1]/34.425)]
 		self.highlight.size = [right - left, self.label._pt_size]
 		#print(self.size[1])
 		if self.slice_direction in [0, 1]:
