@@ -84,23 +84,32 @@ class tester:
         :returns: Strings for specific types of errors, -2 if the player collided with the winning object, 0 if moves are complete, a float for the moves progressed.
 
         """
+
+        # If the winObj name is not yet set, look for it in the scene and set it.
         if self.winObj is "":
             for i in self.objList:
                 if "win" in str(i):
                     self.winObj = self.objList[str(i)]
 
+        # If the user provided a source code string, operate on it.
         if self.text != '':
             self.codeList[str(self.scene)].append(self.text)
             outWriter.dictFormatter(self.codeList)
+
+            # Do a check to see if while loops exist in the string.
             tmp = while_check(str(self.text))
-            # tmp2 = if_handler(str(tmp))
             if tmp == -1:
                 return "Incorrect command used somewhere. Syntax Error."
+
+            # Replace the original provided string with the modified or non-modified text from the while loop checker.
             self.text = tmp
             print(str(self.text))
             print(self.compile_check(str(self.text)))
             print(valid_check(str(self.text)))
             print(self.codeList)
+
+            # Attempt to compile and execute the source code provided by the player. Sets the steps to be one in
+            # preparation for the execution on the scene and reset the user text.
             try:
                 codeobj = compile(str(self.text), '<string>', 'exec')
                 eval(codeobj, globals(), locals())
@@ -112,9 +121,12 @@ class tester:
                 self.text = ''
                 return str(e)
 
+        # While there are actions left in the action array, perform the various tasks the user has specified.
         if len(self.actions) > 0:
             currItem = self.actions[0]
 
+            # If the action is a move action, do a raycast test. If pass: move the player avatar and dequeue, else
+            # delete array and return error string. If object is winObj, return -2 for win.
             if list(currItem.items())[0][0] == 'move':
                 checker = self.m.moveUnitOne(self.Cube, list(currItem.items())[0][1], self.winObj)
                 if checker == -1:
@@ -133,11 +145,13 @@ class tester:
                     self.val = False
                     return -2
 
+            # If the action is a check action, do a raycast to the ground to determine if there is an object on the
+            # floor. If not, fail and return string, else set val to True.
             if list(currItem.items())[0][0] == 'check':
                 checker_pick = self.p.confirmObject(self.Cube)
                 if checker_pick == -1:
                     self.step += 1
-                    del self.actions[0]
+                    del self.actions[:]
                     return "The object you are checking for does not exist."
                 else:
                     print("at check")
@@ -145,6 +159,8 @@ class tester:
                     del self.actions[0]
                     self.val = True
 
+            # If the action is a pickup action, do a raycast and if the object is found return the score to blender_test
+            # If the object does not exist then fail, if not checked then fail.
             if list(currItem.items())[0][0] == 'pickup':
                 checker_pick = self.p.evaluate(self.Cube)
                 # print(self.val, checker_pick)
@@ -164,9 +180,11 @@ class tester:
                     checker_pick[0].endObject()
                     return ("score", self.levelScore)
 
+        # If there are no actions left return 0
         if len(self.actions) == 0:
             return 0
 
+        # Return the float of what's left in the steps for the progress bar.
         return self.step / self.actionsLen
 
     def compile_check(self, code):
@@ -190,6 +208,7 @@ class tester:
 
     def resetPos(self):
         """Set the player avatar to default world position."""
+        self.m.setMoving(False)
         self.Cube.worldPosition = [self.staticPosX, self.staticPosY, self.staticPosZ]
 
     @classmethod
@@ -296,6 +315,9 @@ def while_check(code):
     tmpArr = code.split('\n')
     lineCount = 0
     wordList = ["_tmpWhileTrackCounter = 0", "_tmpWhileTrackCounter += 1", "if _tmpWhileTrackCounter >= 21:", "break"]
+
+    # Check each word in the submitted code for a "while", otherwise determine if user is using tabs or spaces. Insert
+    # if statement to break while loop according to user indentation.
     for all in tmpArr:
         if pass1:
             lineCount += 1

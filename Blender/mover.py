@@ -47,28 +47,28 @@ class mover:
         y = 0
 
         if dir is "n":
-            rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 0.501, obj.localPosition.z], 0)
+            rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y + 0.5000001, obj.localPosition.z], 0)
             if (rayTest) is winObj:
                 win = True
             elif (rayTest) is not None:
                 fail = True
             y = 1
         elif dir is "s":
-            rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 0.501, obj.localPosition.z], 0)
+            rayTest = obj.rayCastTo([obj.localPosition.x, obj.localPosition.y - 0.5000001, obj.localPosition.z], 0)
             if (rayTest) is winObj:
                 win = True
             elif (rayTest) is not None:
                 fail = True
             y = -1
         elif dir is "e":
-            rayTest = obj.rayCastTo([obj.localPosition.x + 0.501, obj.localPosition.y, obj.localPosition.z], 0)
+            rayTest = obj.rayCastTo([obj.localPosition.x + 0.5000001, obj.localPosition.y, obj.localPosition.z], 0)
             if (rayTest) is winObj:
                 win = True
             elif (rayTest) is not None:
                 fail = True
             x = 1
         elif dir is "w":
-            rayTest = obj.rayCastTo([obj.localPosition.x - 0.501, obj.localPosition.y, obj.localPosition.z], 0)
+            rayTest = obj.rayCastTo([obj.localPosition.x - 0.5000001, obj.localPosition.y, obj.localPosition.z], 0)
             if (rayTest) is winObj:
                 win = True
             elif (rayTest) is not None:
@@ -88,8 +88,8 @@ class mover:
             self.startPos = [obj.position.x, obj.position.y, obj.position.z]
 
         percent = (time.time() - self.startTime) * 4
-        if (percent < 1):
-            # print(percent)
+
+        if percent < 1:
             obj.worldPosition = lerp(self.startPos, self.endPos, percent)
         else:
             percent = 1
@@ -102,6 +102,9 @@ class mover:
             return 2
 
         return percent
+
+    def setMoving(self, boolean):
+        self.moving = boolean
 
     """
     def moveUnit(self, obj, dir, steps):
