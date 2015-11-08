@@ -7,6 +7,6 @@ class tut1:
     def __init__(self, winCon)
         self.winCond = winCon
 
-    def check():
+    def check(self):
         if self.winCond:
             bge.logic.getCurrentScene().replace('loops1.blend')

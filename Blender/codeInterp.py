@@ -78,7 +78,12 @@ class tester:
         self.text = stri
 
     def run(self):
+        """The main operation. This function takes the user provided code, attempts to build an array of commands to
+        execute and execute them.
 
+        :returns: Strings for specific types of errors, -2 if the player collided with the winning object, 0 if moves are complete, a float for the moves progressed.
+
+        """
         if self.winObj is "":
             for i in self.objList:
                 if "win" in str(i):
