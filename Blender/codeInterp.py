@@ -208,8 +208,10 @@ class tester:
 
     def resetPos(self):
         """Set the player avatar to default world position."""
+        del self.actions[:]
         self.m.setMoving(False)
         self.Cube.worldPosition = [self.staticPosX, self.staticPosY, self.staticPosZ]
+
 
     @classmethod
     def move(cls, dir):
