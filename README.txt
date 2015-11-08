@@ -18,4 +18,14 @@ Contributers
 ------------
 
 Eugene de Beste
+	- codeInterp.py
+	- mover.py
+	- outWriter.py
+	- tut1.py
+	- picker.py
 Mark Grivainis
+	- userInterface.py
+	- ./bgui/text_input.py
+	- models
+Common
+	- game.blend
